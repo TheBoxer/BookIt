@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="bookit" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM">
+    <object class="BookItems" table="book_items" extends="xPDOSimpleObject">
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        
+        <field key="active" dbtype="tinyint" precision="1" attributes="unsigned" phptype="boolean" null="false" default="0" />
+		
+		<composite alias="ItemOpen" class="BookItemsOpen" local="id" foreign="idItem" cardinality="many" owner="local" />
+		<composite alias="ItemsBooked" class="Books" local="id" foreign="idItem" cardinality="many" owner="local" />
+    </object>
+	
+	<object class="BookItemsOpen" table="book_items_open" extends="xPDOSimpleObject">
+	    <field key="idItem" dbtype="int" precision="20" phptype="integer" null="false" default="" />
+        <field key="openDay" dbtype="int" precision="10" phptype="integer" null="false" default=""/>
+        <field key="openFrom" dbtype="time" phptype="string" null="false"/>
+        <field key="openTo" dbtype="time" phptype="string" null="false"/>
+		
+		<composite alias="ItemPrices" class="BookItemPrices" local="id" foreign="idItem" cardinality="many" owner="local" />
+		<aggregate alias="OpenItem" class="BookItems" local="idItem" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+	
+	<object class="BookItemPrices" table="book_item_prices" extends="xPDOSimpleObject">
+        <field key="idItem" dbtype="int" precision="20" phptype="integer" null="false" default="" />
+		<field key="priceFrom" dbtype="int" precision="20" phptype="timestamp" null="false" default=""/>
+		<field key="price" dbtype="int" precision="20" phptype="integer" null="false" default="" />
+		
+		<aggregate alias="Item" class="BookItemsOpen" local="idItem" foreign="id" cardinality="many" owner="foreign" />
+    </object>
+	
+    <object class="BookCustomers" table="book_customers" extends="xPDOSimpleObject">
+		<field key="lastName" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+		
+		<composite alias="CustomersProfile" class="BookProfiles" local="id" foreign="idBookCustomer" cardinality="one" owner="local" />
+		<composite alias="CustomersBooks" class="Books" local="id" foreign="idBookCustomer" cardinality="many" owner="local" />
+    </object>
+	
+	 <object class="BookProfiles" table="book_profiles" extends="xPDOSimpleObject">
+		<field key="idUser" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
+		<field key="idBookCustomer" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
+		<field key="discount" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
+		
+		<composite alias="Customer" class="BookCustomers" local="idBookCustomer" foreign="id" cardinality="one" owner="local" />
+		<aggregate alias="User" class="modUser" local="idUser" foreign="id" cardinality="one" owner="local" />
+    </object>
+	
+	<object class="Books" table="books" extends="xPDOSimpleObject">
+		<field key="idUser" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
+		<field key="idBookCustomer" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
+		<field key="idItem" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
+		<field key="bookFrom" dbtype="int" precision="20" phptype="timestamp" null="false" default=""/>
+		
+		<aggregate alias="Customer" class="BookCustomers" local="idBookCustomer" foreign="id" cardinality="one" owner="local" />
+		<aggregate alias="User" class="modUser" local="idUser" foreign="id" cardinality="one" owner="local" />
+		<aggregate alias="BookedItem" class="BookItems" local="idBookCustomer" foreign="id" cardinality="one" owner="local" />
+    </object>
+	
+	
+</model>
