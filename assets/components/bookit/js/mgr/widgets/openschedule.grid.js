@@ -11,6 +11,7 @@ Bookit.grid.Openschedule = function(config) {
         ,anchor: '97%'
         ,autoExpandColumn: 'name'
         ,save_action: 'mgr/bookit/openschedule/updateFromGrid'
+        ,saveParams: { idItem: MODx.request.id}
         ,autosave: true
         ,tbar:[{
            text: _('bookit.addOpenschedule')
