@@ -1,10 +1,10 @@
-Bookit.grid.Openschedule = function(config) {
+Bookit.grid.Pricing = function(config) {
     config = config || {};
     Ext.applyIf(config,{
-        id: 'bookit-grid-openschedule'
+        id: 'bookit-grid-pricing'
         ,url: Bookit.config.connectorUrl
-        ,baseParams: { action: 'mgr/bookit/openschedule/getRows', idItem: MODx.request.id }
-        ,fields: ['id', 'openDay','openFrom', 'openTo']
+        ,baseParams: { action: 'mgr/bookit/openschedule/getPricingRows', idItem: MODx.request.id }
+        ,fields: ['id', 'openDay','priceFrom', 'priceTo', 'price']
         ,paging: true
         ,remoteSort: true
         ,enableDragDrop: false
@@ -14,14 +14,13 @@ Bookit.grid.Openschedule = function(config) {
         ,saveParams: { idItem: MODx.request.id}
         ,autosave: true
         ,tbar:[{
-           text: _('bookit.addOpenschedule')
+           text: _('bookit.addPrice')
            ,handler: { xtype: 'bookit-window-openschedule-add', blankValues: true }
         },'-','-','-','-',{
             xtype: 'bookit-extra-combo-day'
-            ,id: 'bookit-openschedule-filter-day'
+            ,id: 'bookit-openschedule-pricing-filter-day'
             ,emptyText: _('bookit.select_day')
             ,listeners: {
-                //'change': {fn:this.filterDay,scope:this}
                 'select': {fn:this.filterDay,scope:this}
 
             }
@@ -60,22 +59,28 @@ Bookit.grid.Openschedule = function(config) {
             ,sortable: false
             ,editor: { xtype: 'bookit-extra-combo-day', renderer: true}
         },{
-            header: _('bookit.openFrom')
-            ,dataIndex: 'openFrom'
+            header: _('bookit.priceFrom')
+            ,dataIndex: 'priceFrom'
             ,sortable: false
             ,width: 90
             ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, renderer: true }
         },{
-            header: _('bookit.openTo')
-            ,dataIndex: 'openTo'
+            header: _('bookit.priceTo')
+            ,dataIndex: 'priceTo'
             ,sortable: false
             ,width: 90
             ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, renderer: true }
+        },{
+            header: _('bookit.price')
+            ,dataIndex: 'price'
+            ,sortable: false
+            ,width: 90
+            ,editor: { xtype: 'textfield'}
         }]
     });
-    Bookit.grid.Openschedule.superclass.constructor.call(this,config)
+    Bookit.grid.Pricing.superclass.constructor.call(this,config)
 };
-Ext.extend(Bookit.grid.Openschedule,MODx.grid.Grid,{
+Ext.extend(Bookit.grid.Pricing,MODx.grid.Grid,{
     filterDay: function(cb,nv,ov) {
         this.getStore().setBaseParam('filterDay',cb.getValue());
         this.getBottomToolbar().changePage(1);
@@ -86,45 +91,10 @@ Ext.extend(Bookit.grid.Openschedule,MODx.grid.Grid,{
             action: 'mgr/bookit/openschedule/getRows'
             ,idItem: MODx.request.id
         };
-        Ext.getCmp('bookit-openschedule-filter-day').reset();
+        Ext.getCmp('bookit-openschedule-pricing-filter-day').reset();
         this.getBottomToolbar().changePage(1);
         this.refresh();
     }
     
 });
-Ext.reg('bookit-grid-openschedule',Bookit.grid.Openschedule);
-
-Bookit.window.NewOpenschedule = function(config) {
-    config = config || {};
-    Ext.applyIf(config,{
-        id: 'bookit-window-new-openschedule'
-        ,title: _('bookit.addOpenschedule')
-        ,url: Bookit.config.connectorUrl
-        ,baseParams: {
-            action: 'mgr/bookit/openschedule/addOpenschedule'
-            ,idItem: MODx.request.id
-        }
-        ,fields: [{
-            xtype: 'bookit-extra-combo-day'
-            ,focus: true
-            ,fieldLabel: _('bookit.day')
-            ,name: 'openDay'
-            ,width: 300
-        },{
-            xtype: 'timefield'
-            ,format: MODx.config.manager_time_format
-            ,fieldLabel: _('bookit.openFrom')
-            ,name: 'openFrom'
-            ,width: 300
-        },{
-            xtype: 'timefield'
-            ,format: MODx.config.manager_time_format
-            ,fieldLabel: _('bookit.openTo')
-            ,name: 'openTo'
-            ,width: 300
-        }]
-    });
-    Bookit.window.NewOpenschedule.superclass.constructor.call(this,config);
-};
-Ext.extend(Bookit.window.NewOpenschedule,MODx.Window);
-Ext.reg('bookit-window-openschedule-add',Bookit.window.NewOpenschedule);
+Ext.reg('bookit-grid-pricing',Bookit.grid.Pricing);

@@ -15,6 +15,12 @@ $_lang['bookit.openschedule_desc'] = 'V této sekci lze spravovat otevírací do
 $_lang['bookit.item_management_desc'] = 'V této sekci lze spravovat kurty';
 $_lang['bookit.openschedule_delete'] = 'Odstranit otevírací dobu';
 $_lang['bookit.openschedule_delete_confirm'] = 'Opravdu chcete odstranit tuto otevírací dobu?';
+$_lang['bookit.select_day'] = 'Vyberte den';
+$_lang['bookit.clear_filter'] = 'Vymazat filtr';
+$_lang['bookit.addPrice'] = 'Přidat cenu';
+$_lang['bookit.price'] = 'Cena';
+$_lang['bookit.priceFrom'] = 'Cena platná od od';
+$_lang['bookit.priceTo'] = 'Cena platná do';
 
 $_lang['bookit.monday'] = 'Pondělí';
 $_lang['bookit.tuesday'] = 'Úterý';

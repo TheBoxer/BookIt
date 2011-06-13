@@ -15,16 +15,14 @@
         <field key="openFrom" dbtype="time" phptype="string" null="false"/>
         <field key="openTo" dbtype="time" phptype="string" null="false"/>
 		
-		<composite alias="ItemPrices" class="BookItemPrices" local="id" foreign="idItem" cardinality="many" owner="local" />
 		<aggregate alias="OpenItem" class="BookItems" local="idItem" foreign="id" cardinality="one" owner="foreign" />
     </object>
 	
 	<object class="BookItemPrices" table="book_item_prices" extends="xPDOSimpleObject">
-        <field key="idItem" dbtype="int" precision="20" phptype="integer" null="false" default="" />
-		<field key="priceFrom" dbtype="int" precision="20" phptype="timestamp" null="false" default=""/>
+        <field key="openDay" dbtype="int" precision="10" phptype="integer" null="false" default=""/>
+		<field key="priceFrom" dbtype="time" phptype="string" null="false"/>
+        <field key="priceTo" dbtype="time" phptype="string" null="false"/>
 		<field key="price" dbtype="int" precision="20" phptype="integer" null="false" default="" />
-		
-		<aggregate alias="Item" class="BookItemsOpen" local="idItem" foreign="id" cardinality="many" owner="foreign" />
     </object>
 	
     <object class="BookCustomers" table="book_customers" extends="xPDOSimpleObject">

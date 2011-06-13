@@ -28,6 +28,9 @@ Bookit.panel.Openschedule = function(config) {
                 ,items: [{
                     html: '<p>'+_('bookit.management_desc')+'</p><br />'
                     ,border: false
+                },{
+                   xtype: 'bookit-grid-pricing'
+                   ,preventRender: true
                 }]
             }]
         }]

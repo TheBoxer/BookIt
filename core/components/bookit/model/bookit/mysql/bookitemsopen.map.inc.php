@@ -40,17 +40,6 @@ $xpdo_meta_map['BookItemsOpen']= array (
       'null' => false,
     ),
   ),
-  'composites' => 
-  array (
-    'ItemPrices' => 
-    array (
-      'class' => 'BookItemPrices',
-      'local' => 'id',
-      'foreign' => 'idItem',
-      'cardinality' => 'many',
-      'owner' => 'local',
-    ),
-  ),
   'aggregates' => 
   array (
     'OpenItem' => 

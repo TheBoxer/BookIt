@@ -1,4 +1,7 @@
 <?php
+
+return $this->outputArray(array("id"=>1,"openDay"=>1,"priceFrom"=>"8:00","priceTo"=>"22:00","price"=>"240"),1);
+
 $isLimit = !empty($scriptProperties['limit']);
 $start = $modx->getOption('start',$scriptProperties,0);
 $limit = $modx->getOption('limit',$scriptProperties,10);

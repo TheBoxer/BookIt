@@ -5,7 +5,7 @@ $modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/extra/combo.extra.js
 $modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/widgets/openschedule.panel.js');
 
 $modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/widgets/openschedule.grid.js');
-
+$modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/widgets/openschedule.pricing.grid.js');
 
 
 
