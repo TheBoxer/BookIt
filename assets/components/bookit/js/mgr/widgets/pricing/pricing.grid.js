@@ -31,7 +31,36 @@ Bookit.grid.pricing = function(config) {
     });
     Bookit.grid.pricing.superclass.constructor.call(this,config)
 };
-Ext.extend(Bookit.grid.pricing,MODx.grid.Grid);
+Ext.extend(Bookit.grid.pricing,MODx.grid.Grid, {
+	getMenu: function() {
+        var m = [{
+        	text: _('bookit.priceItems')
+        	,handler: this.priceItems
+        },'-',{
+            text: _('bookit.pricingList_delete')
+            ,handler: this.removePricingList
+        }];
+        this.addContextMenuItem(m);
+        return true;
+    }
+    ,removePricingList: function(btn,e) {
+        MODx.msg.confirm({ 
+            title: _('bookit.pricingList_delete') 
+            ,text: _('bookit.pricingList_delete_confirm') 
+            ,url: this.config.url 
+            ,params: { 
+                action: 'mgr/bookit/pricing/removeRow'
+                ,id: this.menu.record.id
+            } 
+            ,listeners: { 
+                'success': {fn:this.refresh,scope:this} 
+            } 
+        });
+    }
+    ,priceItems: function(){
+    	location.href = 'index.php?a='+MODx.action['controllers/index']+'&action=pricingItems'+'&id='+this.menu.record.id;
+    }
+});
 Ext.reg('bookit-grid-pricing',Bookit.grid.pricing);
 
 Bookit.window.NewPricingList = function(config) {

@@ -4,7 +4,7 @@ Bookit.panel.pricing = function(config) {
         border: false
         ,baseCls: 'modx-formpanel'
         ,items: [{
-            html: '<h2>'+_('bookit')+'</h2>'
+            html: '<h2><a href=\'index.php?a='+MODx.action['controllers/index']+'\'>'+_('bookit')+'</a> :: '+ _('bookit.pricingList') + '</h2>'
             ,border: false
             ,cls: 'modx-page-header'
         },{
@@ -13,10 +13,10 @@ Bookit.panel.pricing = function(config) {
             ,defaults: { border: false ,autoHeight: true }
             ,border: true
             ,items: [{
-                title: _('bookit.pricing')
+                title: _('bookit.pricingList')
                 ,defaults: { autoHeight: true }
                 ,items: [{
-                    html: '<p>'+_('bookit.pricing_management_desc')+'</p><br />'
+                    html: '<p>'+_('bookit.pricingList_management_desc')+'</p><br />'
                     ,border: false
                 },{
                 	xtype: 'bookit-grid-pricing'

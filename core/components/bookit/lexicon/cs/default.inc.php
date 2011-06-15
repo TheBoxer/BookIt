@@ -24,9 +24,12 @@ $_lang['bookit.priceTo'] = 'Cena platná do';
 $_lang['bookit.name'] = 'Název';
 $_lang['bookit.description'] = 'Popis';
 $_lang['bookit.addPriceList'] = 'Vytvořit skupinu cen';
+$_lang['bookit.pricingList_delete'] = 'Odstranit skupinu cen';
+$_lang['bookit.pricingList_delete_confirm'] = 'Opravdu chcete odstranit tuto skupinu cen?';
+$_lang['bookit.priceItems'] = 'Nastavit ceny';
 
-$_lang['bookit.pricing'] = 'Nastavení cen';
-$_lang['bookit.pricing_management_desc'] = 'V této sekci je možné nastavit ceny pro vybranou otevírací dobu.';
+$_lang['bookit.pricingList'] = 'Nastavení skupin cen';
+$_lang['bookit.pricingList_management_desc'] = 'V této sekci je možné spravovat skupiny cen pro vybranou otevírací dobu.';
 
 $_lang['bookit.openschedule_managment'] = 'Správa otevírací doby';
 $_lang['bookit.openschedule_management_desc'] = 'V této sekci je možné spravovat otevírací dobu.';

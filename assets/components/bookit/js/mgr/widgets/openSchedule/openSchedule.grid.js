@@ -21,7 +21,7 @@ Bookit.grid.OpenSchedule = function(config) {
             	text: _('bookit.openschedule_settings')
             	,handler: this.openScheduleSettings
             },'-',{
-            	text: _('bookit.pricing')
+            	text: _('bookit.pricingList')
             	,handler: this.pricing
             },'-',{
                 text: _('bookit.openschedule_delete')
