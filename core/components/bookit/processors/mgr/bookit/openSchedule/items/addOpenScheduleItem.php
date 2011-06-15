@@ -1,5 +1,5 @@
 <?php
-if(empty($scriptProperties['idItem'])) {
+if(empty($scriptProperties['openschedule_list'])) {
      $modx->error->failure();
 }
 
@@ -16,7 +16,7 @@ if(empty($scriptProperties['openTo'])) {
 }
 
 
-$e = $modx->newQuery('BookItemsOpen');
+$e = $modx->newQuery('OpenScheduleListItem');
 
 $e->where(
     array(
@@ -36,12 +36,12 @@ $e->where(
                     'openTo:<=' => $scriptProperties['openTo']
                 )
         ),
-        'idItem' => $scriptProperties['idItem'],
+        'openschedule_list' => $scriptProperties['openschedule_list'],
         'openDay' => $scriptProperties['openDay'],
     )
 );
 
-$count = $modx->getCount('BookItemsOpen',$e);
+$count = $modx->getCount('OpenScheduleListItem',$e);
 
 
 if($count != 0){
@@ -53,7 +53,8 @@ if($count != 0){
 if ($modx->error->hasError()) { return $modx->error->failure(); }
 
  
-$item = $modx->newObject('BookItemsOpen');
+$item = $modx->newObject('OpenScheduleListItem');
+$modx->fire->warn($scriptProperties);
 $item->fromArray($scriptProperties);
  
 if ($item->save() == false) {

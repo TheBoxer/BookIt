@@ -1,6 +1,6 @@
 <?php
 if (empty($scriptProperties['id'])) return $modx->error->failure($modx->lexicon('bookit.error_no_item'));
-$openschedule = $modx->getObject('BookItemsOpen',$scriptProperties['id']);
+$openschedule = $modx->getObject('OpenScheduleListItem',$scriptProperties['id']);
 if (empty($openschedule)) return $modx->error->failure($modx->lexicon('bookit.error_no_item'));
  
 if ($openschedule->remove() == false) {

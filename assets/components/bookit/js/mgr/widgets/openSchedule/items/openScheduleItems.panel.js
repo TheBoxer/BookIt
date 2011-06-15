@@ -1,4 +1,4 @@
-Bookit.panel.OpenSchedule = function(config) {
+Bookit.panel.OpenScheduleItems = function(config) {
     config = config || {};
     Ext.apply(config,{
         border: false
@@ -17,25 +17,15 @@ Bookit.panel.OpenSchedule = function(config) {
                 ,defaults: { autoHeight: true }
                 ,items: [{
                     html: '<p>'+_('bookit.openschedule_desc')+'</p><br />'
-                    ,border: false
+                    ,border: false                    
                 },{
-                   xtype: 'bookit-grid-openschedule'
-                   ,preventRender: true
-                }]
-            },{
-                title: _('bookit.item_pricing')
-                ,defaults: { autoHeight: true }
-                ,items: [{
-                    html: '<p>'+_('bookit.management_desc')+'</p><br />'
-                    ,border: false
-                },{
-                   xtype: 'bookit-grid-pricing'
+                   xtype: 'bookit-grid-openschedule-items'
                    ,preventRender: true
                 }]
             }]
         }]
     });
-    Bookit.panel.OpenSchedule.superclass.constructor.call(this,config);
+    Bookit.panel.OpenScheduleItems.superclass.constructor.call(this,config);
 };
-Ext.extend(Bookit.panel.OpenSchedule,MODx.Panel);
-Ext.reg('bookit-panel-openschedule',Bookit.panel.OpenSchedule);
+Ext.extend(Bookit.panel.OpenScheduleItems,MODx.Panel);
+Ext.reg('bookit-panel-openschedule-items',Bookit.panel.OpenScheduleItems);

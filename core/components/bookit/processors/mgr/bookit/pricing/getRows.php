@@ -5,15 +5,17 @@ $limit = $modx->getOption('limit',$scriptProperties,10);
 $sort = $modx->getOption('sort',$scriptProperties,'name');
 $dir = $modx->getOption('dir',$scriptProperties,'ASC');
 
-
 /* build query */
-$c = $modx->newQuery('OpenScheduleList');
-$count = $modx->getCount('OpenScheduleList',$c);
+$c = $modx->newQuery('PricingList');
+$count = $modx->getCount('PricingList',$c);
+$c->where(array("openschedule_list" => $scriptProperties['openschedule_list']));
+
 
 $c->sortby($sort,$dir);
 
+
 if ($isLimit) $c->limit($limit,$start);
-$items = $modx->getIterator('OpenScheduleList', $c);
+$items = $modx->getIterator('PricingList', $c);
  
  
 /* iterate */

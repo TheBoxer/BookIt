@@ -29,6 +29,16 @@
 				   xtype: 'bookit-grid-items'
 				   ,preventRender: true
 				}]
+            },{
+                title: _('bookit.openschedule_managment')
+                ,defaults: { autoHeight: true }
+                ,items: [{
+                    html: '<p>'+_('bookit.openschedule_management_desc')+'</p><br />'
+                    ,border: false
+                },{
+				   xtype: 'bookit-grid-openschedule'
+				   ,preventRender: true
+				}]
             }]
         }]
     });
