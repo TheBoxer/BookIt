@@ -1,4 +1,4 @@
-Bookit.grid.Openschedule = function(config) {
+Bookit.grid.OpenSchedule = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         id: 'bookit-grid-openschedule'
@@ -73,9 +73,9 @@ Bookit.grid.Openschedule = function(config) {
             ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, renderer: true }
         }]
     });
-    Bookit.grid.Openschedule.superclass.constructor.call(this,config)
+    Bookit.grid.OpenSchedule.superclass.constructor.call(this,config)
 };
-Ext.extend(Bookit.grid.Openschedule,MODx.grid.Grid,{
+Ext.extend(Bookit.grid.OpenSchedule,MODx.grid.Grid,{
     filterDay: function(cb,nv,ov) {
         this.getStore().setBaseParam('filterDay',cb.getValue());
         this.getBottomToolbar().changePage(1);
@@ -92,9 +92,9 @@ Ext.extend(Bookit.grid.Openschedule,MODx.grid.Grid,{
     }
     
 });
-Ext.reg('bookit-grid-openschedule',Bookit.grid.Openschedule);
+Ext.reg('bookit-grid-openschedule',Bookit.grid.OpenSchedule);
 
-Bookit.window.NewOpenschedule = function(config) {
+Bookit.window.NewOpenSchedule = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         id: 'bookit-window-new-openschedule'
@@ -124,7 +124,7 @@ Bookit.window.NewOpenschedule = function(config) {
             ,width: 300
         }]
     });
-    Bookit.window.NewOpenschedule.superclass.constructor.call(this,config);
+    Bookit.window.NewOpenSchedule.superclass.constructor.call(this,config);
 };
-Ext.extend(Bookit.window.NewOpenschedule,MODx.Window);
-Ext.reg('bookit-window-openschedule-add',Bookit.window.NewOpenschedule);
+Ext.extend(Bookit.window.NewOpenSchedule,MODx.Window);
+Ext.reg('bookit-window-openschedule-add',Bookit.window.NewOpenSchedule);

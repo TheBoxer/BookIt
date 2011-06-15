@@ -1,4 +1,4 @@
-Bookit.panel.Openschedule = function(config) {
+Bookit.panel.OpenSchedule = function(config) {
     config = config || {};
     Ext.apply(config,{
         border: false
@@ -35,7 +35,7 @@ Bookit.panel.Openschedule = function(config) {
             }]
         }]
     });
-    Bookit.panel.Openschedule.superclass.constructor.call(this,config);
+    Bookit.panel.OpenSchedule.superclass.constructor.call(this,config);
 };
-Ext.extend(Bookit.panel.Openschedule,MODx.Panel);
-Ext.reg('bookit-panel-openschedule',Bookit.panel.Openschedule);
+Ext.extend(Bookit.panel.OpenSchedule,MODx.Panel);
+Ext.reg('bookit-panel-openschedule',Bookit.panel.OpenSchedule);

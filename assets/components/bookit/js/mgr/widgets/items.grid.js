@@ -23,7 +23,7 @@
 			return true;
 		}
 		,itemOpen: function() {
-			location.href = 'index.php?a='+MODx.action['controllers/index']+'&action=openschedule'+'&id='+this.menu.record.id;
+			location.href = 'index.php?a='+MODx.action['controllers/index']+'&action=openSchedule'+'&id='+this.menu.record.id;
 		}
         ,columns: [{
             header: _('bookit.item_name')

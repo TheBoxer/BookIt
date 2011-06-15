@@ -33,14 +33,14 @@ $xpdo_meta_map['BookItems']= array (
       'dbtype' => 'int',
       'precision' => '20',
       'phptype' => 'integer',
-      'null' => false,
+      'null' => true,
     ),
     'pricing' => 
     array (
       'dbtype' => 'int',
       'precision' => '20',
       'phptype' => 'integer',
-      'null' => false,
+      'null' => true,
     ),
   ),
   'composites' => 

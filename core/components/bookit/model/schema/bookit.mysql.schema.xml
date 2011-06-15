@@ -3,8 +3,8 @@
     <object class="BookItems" table="book_items" extends="xPDOSimpleObject">
         <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/> 
         <field key="active" dbtype="tinyint" precision="1" attributes="unsigned" phptype="boolean" null="false" default="0" />
-		<field key="openschedule" dbtype="int" precision="20" phptype="integer" null="false" />
-		<field key="pricing" dbtype="int" precision="20" phptype="integer" null="false" />
+		<field key="openschedule" dbtype="int" precision="20" phptype="integer" null="true" />
+		<field key="pricing" dbtype="int" precision="20" phptype="integer" null="true" />
 		
 		<composite alias="ItemsBooked" class="Books" local="id" foreign="idItem" cardinality="many" owner="local" />
 		<composite alias="ItemsOpenSchedule" class="OpenScheduleListItem" local="openschedule" foreign="id" cardinality="one" owner="local" />
