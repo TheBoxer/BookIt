@@ -7,7 +7,6 @@ $dir = $modx->getOption('dir',$scriptProperties,'ASC');
 
 
 $filterDay = $modx->getOption('filterDay',$scriptProperties,'');
-                                
  
 /* build query */
 $c = $modx->newQuery('BookItemsOpen');

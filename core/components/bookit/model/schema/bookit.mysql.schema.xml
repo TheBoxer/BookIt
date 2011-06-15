@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model package="bookit" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM">
     <object class="BookItems" table="book_items" extends="xPDOSimpleObject">
-        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
-        
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/> 
         <field key="active" dbtype="tinyint" precision="1" attributes="unsigned" phptype="boolean" null="false" default="0" />
+		<field key="openschedule" dbtype="int" precision="20" phptype="integer" null="false" />
+		<field key="pricing" dbtype="int" precision="20" phptype="integer" null="false" />
 		
-		<composite alias="ItemOpen" class="BookItemsOpen" local="id" foreign="idItem" cardinality="many" owner="local" />
 		<composite alias="ItemsBooked" class="Books" local="id" foreign="idItem" cardinality="many" owner="local" />
+		<composite alias="ItemsOpenSchedule" class="OpenScheduleListItem" local="openschedule" foreign="id" cardinality="one" owner="local" />
+		<composite alias="ItemsPricing" class="PricingList" local="pricing" foreign="id" cardinality="one" owner="local" />
+    </object>
+    
+    <object class="OpenScheduleList" table="book_openschedule_list" extends="xPDOSimpleObject">
+    	<field key="name" dbtype="varchar" precision="128" phptype="string" null="false" />
+    	<field key="description" dbtype="varchar" precision="255" phptype="string" null="true" />
+    	
+    	<composite alias="OpenScheduleItem" class="OpenScheduleListItem" local="id" foreign="openschedule_list" cardinality="many" owner="local" />
+    	<composite alias="OpenSchedulePricingItem" class="PricingList" local="id" foreign="openschedule_list" cardinality="many" owner="local" />
+    </object>
+    
+    <object class="OpenScheduleListItem" table="book_openschedule_list_items" extends="xPDOSimpleObject">
+    	<field key="openschedule_list" dbtype="int" precision="20" phptype="integer" null="false" />
+    	<field key="openDay" dbtype="int" precision="10" phptype="integer" null="false" />
+        <field key="openFrom" dbtype="time" phptype="string" null="false" />
+        <field key="openTo" dbtype="time" phptype="string" null="false" />
+        
+        <aggregate alias="OpenSchedule" class="OpenScheduleList" local="openschedule_list" foreign="id" cardinality="one" owner="local" />
     </object>
 	
-	<object class="BookItemsOpen" table="book_items_open" extends="xPDOSimpleObject">
-	    <field key="idItem" dbtype="int" precision="20" phptype="integer" null="false" default="" />
-        <field key="openDay" dbtype="int" precision="10" phptype="integer" null="false" default=""/>
-        <field key="openFrom" dbtype="time" phptype="string" null="false"/>
-        <field key="openTo" dbtype="time" phptype="string" null="false"/>
-		
-		<aggregate alias="OpenItem" class="BookItems" local="idItem" foreign="id" cardinality="one" owner="foreign" />
+	<object class="PricingList" table="book_pricing_list" extends="xPDOSimpleObject">
+    	<field key="name" dbtype="varchar" precision="128" phptype="string" null="false" />
+    	<field key="description" dbtype="varchar" precision="255" phptype="string" null="true" />
+    	<field key="openschedule_list" dbtype="int" precision="20" phptype="integer" null="false" />
+    	
+    	<composite alias="PricingItem" class="PricingListItem" local="id" foreign="pricing_list" cardinality="many" owner="local" />
+    	<aggregate alias="OpenSchedulePrice" class="OpenScheduleList" local="openschedule_list" foreign="id" cardinality="one" owner="local" />
     </object>
-	
-	<object class="BookItemPrices" table="book_item_prices" extends="xPDOSimpleObject">
-        <field key="openDay" dbtype="int" precision="10" phptype="integer" null="false" default=""/>
-		<field key="priceFrom" dbtype="time" phptype="string" null="false"/>
-        <field key="priceTo" dbtype="time" phptype="string" null="false"/>
-		<field key="price" dbtype="int" precision="20" phptype="integer" null="false" default="" />
+    
+    <object class="PricingListItem" table="book_pricing_list_items" extends="xPDOSimpleObject">
+    	<field key="pricing_list" dbtype="int" precision="20" phptype="integer" null="false" />
+    	<field key="priceDay" dbtype="int" precision="10" phptype="integer" null="false" />
+        <field key="priceFrom" dbtype="time" phptype="string" null="false" />
+        <field key="priceTo" dbtype="time" phptype="string" null="false" />
+        <field key="price" dbtype="int" precision="20" phptype="integer" null="false" />
+        
+        <aggregate alias="Pricing" class="PricingList" local="pricing_list" foreign="id" cardinality="one" owner="local" />
     </object>
 	
     <object class="BookCustomers" table="book_customers" extends="xPDOSimpleObject">

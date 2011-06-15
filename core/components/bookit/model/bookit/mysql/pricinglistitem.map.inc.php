@@ -1,23 +1,30 @@
 <?php
-$xpdo_meta_map['BookItemPrices']= array (
+$xpdo_meta_map['PricingListItem']= array (
   'package' => 'bookit',
-  'table' => 'book_item_prices',
+  'table' => 'book_pricing_list_items',
   'fields' => 
   array (
-    'openDay' => 0,
+    'pricing_list' => NULL,
+    'priceDay' => NULL,
     'priceFrom' => NULL,
     'priceTo' => NULL,
-    'price' => 0,
+    'price' => NULL,
   ),
   'fieldMeta' => 
   array (
-    'openDay' => 
+    'pricing_list' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '20',
+      'phptype' => 'integer',
+      'null' => false,
+    ),
+    'priceDay' => 
     array (
       'dbtype' => 'int',
       'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
-      'default' => 0,
     ),
     'priceFrom' => 
     array (
@@ -37,7 +44,17 @@ $xpdo_meta_map['BookItemPrices']= array (
       'precision' => '20',
       'phptype' => 'integer',
       'null' => false,
-      'default' => 0,
+    ),
+  ),
+  'aggregates' => 
+  array (
+    'Pricing' => 
+    array (
+      'class' => 'PricingList',
+      'local' => 'pricing_list',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'local',
     ),
   ),
 );

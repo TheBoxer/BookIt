@@ -6,6 +6,8 @@ $xpdo_meta_map['BookItems']= array (
   array (
     'name' => '',
     'active' => 0,
+    'openschedule' => NULL,
+    'pricing' => NULL,
   ),
   'fieldMeta' => 
   array (
@@ -26,23 +28,45 @@ $xpdo_meta_map['BookItems']= array (
       'null' => false,
       'default' => 0,
     ),
+    'openschedule' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '20',
+      'phptype' => 'integer',
+      'null' => false,
+    ),
+    'pricing' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '20',
+      'phptype' => 'integer',
+      'null' => false,
+    ),
   ),
   'composites' => 
   array (
-    'ItemOpen' => 
-    array (
-      'class' => 'BookItemsOpen',
-      'local' => 'id',
-      'foreign' => 'idItem',
-      'cardinality' => 'many',
-      'owner' => 'local',
-    ),
     'ItemsBooked' => 
     array (
       'class' => 'Books',
       'local' => 'id',
       'foreign' => 'idItem',
       'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+    'ItemsOpenSchedule' => 
+    array (
+      'class' => 'OpenScheduleListItem',
+      'local' => 'openschedule',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'local',
+    ),
+    'ItemsPricing' => 
+    array (
+      'class' => 'PricingList',
+      'local' => 'pricing',
+      'foreign' => 'id',
+      'cardinality' => 'one',
       'owner' => 'local',
     ),
   ),

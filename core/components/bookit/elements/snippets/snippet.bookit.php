@@ -11,9 +11,11 @@ $output = '';
 
 
 $m = $modx->getManager();
+$m->createObjectContainer('OpenScheduleList');
+$m->createObjectContainer('OpenScheduleListItem');
+$m->createObjectContainer('PricingList');
+$m->createObjectContainer('PricingListItem');
 $m->createObjectContainer('BookItems');
-$m->createObjectContainer('BookItemsOpen');
-$m->createObjectContainer('BookItemPrices');
 $m->createObjectContainer('BookCustomers');
 $m->createObjectContainer('BookProfiles');
 $m->createObjectContainer('Books');

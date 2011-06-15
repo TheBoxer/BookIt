@@ -1,23 +1,22 @@
 <?php
-$xpdo_meta_map['BookItemsOpen']= array (
+$xpdo_meta_map['OpenScheduleListItem']= array (
   'package' => 'bookit',
-  'table' => 'book_items_open',
+  'table' => 'book_openschedule_list_items',
   'fields' => 
   array (
-    'idItem' => 0,
-    'openDay' => 0,
+    'openschedule_list' => NULL,
+    'openDay' => NULL,
     'openFrom' => NULL,
     'openTo' => NULL,
   ),
   'fieldMeta' => 
   array (
-    'idItem' => 
+    'openschedule_list' => 
     array (
       'dbtype' => 'int',
       'precision' => '20',
       'phptype' => 'integer',
       'null' => false,
-      'default' => 0,
     ),
     'openDay' => 
     array (
@@ -25,7 +24,6 @@ $xpdo_meta_map['BookItemsOpen']= array (
       'precision' => '10',
       'phptype' => 'integer',
       'null' => false,
-      'default' => 0,
     ),
     'openFrom' => 
     array (
@@ -42,13 +40,13 @@ $xpdo_meta_map['BookItemsOpen']= array (
   ),
   'aggregates' => 
   array (
-    'OpenItem' => 
+    'OpenSchedule' => 
     array (
-      'class' => 'BookItems',
-      'local' => 'idItem',
+      'class' => 'OpenScheduleList',
+      'local' => 'openschedule_list',
       'foreign' => 'id',
       'cardinality' => 'one',
-      'owner' => 'foreign',
+      'owner' => 'local',
     ),
   ),
 );
