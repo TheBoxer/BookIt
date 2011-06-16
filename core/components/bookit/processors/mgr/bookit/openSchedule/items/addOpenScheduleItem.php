@@ -12,9 +12,19 @@ if(empty($scriptProperties['openFrom'])) {
 }
 
 if(empty($scriptProperties['openTo'])) {
-    $modx->error->addField('openTo',$modx->lexicon('bookit.error_no_opentp'));
+    $modx->error->addField('openTo',$modx->lexicon('bookit.error_no_opento'));
 }
 
+
+$timeFromArray = explode(":", $scriptProperties['openFrom']);
+$timeToArray = explode(":", $scriptProperties['openTo']);
+$timeFrom = mktime($timeFromArray[0], $timeFromArray[1], 0, 0, 0, 0);
+$timeTo = mktime($timeToArray[0], $timeToArray[1], 0, 0, 0, 0);
+
+if($timeFrom >= $timeTo){
+	$modx->error->addField('openFrom',$modx->lexicon('bookit.error_from_gtoe_to'));
+    $modx->error->addField('openTo',$modx->lexicon('bookit.error_from_gtoe_to'));
+}
 
 $e = $modx->newQuery('OpenScheduleListItem');
 
@@ -54,7 +64,6 @@ if ($modx->error->hasError()) { return $modx->error->failure(); }
 
  
 $item = $modx->newObject('OpenScheduleListItem');
-$modx->fire->warn($scriptProperties);
 $item->fromArray($scriptProperties);
  
 if ($item->save() == false) {

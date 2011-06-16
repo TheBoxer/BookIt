@@ -19,14 +19,17 @@ $_lang['bookit.select_day'] = 'Vyberte den';
 $_lang['bookit.clear_filter'] = 'Vymazat filtr';
 $_lang['bookit.addPrice'] = 'Přidat cenu';
 $_lang['bookit.price'] = 'Cena';
-$_lang['bookit.priceFrom'] = 'Cena platná od od';
+$_lang['bookit.priceFrom'] = 'Cena platná od';
 $_lang['bookit.priceTo'] = 'Cena platná do';
 $_lang['bookit.name'] = 'Název';
 $_lang['bookit.description'] = 'Popis';
 $_lang['bookit.addPriceList'] = 'Vytvořit skupinu cen';
+$_lang['bookit.addPrice'] = 'Přidat cenu';
 $_lang['bookit.pricingList_delete'] = 'Odstranit skupinu cen';
 $_lang['bookit.pricingList_delete_confirm'] = 'Opravdu chcete odstranit tuto skupinu cen?';
 $_lang['bookit.priceItems'] = 'Nastavit ceny';
+$_lang['bookit.pricingItems'] = 'Nastavení cen';
+$_lang['bookit.pricingItems_desc'] = 'V této sekci je možné nastavit ceny pro vybranou skupinu cen.';
 
 $_lang['bookit.pricingList'] = 'Nastavení skupin cen';
 $_lang['bookit.pricingList_management_desc'] = 'V této sekci je možné spravovat skupiny cen pro vybranou otevírací dobu.';
@@ -50,7 +53,12 @@ $_lang['bookit.error_no_opento'] = 'Musíte vyplnit čas zavření';
 $_lang['bookit.error_no_item_name'] = 'Musíte vyplnit název';
 $_lang['bookit.error_name_exists'] = 'Tento název již existuje';
 $_lang['bookit.error_schedule_exists'] = 'Tato otevírací doba již existuje';
+$_lang['bookit.error_schedule_unexists'] = 'Tato otevírací doba neexistuje';
 $_lang['bookit.error_no_name'] = 'Musíte vyplnit název';
+$_lang['bookit.error_from_gtoe_to'] = 'Čas začátku je větší než čas konce';
+$_lang['bookit.error_no_pricefrom'] = 'Musíte vyplnit čas, od kterého platí cena';
+$_lang['bookit.error_no_priceto'] = 'Musíte vyplnit čas, do kterého platí cena';
+$_lang['bookit.error_price_exists'] = 'Cena pro tuto dobu je již nastavená';
 
 $_lang['bookit.error_no_item'] = 'Tato položka neexistuje';
 

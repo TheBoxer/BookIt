@@ -8,7 +8,8 @@ require_once $corePath.'model/bookit/bookit.class.php';
 $modx->bookit = new BookIt($modx);
 
 $modx->getService('fire', 'modFire', $modx->getOption('core_path').'components/modfire/');
-
+include 'D:/Web/www/modx/bookit/ChromePhp.php';
+ChromePhp::useFile('D:/Web/www/modx/chromelog', 'http://modx.localhost/chromelog');
 
 $modx->lexicon->load('bookit:default');
  
