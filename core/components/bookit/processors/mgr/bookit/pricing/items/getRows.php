@@ -5,12 +5,19 @@ $limit = $modx->getOption('limit',$scriptProperties,10);
 $sort = $modx->getOption('sort',$scriptProperties,'priceDay');
 $dir = $modx->getOption('dir',$scriptProperties,'ASC');
 
+$filterDay = $modx->getOption('filterDay',$scriptProperties,'');
 
 /* build query */
 $c = $modx->newQuery('PricingListItem');
 $count = $modx->getCount('PricingListItem',$c);
 
 $c->where(array('pricing_list' => $scriptProperties['pricing_list']));
+
+if ($filterDay != NULL) {
+    $c->where(array(
+        'PRICEDay' => $filterDay
+    ));
+}
 
 $c->sortby($sort,$dir);
 $c->sortby("priceFrom",$dir);

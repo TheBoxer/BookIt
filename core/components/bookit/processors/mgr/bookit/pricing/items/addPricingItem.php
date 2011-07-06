@@ -19,6 +19,10 @@ if(empty($scriptProperties['priceTo'])) {
     $modx->error->addField('priceTo',$modx->lexicon('bookit.error_no_priceto'));
 }
 
+if(empty($scriptProperties['price']) || ($scriptProperties['price'] == 0)) {
+    $modx->error->addField('price',$modx->lexicon('bookit.error_no_price'));
+}
+
 $schedulelist = $modx->getObject('PricingList', $scriptProperties['pricing_list']);
 $schedulelistId = $schedulelist->get('openschedule_list');
 
@@ -56,12 +60,12 @@ $e->where(
         array(
             array(
                 array(
-                    'priceFrom:<=' => $scriptProperties['priceFrom'],
-                    'priceTo:>=' => $scriptProperties['priceFrom']
+                    'priceFrom:<' => $scriptProperties['priceFrom'],
+                    'priceTo:>' => $scriptProperties['priceFrom']
                 ),
                 array(
-                    'OR:priceFrom:<=' => $scriptProperties['priceTo'],
-                    'priceTo:>=' => $scriptProperties['priceTo']
+                    'OR:priceFrom:<' => $scriptProperties['priceTo'],
+                    'priceTo:>' => $scriptProperties['priceTo']
                 )
             ),
             array(

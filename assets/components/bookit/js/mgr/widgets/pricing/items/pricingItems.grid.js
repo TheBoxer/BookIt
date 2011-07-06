@@ -10,7 +10,7 @@ Bookit.grid.PricingItems = function(config) {
         ,enableDragDrop: false
         ,anchor: '97%'
         ,autoExpandColumn: 'name'
-        ,save_action: 'mgr/bookit/openSchedule/items/updateFromGrid'
+        ,save_action: 'mgr/bookit/pricing/items/updateFromGrid'
         ,saveParams: { pricing_list: MODx.request.id}
         ,autosave: true
         ,tbar:[{
@@ -18,7 +18,7 @@ Bookit.grid.PricingItems = function(config) {
            ,handler: { xtype: 'bookit-window-pricing-item-add', blankValues: true }
         },'-','-','-','-',{
             xtype: 'bookit-extra-combo-day'
-            ,id: 'bookit-openschedule-item-filter-day'
+            ,id: 'bookit-pricing-item-filter-day'
             ,emptyText: _('bookit.select_day')
             ,listeners: {
                 'select': {fn:this.filterDay,scope:this}
@@ -57,7 +57,44 @@ Bookit.grid.PricingItems = function(config) {
     });
     Bookit.grid.PricingItems.superclass.constructor.call(this,config)
 };
-Ext.extend(Bookit.grid.PricingItems,MODx.grid.Grid);
+Ext.extend(Bookit.grid.PricingItems,MODx.grid.Grid, {
+	getMenu: function() {
+        var m = [{
+            text: _('bookit.pricingItem_delete')
+            ,handler: this.removePricingItem
+        }];
+        this.addContextMenuItem(m);
+        return true;
+    }
+    ,removePricingItem: function(btn,e) {
+        MODx.msg.confirm({ 
+            title: _('bookit.pricingItem_delete') 
+            ,text: _('bookit.pricingItem_delete_confirm') 
+            ,url: this.config.url 
+            ,params: { 
+                action: 'mgr/bookit/pricing/items/removeRow'
+                ,id: this.menu.record.id
+            } 
+            ,listeners: { 
+                'success': {fn:this.refresh,scope:this} 
+            } 
+        });
+    }
+    ,filterDay: function(cb,nv,ov) {
+        this.getStore().setBaseParam('filterDay',cb.getValue());
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
+    }
+    ,clearFilter: function() {
+        this.getStore().baseParams = {
+            action: 'mgr/bookit/pricing/items/getRows'
+            ,pricing_list: MODx.request.id
+        };
+        Ext.getCmp('bookit-pricing-item-filter-day').reset();
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
+    }
+});
 Ext.reg('bookit-grid-pricing-items',Bookit.grid.PricingItems);
 
 Bookit.window.NewPricingItem = function(config) {

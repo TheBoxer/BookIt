@@ -48,7 +48,6 @@ Ext.extend(Bookit.panel.PricingItems,MODx.FormPanel, {
 	        ,listeners: {
 	            'success': {fn:function(r) {
 	                this.getForm().setValues(r.object);
-	
 	                Ext.getCmp('bookit-pricing-items-noprice').getEl().update('<p><b>'+ _('bookit.openschedule') +'</b></p>'+r.object.noPrice);
 	            },scope:this}
 	        }

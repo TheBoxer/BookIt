@@ -4,7 +4,9 @@
         id: 'bookit-grid-items'
         ,url: Bookit.config.connectorUrl
         ,baseParams: { action: 'mgr/bookit/items/getItems' }
-        ,fields: ['id','name', 'active']
+        ,fields: ['id','name', 'active', 'openschedule', 'pricing']
+        //,save_action: 'mgr/bookit/items/updateFromGrid'
+        ,autosave: true
         ,paging: false
         ,remoteSort: true
         ,enableDragDrop: false
@@ -16,8 +18,11 @@
 		}]
 		,getMenu: function() {
 			var m = [{
-				text: _('bookit.openschedule')
-				,handler: this.itemOpen
+				text: _('bookit.set_openschedule')
+				,handler: this.setSchedule
+			},{
+				text: _('bookit.set_pricing')
+				,handler: this.setPricing
 			}];
 			this.addContextMenuItem(m);
 			return true;
@@ -28,12 +33,71 @@
         ,columns: [{
             header: _('bookit.item_name')
             ,dataIndex: 'name'
+            ,editor: { xtype: 'textfield' }
             ,sortable: false
+        },{
+        	header: _('bookit.openschedule')
+        	,dataIndex: 'openschedule'    	
+        },{
+        	header: _('bookit.item_pricing')
+        	,dataIndex: 'pricing'
+        },{
+        	header: _('bookit.item_active')
+        	,dataIndex: 'active'
+        	,editor: { xtype: 'modx-combo-boolean', renderer: true}
         }]
     });
     Bookit.grid.Items.superclass.constructor.call(this,config)
 };
-Ext.extend(Bookit.grid.Items,MODx.grid.Grid);
+Ext.extend(Bookit.grid.Items,MODx.grid.Grid, {
+	setSchedule: function(btn,e) {
+	    if (!this.setScheduleWindow) {
+	        this.setScheduleWindow = MODx.load({
+	            xtype: 'bookit-window-setopenschedule'
+	            ,record: this.menu.record
+	            ,listeners: {
+	                'success': {fn:this.refresh,scope:this}
+	            }
+	        });
+	    } else {
+	        this.setScheduleWindow.setValues(this.menu.record);
+	    }
+	    this.setScheduleWindow.show(e.target);
+	}
+	,setPricing: function(btn,e) {
+	    if (!this.setPricingWindow) {
+	        this.setPricingWindow = MODx.load({
+	            xtype: 'bookit-window-setpricing'
+	            ,record: this.menu.record
+	            ,listeners: {
+	                'success': {fn:this.refresh,scope:this}
+	            }
+	        });
+	    } else {
+	        this.setPricingWindow.setValues(this.menu.record);
+	    }
+	    this.setPricingWindow.show(e.target);
+	}
+	/*setScheduleToPricing: function(grid, rowIndex, columnIndex, e){//TODO: FIX
+		alert(grid.getStore().getAt(rowIndex).id);
+		
+		MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/bookit/extra/getPricingBySchedule'
+                ,id: grid.getStore().getAt(rowIndex).id
+            }
+	        ,listeners: {
+	            'success': {fn:function(r) {
+	                this.getForm().setValues(r.object);
+	                Ext.getCmp('bookit-pricing-items-noprice').getEl().update('<p><b>'+ _('bookit.openschedule') +'</b></p>'+r.object.noPrice);
+	            },scope:this}
+	        }
+        });
+		Ext.getCmp('bookit-extra-combo-pricing').getStore().setBaseParam('id', 3);
+		
+	}*/
+});
 Ext.reg('bookit-grid-items',Bookit.grid.Items);
 
 Bookit.window.AddItem = function(config) {
@@ -60,3 +124,50 @@ Bookit.window.AddItem = function(config) {
 };
 Ext.extend(Bookit.window.AddItem,MODx.Window);
 Ext.reg('bookit-window-item-add',Bookit.window.AddItem);
+
+Bookit.window.SetOpenschedule = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        title: _('bookit.set_openschedule')
+        ,url: Bookit.config.connectorUrl
+        ,baseParams: {
+            action: 'mgr/bookit/items/setOpenSchedule'
+        }
+        ,fields: [{
+            xtype: 'hidden'
+            ,name: 'id'
+        },{
+            xtype: 'bookit-extra-combo-openschedule'
+            ,fieldLabel: _('bookit.openschedule')
+            ,name: 'openschedule'
+            ,width: 300
+        }]
+    });
+    Bookit.window.SetOpenschedule.superclass.constructor.call(this,config);
+};
+Ext.extend(Bookit.window.SetOpenschedule,MODx.Window);
+Ext.reg('bookit-window-setopenschedule',Bookit.window.SetOpenschedule);
+
+Bookit.window.SetPricing = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        title: _('bookit.set_pricing')
+        ,url: Bookit.config.connectorUrl
+        ,baseParams: {
+            action: 'mgr/bookit/items/setPricing'
+        }
+        ,fields: [{
+            xtype: 'hidden'
+            ,name: 'id'
+        },{
+            xtype: 'bookit-extra-combo-pricing'
+            ,fieldLabel: _('bookit.item_pricing')
+            ,name: 'pricing'
+            ,width: 300
+        }]
+    });
+    Bookit.window.SetPricing.superclass.constructor.call(this,config);
+};
+Ext.extend(Bookit.window.SetPricing,MODx.Window);
+Ext.reg('bookit-window-setpricing',Bookit.window.SetPricing);
+

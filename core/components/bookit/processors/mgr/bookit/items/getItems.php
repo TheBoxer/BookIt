@@ -16,6 +16,11 @@ $items = $modx->getIterator('BookItems', $c);
 $list = array();
 foreach ($items as $item) {
     $itemArray = $item->toArray();
+    if(!empty($itemArray['openschedule'])){
+    	$os = $modx->getObject('OpenScheduleList', $itemArray['openschedule']);
+    	$itemArray['openschedule'] = $os->get('name');
+    }
+    
     $list[]= $itemArray;
 }
 return $this->outputArray($list,$count);

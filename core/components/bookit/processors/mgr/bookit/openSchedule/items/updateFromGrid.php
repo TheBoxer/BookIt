@@ -11,6 +11,24 @@ if (empty($_DATA['id'])) return $modx->error->failure($modx->lexicon('bookit.err
 $openschedule = $modx->getObject('OpenScheduleListItem',$_DATA['id']);
 if (empty($openschedule)) return $modx->error->failure($modx->lexicon('bookit.error_no_item'));
 
+if(empty($_DATA['openFrom'])) {
+    return $modx->error->addField($modx->lexicon('bookit.error_no_openfrom'));
+}
+
+if(empty($_DATA['openTo'])) {
+    return $modx->error->failure($modx->lexicon('bookit.error_no_opento'));
+}
+
+
+$timeFromArray = explode(":", $_DATA['openFrom']);
+$timeToArray = explode(":", $_DATA['openTo']);
+$timeFrom = mktime($timeFromArray[0], $timeFromArray[1], 0, 0, 0, 0);
+$timeTo = mktime($timeToArray[0], $timeToArray[1], 0, 0, 0, 0);
+
+if($timeFrom >= $timeTo){
+	return $modx->error->failure($modx->lexicon('bookit.error_from_gtoe_to'));
+}
+
 $e = $modx->newQuery('OpenScheduleListItem');
 
 $e->where(
