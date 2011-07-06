@@ -161,6 +161,7 @@ Bookit.window.SetPricing = function(config) {
             ,name: 'id'
         },{
             xtype: 'bookit-extra-combo-pricing'
+            ,baseParams: { action: 'mgr/bookit/extra/getPricing', itemid: config.record.id }
             ,fieldLabel: _('bookit.item_pricing')
             ,name: 'pricing'
             ,width: 300

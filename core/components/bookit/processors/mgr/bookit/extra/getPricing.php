@@ -1,15 +1,14 @@
-<?php                   
-ChromePhp::warn($scriptProperties);
-
-
-if((empty($scriptProperties['id']) || ($scriptProperties['id'] == 0))){
-	//return null;
+<?php           
+if((empty($scriptProperties['itemid']) || ($scriptProperties['itemid'] == 0))){
+	return null;
 }
 
 
+$item = $modx->getObject('BookItems', $scriptProperties['itemid']);
+
 $c = $modx->newQuery('PricingList'); 
 
-//$c->where(array('openschedule_list' => $scriptProperties['id']));
+$c->where(array('openschedule_list' => $item->get('openschedule')));
 
 $schedules = $modx->getIterator('PricingList', $c); 
 

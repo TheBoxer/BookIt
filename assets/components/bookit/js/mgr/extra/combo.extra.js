@@ -67,7 +67,7 @@ Bookit.combo.Pricing = function(config) {
         ,forceSelection: true
         ,enableKeyEvents: true
     });
-    Bookit.combo.OpenSchedule.superclass.constructor.call(this,config);
+    Bookit.combo.Pricing.superclass.constructor.call(this,config);
 };
 Ext.extend(Bookit.combo.Pricing,MODx.combo.ComboBox);
 Ext.reg('bookit-extra-combo-pricing',Bookit.combo.Pricing);
