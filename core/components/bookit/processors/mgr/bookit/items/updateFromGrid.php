@@ -9,6 +9,12 @@ if (empty($_DATA['id'])) return $modx->error->failure($modx->lexicon('bookit.err
 $item = $modx->getObject('BookItems',$_DATA['id']);
 if (empty($item)) return $modx->error->failure($modx->lexicon('bookit.error_no_item'));
 
+if(empty($_DATA['pricing'])){
+	if($_DATA['active'] == true){
+		return $modx->error->failure($modx->lexicon('bookit.error_save'));
+	}
+}
+
 $item->fromArray($_DATA);
  
 /* save */

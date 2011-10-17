@@ -51,8 +51,10 @@ $e->where(
         ),
         'openschedule_list' => $_DATA['openschedule_list'],
         'openDay' => $_DATA['openDay'],
+        'id:!=' => $_DATA['id'],
     )
 );
+
 
 $count = $modx->getCount('OpenScheduleListItem',$e);
 

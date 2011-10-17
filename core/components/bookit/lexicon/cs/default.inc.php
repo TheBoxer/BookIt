@@ -66,6 +66,7 @@ $_lang['bookit.error_no_priceto'] = 'Musíte vyplnit čas, do kterého platí ce
 $_lang['bookit.error_price_exists'] = 'Cena pro tuto dobu je již nastavená';
 $_lang['bookit.error_no_price'] = 'Musíte vyplnit cenu.';
 $_lang['bookit.error_no_openschedule'] = 'Musíte vybrat otevírací dobu.';
+$_lang['bookit.error_no_pricing'] = 'Musíte vybrat ceník.';
 
 $_lang['bookit.error_no_item'] = 'Tato položka neexistuje';
 
