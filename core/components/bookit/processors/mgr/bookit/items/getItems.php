@@ -21,8 +21,8 @@ foreach ($items as $item) {
     	$os = $modx->getObject('OpenScheduleList', $itemArray['openschedule']);
     	$itemArray['openschedule_label'] = $os->get('name');
     	
-    	if(!empty($itemArray['pricing_label'])){
-    		$pr = $modx->getObject('PricingList', $itemArray['pricing_label']);
+    	if(!empty($itemArray['pricing'])){
+    		$pr = $modx->getObject('PricingList', $itemArray['pricing']);
     		$itemArray['pricing_label'] = $pr->get('name');
     	}else{
     		$itemArray['pricing_label'] = "";

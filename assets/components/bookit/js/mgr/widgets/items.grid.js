@@ -23,6 +23,9 @@
 			},{
 				text: _('bookit.set_pricing')
 				,handler: this.setPricing
+			},{
+				text: _('bookit.item_delete')
+				,handler: this.deleteItem
 			}];
 			this.addContextMenuItem(m);
 			return true;
@@ -75,6 +78,20 @@ Ext.extend(Bookit.grid.Items,MODx.grid.Grid, {
         
 	    this.setPricingWindow.show(e.target);
 	}
+	,deleteItem: function(btn,e) {
+        MODx.msg.confirm({ 
+            title: _('bookit.item_delete') 
+            ,text: _('bookit.item_delete_confirm') 
+            ,url: this.config.url 
+            ,params: { 
+                action: 'mgr/bookit/items/removeItem'
+                ,id: this.menu.record.id
+            } 
+            ,listeners: { 
+                'success': {fn:this.refresh,scope:this} 
+            } 
+        });
+    }
 
 });
 Ext.reg('bookit-grid-items',Bookit.grid.Items);
