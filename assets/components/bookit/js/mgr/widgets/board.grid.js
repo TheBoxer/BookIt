@@ -16,15 +16,23 @@ Bookit.grid.Board = function(config) {
         ,paging: true
         ,remoteSort: true
         ,enableDragDrop: false
+        ,enableColumnMove: false
         ,anchor: '97%'
         ,autoExpandColumn: 'name'
+    	,listeners: {
+    		'render': function() {
+                Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
+    		}
+        	,'cellcontextmenu': {fn:this.test}
+        }
 		,tbar:[{
 			xtype: 'datefield'
 			,format: MODx.config.manager_date_format 
-			,emptyText: 'Datum'
+			,emptyText: _('bookit.date')
 		},'-','-','-','-',{
             xtype: 'bookit-extra-combo-items'
-            ,id: 'bookit-pricing-item-filter-day'
+            ,id: 'bookit-filter-item'
+            ,emptyText: _('bookit.item')
             ,listeners: {
             	'select': {fn:filterHour,scope:this}
             }
@@ -70,7 +78,28 @@ Bookit.grid.Board = function(config) {
     Bookit.grid.Board.superclass.constructor.call(this,config)
 };
 Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
-	
+	/*getMenu: function() {
+        var m = [{
+            text: 'test'
+            ,handler: this.test
+        }];
+        this.addContextMenuItem(m);
+        return true;
+    }*/
+    test: function(grid, rowIndex, cellIndex, e) {
+    	if(cellIndex > 1){
+    		cellIndex -= 2;
+	    	menu = new Ext.menu.Menu({
+	    		items:[{
+	    			text: 'View details'
+	    			,handler: function(){
+	    				alert(cellIndex);
+	    			}
+	    		}]
+	    	});
+	    	menu.showAt(e.getXY());
+    	}
+    }
 });
 Ext.reg('bookit-grid-board',Bookit.grid.Board);
 
