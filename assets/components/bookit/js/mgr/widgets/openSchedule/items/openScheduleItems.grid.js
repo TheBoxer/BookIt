@@ -40,13 +40,13 @@ Bookit.grid.OpenScheduleItems = function(config) {
             ,dataIndex: 'openFrom'
             ,sortable: false
             ,width: 90
-            ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, renderer: true }
+            ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, renderer: true, increment: 60 }
         },{
             header: _('bookit.openTo')
             ,dataIndex: 'openTo'
             ,sortable: false
             ,width: 90
-            ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, renderer: true }
+            ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, renderer: true, increment: 60 }
         }]
     });
     Bookit.grid.OpenScheduleItems.superclass.constructor.call(this,config)
@@ -113,12 +113,14 @@ Bookit.window.NewOpenScheduleItem = function(config) {
             ,format: MODx.config.manager_time_format
             ,fieldLabel: _('bookit.openFrom')
             ,name: 'openFrom'
+            ,increment: 60
             ,width: 300
         },{
             xtype: 'timefield'
             ,format: MODx.config.manager_time_format
             ,fieldLabel: _('bookit.openTo')
             ,name: 'openTo'
+            	,increment: 60
             ,width: 300
         }]
     });

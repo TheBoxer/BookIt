@@ -21,6 +21,7 @@ Bookit.grid.Board = function(config) {
 		,tbar:[{
 			xtype: 'datefield'
 			,format: MODx.config.manager_date_format 
+			,emptyText: 'Datum'
 		},'-','-','-','-',{
             xtype: 'bookit-extra-combo-items'
             ,id: 'bookit-pricing-item-filter-day'
