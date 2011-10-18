@@ -18,7 +18,10 @@
                 ,items: [{
                     html: '<p>'+_('bookit.management_desc')+'</p><br />'
                     ,border: false
-                }]
+                },{
+ 				   xtype: 'bookit-grid-board'
+ 				   ,preventRender: true
+ 				}]
             },{
                 title: _('bookit.item_managment')
                 ,defaults: { autoHeight: true }

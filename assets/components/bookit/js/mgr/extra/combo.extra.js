@@ -71,3 +71,25 @@ Bookit.combo.Pricing = function(config) {
 };
 Ext.extend(Bookit.combo.Pricing,MODx.combo.ComboBox);
 Ext.reg('bookit-extra-combo-pricing',Bookit.combo.Pricing);
+
+Bookit.combo.Items = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        id: 'bookit-extra-combo-items'
+        ,name: 'items'
+        ,hiddenName: 'items'
+        ,url: Bookit.config.connectorUrl
+    	,baseParams: { action: 'mgr/bookit/extra/getItems' }
+    	,fields: ['id','name']
+        ,displayField: 'name'
+        ,valueField: 'id'
+        ,triggerAction: 'all'
+        ,editable: false
+        ,selectOnFocus: true
+        ,forceSelection: true
+        ,enableKeyEvents: true
+    });
+    Bookit.combo.OpenSchedule.superclass.constructor.call(this,config);
+};
+Ext.extend(Bookit.combo.Items,MODx.combo.ComboBox);
+Ext.reg('bookit-extra-combo-items',Bookit.combo.Items);

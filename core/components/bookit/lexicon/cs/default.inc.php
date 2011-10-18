@@ -34,6 +34,7 @@ $_lang['bookit.pricingItems'] = 'Nastavení cen';
 $_lang['bookit.pricingItems_desc'] = 'V této sekci je možné nastavit ceny pro vybranou skupinu cen.';
 $_lang['bookit.pricingItem_delete'] = 'Odstranit cenu';
 $_lang['bookit.pricingItem_delete_confirm'] = 'Opravdu chcete odstranit tuto cenu?';
+$_lang['bookit.item'] = 'Kurt';
 
 $_lang['bookit.pricingList'] = 'Nastavení skupin cen';
 $_lang['bookit.pricingList_management_desc'] = 'V této sekci je možné spravovat skupiny cen pro vybranou otevírací dobu.';
@@ -53,6 +54,8 @@ $_lang['bookit.thursday'] = 'Čtvrtek';
 $_lang['bookit.friday'] = 'Pátek';
 $_lang['bookit.saturday'] = 'Sobota';
 $_lang['bookit.sunday'] = 'Neděle';
+
+$_lang['bookit.time'] = 'Čas';
 
 
 $_lang['bookit.error_no_openday'] = 'Musíte vyplnit den';
