@@ -21,7 +21,7 @@ Bookit.grid.Board = function(config) {
         ,autoExpandColumn: 'name'
     	,listeners: {
     		'render': function() {
-                Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
+                //Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
     		}
         	,'cellcontextmenu': {fn:this.test}
         }
@@ -78,28 +78,108 @@ Bookit.grid.Board = function(config) {
     Bookit.grid.Board.superclass.constructor.call(this,config)
 };
 Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
-	/*getMenu: function() {
-        var m = [{
-            text: 'test'
-            ,handler: this.test
-        }];
-        this.addContextMenuItem(m);
-        return true;
-    }*/
     test: function(grid, rowIndex, cellIndex, e) {
+    	var row = grid.store.data.items[rowIndex];
+		var colName = grid.colModel.config[cellIndex].dataIndex;
+		var val = row.data[colName];
+		
+		//alert(row.data.time);
+    	 
     	if(cellIndex > 1){
     		cellIndex -= 2;
-	    	menu = new Ext.menu.Menu({
-	    		items:[{
-	    			text: 'View details'
-	    			,handler: function(){
-	    				alert(cellIndex);
-	    			}
-	    		}]
-	    	});
+	    	if(val == ""){
+	    		menu = new Ext.menu.Menu({
+		    		items:[{
+		    			text: 'New reservation'
+		    			,handler: function(){
+		    				alert(cellIndex);
+		    			}
+		    		}]
+		    	});
+	    	}else{
+	    		menu = new Ext.menu.Menu({
+		    		items:[{
+		    			text: 'View details'
+		    			,handler: function(){
+		    				MODx.Ajax.request({
+		    		            url: Bookit.config.connectorUrl
+		    		            ,params: {
+		    		                action: 'mgr/bookit/test'
+		    		            }
+		    			        ,listeners: {
+		    			            'success': {fn:function(r) {
+		    			            	if (!this.detailsWindow) {
+		    		    			        this.detailsWindow = MODx.load({
+		    		    			            xtype: 'bookit-window-details'
+		    		    			            ,record: r.object
+		    		    			            ,listeners: {
+		    		    			                'success': {fn:this.refresh,scope:this}
+		    		    			            }
+		    		    			        });
+		    		    			    } else {
+		    		    			        this.detailsWindow.setValues(r.object);
+		    		    			    }
+		    		    			    this.detailsWindow.show(e.target);
+		    			            },scope:this}
+		    			        }
+		    		        });
+		    				
+		    			}
+		    		}]
+		    	});
+	    	}
 	    	menu.showAt(e.getXY());
     	}
     }
 });
 Ext.reg('bookit-grid-board',Bookit.grid.Board);
 
+Bookit.window.Details = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        id: 'bookit-window-details'
+        ,title: _('bookit.addPrice')
+        ,url: Bookit.config.connectorUrl
+        /*,baseParams: {
+            action: 'mgr/bookit/pricing/items/addPricingItem'
+            ,pricing_list: MODx.request.id
+        }*/
+        ,fields: [{
+            focus: true
+            ,xtype: 'statictextfield'
+            ,fieldLabel: 'surname'
+            ,name: 'surname'
+            ,id: 'surname'
+            ,width: 300
+        },{
+            focus: true
+            ,xtype: 'statictextfield'
+            ,fieldLabel: 'firstname'
+            ,name: 'firstname'
+            ,width: 300
+        }]
+        ,buttons: [{
+            text: config.cancelBtnText || _('cancel')
+            ,scope: this
+            ,handler: function() { this.close(); }
+        }]
+    });
+    Bookit.window.Details.superclass.constructor.call(this,config);
+    this.on('beforeshow',function() {
+    	//this.findById('surname').value = "test";
+    	/*MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'mgr/bookit/test'
+            }
+	        ,listeners: {
+	            'success': {fn:function(r) {
+	            	this.findById('surname').value = "test";
+	                //alert(r.object.test);
+	            },scope:this}
+	        }
+        });*/
+    });
+};
+Ext.extend(Bookit.window.Details,MODx.Window);
+Ext.reg('bookit-window-details',Bookit.window.Details);
