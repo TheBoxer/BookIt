@@ -1,21 +1,50 @@
 <?php
 
-$ret = array();
+$c = $modx->newQuery('OpenScheduleListItem');
+$c->select('MIN(openFrom) AS openFromMin');
+$c->select('MAX(openTo) AS openToMax');
+$c->prepare();
+$item = $modx->getObject('OpenScheduleListItem', $c);
 
-$ret[] = array("time" => "07:00", "item" => "Kurt 1");
-$ret[] = array("time" => "08:00", "item" => "Kurt 1");
-$ret[] = array("time" => "09:00", "item" => "Kurt 1");
-$ret[] = array("time" => "10:00", "item" => "Kurt 1", "thursday" => "Peca");
-$ret[] = array("time" => "11:00", "item" => "Kurt 1");
-$ret[] = array("time" => "12:00", "item" => "Kurt 1");
-$ret[] = array("time" => "13:00", "item" => "Kurt 1");
-$ret[] = array("time" => "14:00", "item" => "Kurt 1");
-$ret[] = array("time" => "15:00", "item" => "Kurt 1");
-$ret[] = array("time" => "16:00", "item" => "Kurt 1");
-$ret[] = array("time" => "17:00", "item" => "Kurt 1");
-$ret[] = array("time" => "18:00", "item" => "Kurt 1");
-$ret[] = array("time" => "19:00", "item" => "Kurt 1");
-$ret[] = array("time" => "20:00", "item" => "Kurt 1");
-$ret[] = array("time" => "21:00", "item" => "Kurt 1");
+$openFrom = explode(":", $item->get('openFromMin'));
+$openFrom = (int) $openFrom[0];
+$openTo = explode(":", $item->get('openToMax'));
+$openTo = (int) $openTo[0];
 
-return $this->outputArray($ret,count($ret));
+$board = array();
+
+for($i = $openFrom; $i < $openTo; $i++){
+	$board[$i] = array();
+}
+
+$c = $modx->newQuery('Books');
+if(isset($scriptProperties["filterDay"])){
+	$c->where(array("bookDate" => strtotime($scriptProperties["filterDay"])));
+}else{
+	$c->where(array("bookDate" => mktime(0,0,0,date("n"),date("j"),date("Y"))));	
+}
+
+
+$items = $modx->getIterator('Books', $c);
+ 
+foreach ($items as $item) {
+    $itemArray = $item->toArray(); 
+    $user = $modx->getObject('modUser', $itemArray["idUser"]);
+    $board[$itemArray["bookFrom"]] = array_merge($board[$itemArray["bookFrom"]], array("item-".$itemArray["idItem"] => $user->getOne("Profile")->get("fullname")));
+    //ChromePhp::warn($itemArray);
+}
+
+//ChromePhp::warn($board);
+
+$retBoard = array();
+foreach($board as $k => $v){
+	$temp = array("time" => $k.":00");
+	$retBoard[] = array_merge($temp, $v);
+}
+
+//ChromePhp::warn($retBoard);
+
+
+
+
+return $this->outputArray($retBoard,count($retBoard));

@@ -49,25 +49,19 @@
 	
     <object class="BookCustomers" table="book_customers" extends="xPDOSimpleObject">
 		<field key="lastName" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+		<field key="firstName" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+		<field key="phone" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+		<field key="discount" dbtype="integer" precision="10" phptype="string" null="false" default="0"/>
 		
-		<composite alias="CustomersProfile" class="BookProfiles" local="id" foreign="idBookCustomer" cardinality="one" owner="local" />
 		<composite alias="CustomersBooks" class="Books" local="id" foreign="idBookCustomer" cardinality="many" owner="local" />
-    </object>
-	
-	 <object class="BookProfiles" table="book_profiles" extends="xPDOSimpleObject">
-		<field key="idUser" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
-		<field key="idBookCustomer" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
-		<field key="discount" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
-		
-		<composite alias="Customer" class="BookCustomers" local="idBookCustomer" foreign="id" cardinality="one" owner="local" />
-		<aggregate alias="User" class="modUser" local="idUser" foreign="id" cardinality="one" owner="local" />
     </object>
 	
 	<object class="Books" table="books" extends="xPDOSimpleObject">
 		<field key="idUser" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
 		<field key="idBookCustomer" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
 		<field key="idItem" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
-		<field key="bookFrom" dbtype="int" precision="20" phptype="timestamp" null="false" default=""/>
+		<field key="bookDate" dbtype="int" precision="20" phptype="timestamp" null="false" default="0"/>
+		<field key="bookFrom" dbtype="int" precision="20" phptype="integer" null="false" default=""/>
 		
 		<aggregate alias="Customer" class="BookCustomers" local="idBookCustomer" foreign="id" cardinality="one" owner="local" />
 		<aggregate alias="User" class="modUser" local="idUser" foreign="id" cardinality="one" owner="local" />

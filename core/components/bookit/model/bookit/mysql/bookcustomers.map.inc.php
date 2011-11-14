@@ -5,6 +5,9 @@ $xpdo_meta_map['BookCustomers']= array (
   'fields' => 
   array (
     'lastName' => '',
+    'firstName' => '',
+    'phone' => '',
+    'discount' => 0,
   ),
   'fieldMeta' => 
   array (
@@ -16,17 +19,33 @@ $xpdo_meta_map['BookCustomers']= array (
       'null' => false,
       'default' => '',
     ),
+    'firstName' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+    'phone' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+    'discount' => 
+    array (
+      'dbtype' => 'integer',
+      'precision' => '10',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => 0,
+    ),
   ),
   'composites' => 
   array (
-    'CustomersProfile' => 
-    array (
-      'class' => 'BookProfiles',
-      'local' => 'id',
-      'foreign' => 'idBookCustomer',
-      'cardinality' => 'one',
-      'owner' => 'local',
-    ),
     'CustomersBooks' => 
     array (
       'class' => 'Books',

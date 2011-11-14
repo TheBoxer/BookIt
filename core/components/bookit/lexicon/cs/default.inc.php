@@ -36,6 +36,8 @@ $_lang['bookit.pricingItem_delete'] = 'Odstranit cenu';
 $_lang['bookit.pricingItem_delete_confirm'] = 'Opravdu chcete odstranit tuto cenu?';
 $_lang['bookit.item'] = 'Kurt';
 $_lang['bookit.date'] = 'Datum';
+$_lang['bookit.today'] = 'Dnes';
+$_lang['bookit.hour'] = 'Hodina';
 
 $_lang['bookit.pricingList'] = 'Nastavení skupin cen';
 $_lang['bookit.pricingList_management_desc'] = 'V této sekci je možné spravovat skupiny cen pro vybranou otevírací dobu.';
