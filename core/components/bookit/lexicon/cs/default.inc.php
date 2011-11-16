@@ -39,6 +39,14 @@ $_lang['bookit.date'] = 'Datum';
 $_lang['bookit.today'] = 'Dnes';
 $_lang['bookit.hour'] = 'Hodina';
 
+$_lang['bookit.fullname'] = 'Jméno';
+$_lang['bookit.phone'] = 'Telefon';
+
+$_lang['bookit.bookDetail'] = "Detail rezervace";
+$_lang['bookit.viewDetail'] = "Zobrazit detail";
+$_lang['bookit.cancelBook'] = "Zrušit rezervaci";
+$_lang['bookit.cancelBook_confirm'] = "Opravdu chcete zrušit tuto rezervaci?";
+
 $_lang['bookit.pricingList'] = 'Nastavení skupin cen';
 $_lang['bookit.pricingList_management_desc'] = 'V této sekci je možné spravovat skupiny cen pro vybranou otevírací dobu.';
 
