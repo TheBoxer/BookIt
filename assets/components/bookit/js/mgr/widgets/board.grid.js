@@ -14,6 +14,15 @@
         ,autoExpandColumn: 'name'
     	,listeners: {
     		'cellcontextmenu': {fn:this.cellContextMenu}
+        	,'afterrender': {fn:function(){
+        		var mainquoterefresh = { 
+				    run: function(){ 
+				    	Ext.getCmp('bookit-grid-board').store.load();
+				    }, 
+				    interval: 600000 //600 second 
+				} 
+				Ext.TaskMgr.start(mainquoterefresh); 
+        	}}
         }
 		,tbar:[{
 			xtype: 'datefield'
@@ -67,61 +76,74 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 	        } 
 	    });
 	}
-    ,cellContextMenu: function(grid, rowIndex, cellIndex, e) {
-    	var row = grid.store.data.items[rowIndex];
-		var colName = grid.colModel.config[cellIndex].dataIndex;
-		var val = row.data[colName];
-		var time = row.data['time'];
- 	 
-    	if(cellIndex > 0){
-    		cellIndex -= 1;
-	    	if(val == ""){
-	    		menu = new Ext.menu.Menu({
-		    		items:[{
-		    			text: 'New reservation'
-		    			,handler: function(){
-		    				alert(cellIndex);
-		    			}
-		    		}]
-		    	});
-	    	}else{
-	    		menu = new Ext.menu.Menu({
-		    		items:[{
-		    			text: _('bookit.viewDetail')
-		    			,handler: function(){
-		    				MODx.Ajax.request({
-		    		            url: Bookit.config.connectorUrl
-		    		            ,params: {
-		    		                action: 'mgr/bookit/board/getBookDetail'
-		    		                ,time: time
-		    		                ,colName: colName
-		    		                ,val: val
-		    		                ,date: Ext.getCmp('dateFilter').value
-		    		            }
-		    			        ,listeners: {
-		    			            'success': {fn:function(r) {		    			        
-		    		    			        this.detailsWindow = MODx.load({
-		    		    			            xtype: 'bookit-window-details'
-		    		    			            ,record: r.object
-		    		    			            ,listeners: {
-		    		    			                'success': {fn:this.refresh,scope:this}
-		    		    			            }
-		    		    			        });		    		    			    
-		    		    			    this.detailsWindow.show(e.target);
-		    			            },scope:this}
-		    			        }
-		    		        });
-		    				
-		    			}
-		    		},'-',{
-		    			text: _('bookit.cancelBook')
-		    			,handler: this.cancelBook.createDelegate(this, [{time:time, colName:colName, date:Ext.getCmp('dateFilter').value}], false)
-		    		}]
-		    	});
+    ,cellContextMenu: function(grid, rowIndex, cellIndex, e) {  
+    	var callback = function(par){
+    		var grid = par['grid']
+    		var rowIndex = par['rowIndex']
+    		var cellIndex = par['cellIndex']
+    		var e = par['e']
+    		
+	    	var row = grid.store.data.items[rowIndex];
+			var colName = grid.colModel.config[cellIndex].dataIndex;
+			var val = row.data[colName];
+			var time = row.data['time'];
+	 	 
+	    	if(cellIndex > 0){
+	    		cellIndex -= 1;
+		    	if(val == ""){
+		    		menu = new Ext.menu.Menu({
+			    		items:[{
+			    			text: 'New reservation'
+			    			,handler: function(){
+			    				alert(cellIndex);
+			    			}
+			    		}]
+			    	});
+		    	}else{
+		    		menu = new Ext.menu.Menu({
+			    		items:[{
+			    			text: _('bookit.viewDetail')
+			    			,handler: function(){
+			    				MODx.Ajax.request({
+			    		            url: Bookit.config.connectorUrl
+			    		            ,params: {
+			    		                action: 'mgr/bookit/board/getBookDetail'
+			    		                ,time: time
+			    		                ,colName: colName
+			    		                ,val: val
+			    		                ,date: Ext.getCmp('dateFilter').value
+			    		            }
+			    			        ,listeners: {
+			    			            'success': {fn:function(r) {		    			        
+			    		    			        this.detailsWindow = MODx.load({
+			    		    			            xtype: 'bookit-window-details'
+			    		    			            ,record: r.object
+			    		    			            ,listeners: {
+			    		    			                'success': {fn:this.refresh,scope:this}
+			    		    			            }
+			    		    			        });		    		    			    
+			    		    			    this.detailsWindow.show(e.target);
+			    			            },scope:this}
+			    			        }
+			    		        });
+			    				
+			    			}
+			    		},'-',{
+			    			text: _('bookit.cancelBook')
+			    			,handler: this.cancelBook.createDelegate(this, [{time:time, colName:colName, date:Ext.getCmp('dateFilter').value}], false)
+			    		}]
+			    	});
+		    	}
+		    	menu.showAt(e.getXY());
 	    	}
-	    	menu.showAt(e.getXY());
     	}
+    	
+    	var store = Ext.getCmp('bookit-grid-board').store;
+    	store.on('load', callback.createDelegate(this, [{rowIndex:rowIndex, grid:grid, cellIndex:cellIndex, e:e}], false));
+    	store.reload();
     }
+    	
+    
 });
 Ext.reg('bookit-grid-board',Bookit.grid.Board);
 
@@ -179,3 +201,5 @@ Bookit.window.Details = function(config) {
 };
 Ext.extend(Bookit.window.Details,MODx.Window);
 Ext.reg('bookit-window-details',Bookit.window.Details);
+
+
