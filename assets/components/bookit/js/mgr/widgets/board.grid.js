@@ -76,13 +76,7 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 	        } 
 	    });
 	}
-    ,cellContextMenu: function(grid, rowIndex, cellIndex, e) {  
-    	var callback = function(par){
-    		var grid = par['grid']
-    		var rowIndex = par['rowIndex']
-    		var cellIndex = par['cellIndex']
-    		var e = par['e']
-    		
+    ,cellContextMenu: function(grid, rowIndex, cellIndex, e) {     		
 	    	var row = grid.store.data.items[rowIndex];
 			var colName = grid.colModel.config[cellIndex].dataIndex;
 			var val = row.data[colName];
@@ -135,12 +129,9 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    	});
 		    	}
 		    	menu.showAt(e.getXY());
+		    	
 	    	}
-    	}
     	
-    	var store = Ext.getCmp('bookit-grid-board').store;
-    	store.on('load', callback.createDelegate(this, [{rowIndex:rowIndex, grid:grid, cellIndex:cellIndex, e:e}], false));
-    	store.reload();
     }
     	
     
