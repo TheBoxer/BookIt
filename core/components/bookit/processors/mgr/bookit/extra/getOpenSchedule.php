@@ -2,7 +2,6 @@
 $c = $modx->newQuery('OpenScheduleList'); 
 $schedules = $modx->getIterator('OpenScheduleList', $c); 
 
-  
 
 /* iterate */
 

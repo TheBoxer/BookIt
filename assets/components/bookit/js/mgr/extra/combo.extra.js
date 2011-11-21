@@ -93,3 +93,30 @@ Bookit.combo.Items = function(config) {
 };
 Ext.extend(Bookit.combo.Items,MODx.combo.ComboBox);
 Ext.reg('bookit-extra-combo-items',Bookit.combo.Items);
+
+Bookit.combo.UserList = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        id: 'bookit-extra-userlist-live',
+        name: 'user',
+        hiddenName: 'user',
+        url: Bookit.config.connectorUrl,
+    	baseParams: { action: 'mgr/bookit/extra/getUsers' },
+		minChars: 1,
+		fields: ['id','fullname'],
+		displayField:'fullname',
+		valueField: 'id',
+		forceSelection: false,
+        typeAhead: true,
+        selectOnFocus:true,
+        loadingText: _('bookit.searching'),
+        mode: 'remote',
+        editable: true,
+        triggerAction: 'all',
+        emptyText: _('bookit.fillName')
+    });
+    Bookit.combo.UserList.superclass.constructor.call(this,config);
+};
+Ext.extend(Bookit.combo.UserList,MODx.combo.ComboBox);
+Ext.reg('bookit-extra-userlist-live',Bookit.combo.UserList);
+	

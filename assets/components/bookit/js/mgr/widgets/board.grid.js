@@ -87,9 +87,15 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 		    	if(val == ""){
 		    		menu = new Ext.menu.Menu({
 			    		items:[{
-			    			text: 'New reservation'
+			    			text: _('bookit.newBook')
 			    			,handler: function(){
-			    				alert(cellIndex);
+			    				this.newReseravtionWindow = MODx.load({
+		    			            xtype: 'bookit-window-newbook'
+		    			            ,listeners: {
+		    			                'success': {fn:this.refresh,scope:this}
+		    			            }
+		    			        });		    		    			    
+			    				this.newReseravtionWindow.show(e.target);
 			    			}
 			    		}]
 			    	});
@@ -193,4 +199,71 @@ Bookit.window.Details = function(config) {
 Ext.extend(Bookit.window.Details,MODx.Window);
 Ext.reg('bookit-window-details',Bookit.window.Details);
 
+Bookit.window.NewBook = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        id: 'bookit-window-newbook'
+        ,title: _('bookit.newBook')
+        ,url: Bookit.config.connectorUrl
+        ,baseParams: { 
+        	action: 'mgr/bookit/board/saveBook'
+        }
+        ,fields: [{
+            focus: true
+            ,xtype: 'bookit-extra-userlist-live'
+            ,fieldLabel: _('bookit.fullname')
+            ,name: 'fullname'
+            ,width: 300
+            ,listeners: {
+                'select': {fn:this.testuj,scope:this}
+            }
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('bookit.phone')
+            ,name: 'phone'
+            ,width: 300
+        },{
+            xtype: 'textfield'
+                ,fieldLabel: _('email')
+                ,name: 'email'
+                ,width: 300
+            }]
+        ,buttons: [{
+            text: config.cancelBtnText || _('cancel')
+            ,scope: this
+            ,handler: function() { this.close(); }
+        },{
+            text: config.saveBtnText || _('save')
+            ,scope: this
+            ,handler: this.submit
+        }]
+    });
+    Bookit.window.NewBook.superclass.constructor.call(this,config);
+};
+Ext.extend(Bookit.window.NewBook,MODx.Window, {
+	testuj: function() {
+		var userid = Ext.getCmp('bookit-extra-userlist-live').value
+		var newBookWindow = this;
+		MODx.Ajax.request({
+            url: Bookit.config.connectorUrl
+            ,params: {
+                action: 'mgr/bookit/board/getUserDetails'
+                ,id: userid
+            }
+	        ,listeners: {
+	            'success': {fn:function(r) {		    			        
+	            	newBookWindow.setValues(r.object);
+	            },scope:this}
+	        }
+        });
+		//this.setValues([{id:'email', value:'test@aaa.com'}])
+    }
+	
+});
+Ext.reg('bookit-window-newbook',Bookit.window.NewBook);
 
+
+	
+
+	
+	
