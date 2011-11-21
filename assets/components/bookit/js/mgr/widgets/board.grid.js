@@ -81,6 +81,9 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			var colName = grid.colModel.config[cellIndex].dataIndex;
 			var val = row.data[colName];
 			var time = row.data['time'];
+			
+			var iditem = colName.split('-');
+			iditem = iditem[1];
 	 	 
 	    	if(cellIndex > 0){
 	    		cellIndex -= 1;
@@ -91,6 +94,7 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    			,handler: function(){
 			    				this.newReseravtionWindow = MODx.load({
 		    			            xtype: 'bookit-window-newbook'
+		    			            ,record: {item: iditem}
 		    			            ,listeners: {
 		    			                'success': {fn:this.refresh,scope:this}
 		    			            }
@@ -108,21 +112,22 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    		            url: Bookit.config.connectorUrl
 			    		            ,params: {
 			    		                action: 'mgr/bookit/board/getBookDetail'
-			    		                ,time: time
+		    		                	,time: time
 			    		                ,colName: colName
 			    		                ,val: val
 			    		                ,date: Ext.getCmp('dateFilter').value
 			    		            }
 			    			        ,listeners: {
 			    			            'success': {fn:function(r) {		    			        
-			    		    			        this.detailsWindow = MODx.load({
-			    		    			            xtype: 'bookit-window-details'
-			    		    			            ,record: r.object
-			    		    			            ,listeners: {
-			    		    			                'success': {fn:this.refresh,scope:this}
-			    		    			            }
-			    		    			        });		    		    			    
-			    		    			    this.detailsWindow.show(e.target);
+			    			            	
+			    			            	this.detailsWindow = MODx.load({
+		    		    			            xtype: 'bookit-window-details'
+		    		    			            ,record: r.object
+		    		    			            ,listeners: {
+		    		    			                'success': {fn:this.refresh,scope:this}
+		    		    			            }
+		    		    			        });		    		    			    
+		    		    			    this.detailsWindow.show(e.target);
 			    			            },scope:this}
 			    			        }
 			    		        });
@@ -164,6 +169,12 @@ Bookit.window.Details = function(config) {
             ,xtype: 'statictextfield'
             ,fieldLabel: _('bookit.phone')
             ,name: 'phone'
+            ,width: 300
+        },{
+            focus: true
+            ,xtype: 'statictextfield'
+            ,fieldLabel: _('email')
+            ,name: 'email'
             ,width: 300
         },{
             focus: true
@@ -224,10 +235,16 @@ Bookit.window.NewBook = function(config) {
             ,width: 300
         },{
             xtype: 'textfield'
-                ,fieldLabel: _('email')
-                ,name: 'email'
-                ,width: 300
-            }]
+            ,fieldLabel: _('email')
+            ,name: 'email'
+            ,emptyText: 'guest@tenistop.cz'
+            ,width: 300
+        },{
+            xtype: 'bookit-extra-combo-items'
+            ,fieldLabel: _('bookit.item')
+            ,name: 'item'
+            ,width: 300
+        }]
         ,buttons: [{
             text: config.cancelBtnText || _('cancel')
             ,scope: this
@@ -257,6 +274,7 @@ Ext.extend(Bookit.window.NewBook,MODx.Window, {
 	        }
         });
 		//this.setValues([{id:'email', value:'test@aaa.com'}])
+		Ext.getCmp('bookit-extra-combo-items').setValue(2);
     }
 	
 });
