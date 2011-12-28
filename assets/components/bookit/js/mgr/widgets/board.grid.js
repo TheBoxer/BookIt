@@ -94,7 +94,7 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    			,handler: function(){
 			    				this.newReseravtionWindow = MODx.load({
 		    			            xtype: 'bookit-window-newbook'
-		    			            ,record: {item: iditem}
+		    			            ,record: {item: iditem, time: time}
 		    			            ,listeners: {
 		    			                'success': {fn:this.refresh,scope:this}
 		    			            }
@@ -220,10 +220,10 @@ Bookit.window.NewBook = function(config) {
         	action: 'mgr/bookit/board/saveBook'
         }
         ,fields: [{
-            focus: true
-            ,xtype: 'bookit-extra-userlist-live'
+            xtype: 'bookit-extra-userlist-live'
             ,fieldLabel: _('bookit.fullname')
             ,name: 'fullname'
+            //,id: 'userlist'
             ,width: 300
             ,listeners: {
                 'select': {fn:this.testuj,scope:this}
@@ -237,13 +237,46 @@ Bookit.window.NewBook = function(config) {
             xtype: 'textfield'
             ,fieldLabel: _('email')
             ,name: 'email'
-            ,emptyText: 'guest@tenistop.cz'
             ,width: 300
         },{
             xtype: 'bookit-extra-combo-items'
             ,fieldLabel: _('bookit.item')
             ,name: 'item'
             ,width: 300
+        },{
+            xtype: 'timefield'
+            ,fieldLabel: _('bookit.time')
+            ,format: MODx.config.manager_time_format
+            ,increment: 60
+            ,minValue: '7:00'
+            ,maxValue: '21:00'
+            ,name: 'time'
+            ,width: 300
+        },{
+            xtype: 'numberfield'
+            ,fieldLabel: _('bookit.hourCount')
+            ,id: 'count'
+            ,name: 'count'
+            ,minValue: 1
+            ,enableKeyEvents:true
+            ,maxValue: 15
+            ,width: 300
+            ,listeners:{
+            	keyup:function(field, e){
+                	Ext.getCmp('sliderCount').setValue(parseInt(field.getRawValue()));
+                }
+            }
+        },{
+            xtype: 'sliderfield'
+            ,name: 'sliderCount'
+            ,id: 'sliderCount'
+            ,useTips: false
+            ,minValue: 1
+            ,maxValue: 15
+            ,increment: 1
+            ,width: 300
+            ,scope: this
+            
         }]
         ,buttons: [{
             text: config.cancelBtnText || _('cancel')
@@ -256,6 +289,14 @@ Bookit.window.NewBook = function(config) {
         }]
     });
     Bookit.window.NewBook.superclass.constructor.call(this,config);
+    Ext.getCmp('sliderCount').slider.on('change', function(slider,newvalue,oldvalue){Ext.getCmp('count').setValue(newvalue);});
+	
+	this.on('show', function(){
+		var task = new Ext.util.DelayedTask(function(){
+			this.fp.getForm().el.dom[1].select();
+		}, this);
+		task.delay(200); 
+	});
 };
 Ext.extend(Bookit.window.NewBook,MODx.Window, {
 	testuj: function() {
@@ -274,14 +315,10 @@ Ext.extend(Bookit.window.NewBook,MODx.Window, {
 	        }
         });
 		//this.setValues([{id:'email', value:'test@aaa.com'}])
-		Ext.getCmp('bookit-extra-combo-items').setValue(2);
+		//Ext.getCmp('bookit-extra-combo-items').setValue(2);
     }
 	
 });
 Ext.reg('bookit-window-newbook',Bookit.window.NewBook);
-
-
-	
-
 	
 	

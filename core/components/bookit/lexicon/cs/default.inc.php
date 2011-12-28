@@ -49,6 +49,7 @@ $_lang['bookit.cancelBook_confirm'] = "Opravdu chcete zrušit tuto rezervaci?";
 $_lang['bookit.newBook'] = "Nová rezervace";
 $_lang['bookit.fillName'] = "Zadejte jméno";
 $_lang['bookit.searching'] = "Hledám...";
+$_lang['bookit.hourCount'] = "Počet hodin";
 
 $_lang['bookit.pricingList'] = 'Nastavení skupin cen';
 $_lang['bookit.pricingList_management_desc'] = 'V této sekci je možné spravovat skupiny cen pro vybranou otevírací dobu.';
