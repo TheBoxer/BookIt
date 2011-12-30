@@ -1,8 +1,4 @@
 <?php
-
-ChromePhp::warn("Action: saveBook");
-ChromePhp::warn($scriptProperties);
-
 if(empty($scriptProperties["user"])){
 	$modx->error->addField('user', $modx->lexicon('bookit.error_no_user'));
 }
@@ -10,24 +6,32 @@ if(empty($scriptProperties["phone"])){
 	$modx->error->addField('phone', $modx->lexicon('bookit.error_no_phone'));
 }
 
-if ($modx->error->hasError()) {
-	return $modx->error->failure();
-}
-
 $date = (!empty($scriptProperties["date"]))? strtotime($scriptProperties["date"]) : mktime(0,0,0,date("n"),date("j"),date("Y"));
 $time = explode(":", $scriptProperties["time"]);
 $time = $time[0];
 
-$newBook = $modx->newObject('Books');
+$range = range($time-1, $time-1+$scriptProperties["count"]);
 
-$newBook->set("bookDate", $date);
-$newBook->set("bookFrom", $time);
-$newBook->set("idItem", $scriptProperties["items"]);
+$oldBooks = $modx->newQuery('Books');
+$oldBooks->where(array(
+		"bookDate" => $date,
+		"idItem" => $scriptProperties["items"],
+		"bookFrom:IN" => $range
+		));
 
-if(intval($scriptProperties["user"]) != 0){
-	$newBook->set("idUser", intval($scriptProperties["user"]));
-}else{
-	
+$oldBooksCollection = $modx->getCollection('Books', $oldBooks);
+if(count($oldBooksCollection) != 0){
+	$modx->error->addField('date', $modx->lexicon('bookit.error_date_time_occupied'));
+	$modx->error->addField('time', $modx->lexicon('bookit.error_date_time_occupied'));
+	$modx->error->addField('count', $modx->lexicon('bookit.error_date_time_occupied'));
+	$modx->error->addField('sliderCount', $modx->lexicon('bookit.error_date_time_occupied'));
+}
+
+if ($modx->error->hasError()) {
+	return $modx->error->failure();
+}
+
+if(intval($scriptProperties["user"]) == 0){
 	$username = str_replace(" ", ".", trim(strtolower($modx->translit->translate($scriptProperties["user"], "noaccents"))));
 	
 	$user = $modx->getObject("modUser", array("username" => $username));
@@ -52,12 +56,21 @@ if(intval($scriptProperties["user"]) != 0){
 	$success = $newUser->addOne($newUserProfile);
 	if($success){
 		$newUser->save();
-		$newBook->set("idUser", $newUser->get("id"));
 	}else{
 		return $modx->error->failure();
 	}
 }
 
-$newBook->save();
+$max = $time+$scriptProperties["count"];
+$uid = (intval($scriptProperties["user"]) == 0) ? $newUser->get('id') : intval($scriptProperties["user"]);
 
-return $modx->error->success('', null);
+for($i = $time; $i < $max; $i++){
+	$newBook = $modx->newObject('Books');
+	$newBook->set("idUser", $uid);
+	$newBook->set("bookDate", $date);
+	$newBook->set("idItem", $scriptProperties["items"]);
+	$newBook->set("bookFrom", $i);
+	$newBook->save();
+}
+
+return $modx->error->success('', $newBook);

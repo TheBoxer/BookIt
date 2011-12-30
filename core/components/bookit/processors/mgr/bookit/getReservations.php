@@ -31,20 +31,12 @@ foreach ($items as $item) {
     $itemArray = $item->toArray(); 
     $user = $modx->getObject('modUser', $itemArray["idUser"]);
     $board[$itemArray["bookFrom"]] = array_merge($board[$itemArray["bookFrom"]], array("item-".$itemArray["idItem"] => $user->getOne("Profile")->get("fullname")));
-    //ChromePhp::warn($itemArray);
 }
-
-//ChromePhp::warn($board);
 
 $retBoard = array();
 foreach($board as $k => $v){
 	$temp = array("time" => $k.":00");
 	$retBoard[] = array_merge($temp, $v);
 }
-
-//ChromePhp::warn($retBoard);
-
-
-
 
 return $this->outputArray($retBoard,count($retBoard));
