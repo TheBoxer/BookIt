@@ -16,7 +16,6 @@ $m->createObjectContainer('OpenScheduleListItem');
 $m->createObjectContainer('PricingList');
 $m->createObjectContainer('PricingListItem');
 $m->createObjectContainer('BookItems');
-$m->createObjectContainer('BookCustomers');
 $m->createObjectContainer('Books');
 return 'Table created.';
 

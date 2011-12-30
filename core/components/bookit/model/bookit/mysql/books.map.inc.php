@@ -5,7 +5,6 @@ $xpdo_meta_map['Books']= array (
   'fields' => 
   array (
     'idUser' => 0,
-    'idBookCustomer' => 0,
     'idItem' => 0,
     'bookDate' => 0,
     'bookFrom' => 0,
@@ -13,14 +12,6 @@ $xpdo_meta_map['Books']= array (
   'fieldMeta' => 
   array (
     'idUser' => 
-    array (
-      'dbtype' => 'int',
-      'precision' => '20',
-      'phptype' => 'integer',
-      'null' => false,
-      'default' => 0,
-    ),
-    'idBookCustomer' => 
     array (
       'dbtype' => 'int',
       'precision' => '20',
@@ -55,14 +46,6 @@ $xpdo_meta_map['Books']= array (
   ),
   'aggregates' => 
   array (
-    'Customer' => 
-    array (
-      'class' => 'BookCustomers',
-      'local' => 'idBookCustomer',
-      'foreign' => 'id',
-      'cardinality' => 'one',
-      'owner' => 'local',
-    ),
     'User' => 
     array (
       'class' => 'modUser',

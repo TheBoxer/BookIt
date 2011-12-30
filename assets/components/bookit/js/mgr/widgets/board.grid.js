@@ -82,6 +82,10 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			var val = row.data[colName];
 			var time = row.data['time'];
 			
+			var currentHour = time.split(":")[0];
+			var lastHour = grid.store.data.items[grid.store.data.items.length-1].data["time"].split(":")[0]
+			var maxStep = lastHour-currentHour+1;
+			
 			var iditem = colName.split('-');
 			iditem = iditem[1];
 	 	 
@@ -91,14 +95,14 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 		    		menu = new Ext.menu.Menu({
 			    		items:[{
 			    			text: _('bookit.newBook')
-			    			,handler: function(){
+			    			,handler: function(btn, e){
 			    				this.newReseravtionWindow = MODx.load({
 		    			            xtype: 'bookit-window-newbook'
 		    			            ,record: {item: iditem, time: time}
-		    			            ,listeners: {
-		    			                'success': {fn:this.refresh,scope:this}
-		    			            }
 		    			        });		    		    			    
+			    				
+			    				this.newReseravtionWindow.fp.getForm().items.items[5].maxValue = maxStep;
+			    				this.newReseravtionWindow.fp.getForm().items.items[6].maxValue = maxStep;
 			    				this.newReseravtionWindow.show(e.target);
 			    			}
 			    		}]
@@ -215,6 +219,7 @@ Bookit.window.NewBook = function(config) {
     Ext.applyIf(config,{
         id: 'bookit-window-newbook'
         ,title: _('bookit.newBook')
+        ,closeAction: 'close'
         ,url: Bookit.config.connectorUrl
         ,baseParams: { 
         	action: 'mgr/bookit/board/saveBook'
@@ -223,10 +228,9 @@ Bookit.window.NewBook = function(config) {
             xtype: 'bookit-extra-userlist-live'
             ,fieldLabel: _('bookit.fullname')
             ,name: 'fullname'
-            //,id: 'userlist'
             ,width: 300
             ,listeners: {
-                'select': {fn:this.testuj,scope:this}
+                'select': {fn:this.findUser,scope:this}
             }
         },{
             xtype: 'textfield'
@@ -277,6 +281,11 @@ Bookit.window.NewBook = function(config) {
             ,width: 300
             ,scope: this
             
+        },{
+            xtype: 'hidden'
+            ,name: 'date'
+            ,id: 'date'
+            ,value: Ext.getCmp('dateFilter').value
         }]
         ,buttons: [{
             text: config.cancelBtnText || _('cancel')
@@ -297,9 +306,12 @@ Bookit.window.NewBook = function(config) {
 		}, this);
 		task.delay(200); 
 	});
+	
+	this.on('success', function(){Ext.getCmp('bookit-window-newbook').close();Ext.getCmp('bookit-grid-board').refresh();});
 };
+
 Ext.extend(Bookit.window.NewBook,MODx.Window, {
-	testuj: function() {
+	findUser: function() {
 		var userid = Ext.getCmp('bookit-extra-userlist-live').value
 		var newBookWindow = this;
 		MODx.Ajax.request({
@@ -314,8 +326,6 @@ Ext.extend(Bookit.window.NewBook,MODx.Window, {
 	            },scope:this}
 	        }
         });
-		//this.setValues([{id:'email', value:'test@aaa.com'}])
-		//Ext.getCmp('bookit-extra-combo-items').setValue(2);
     }
 	
 });

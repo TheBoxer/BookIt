@@ -7,7 +7,8 @@ $corePath = $modx->getOption('bookit.core_path',null,$modx->getOption('core_path
 require_once $corePath.'model/bookit/bookit.class.php';
 $modx->bookit = new BookIt($modx);
 
-$modx->getService('fire', 'modFire', $modx->getOption('core_path').'components/modfire/');
+$modx->getService('translit', 'modTransliterate', $modx->getOption('core_path').'components/translit/model/modx/translit/');
+
 include 'D:/Web/www/modx/bookit/ChromePhp.php';
 ChromePhp::useFile('D:/Web/www/modx/chromelog', 'http://modx.localhost/chromelog');
 
