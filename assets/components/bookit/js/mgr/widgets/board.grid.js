@@ -159,6 +159,7 @@ Bookit.window.Details = function(config) {
         id: 'bookit-window-details'
         ,title: _('bookit.bookDetail')
         ,url: Bookit.config.connectorUrl
+        ,closeAction: 'close'
         ,fields: [{
             xtype: 'hidden'
             ,name: 'id'

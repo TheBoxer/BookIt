@@ -42,6 +42,8 @@ $_lang['bookit.hour'] = 'Hodina';
 $_lang['bookit.fullname'] = 'Jméno';
 $_lang['bookit.phone'] = 'Telefon';
 
+$_lang['bookit.management_desc'] = 'Zde je možné spravovat rezervace klientů.';
+
 $_lang['bookit.bookDetail'] = "Detail rezervace";
 $_lang['bookit.viewDetail'] = "Zobrazit detail";
 $_lang['bookit.cancelBook'] = "Zrušit rezervaci";
@@ -88,6 +90,9 @@ $_lang['bookit.error_price_exists'] = 'Cena pro tuto dobu je již nastavená';
 $_lang['bookit.error_no_price'] = 'Musíte vyplnit cenu.';
 $_lang['bookit.error_no_openschedule'] = 'Musíte vybrat otevírací dobu.';
 $_lang['bookit.error_no_pricing'] = 'Musíte vybrat ceník.';
+$_lang['bookit.error_no_user'] = 'Musíte vyplnit jméno';
+$_lang['bookit.error_no_phone'] = 'Musíte vyplnit telefon';
+$_lang['bookit.error_date_time_occupied'] = 'Zadané datum, čas, nebo časový úsek není volný.';
 
 $_lang['bookit.error_no_item'] = 'Tato položka neexistuje';
 
