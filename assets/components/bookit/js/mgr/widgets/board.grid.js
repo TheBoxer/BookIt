@@ -164,40 +164,43 @@ Bookit.window.Details = function(config) {
             xtype: 'hidden'
             ,name: 'id'
         },{
-            focus: true
-            ,xtype: 'statictextfield'
+            xtype: 'statictextfield'
             ,fieldLabel: _('bookit.fullname')
             ,name: 'fullname'
             ,width: 300
         },{
-            focus: true
-            ,xtype: 'statictextfield'
+            xtype: 'statictextfield'
             ,fieldLabel: _('bookit.phone')
             ,name: 'phone'
             ,width: 300
         },{
-            focus: true
-            ,xtype: 'statictextfield'
+            xtype: 'statictextfield'
             ,fieldLabel: _('email')
             ,name: 'email'
             ,width: 300
         },{
-            focus: true
-            ,xtype: 'statictextfield'
+            html: '<hr />'
+        },{
+            xtype: 'statictextfield'
             ,fieldLabel: _('bookit.date')
             ,name: 'date'
             ,width: 300
         },{
-            focus: true
-            ,xtype: 'statictextfield'
+            xtype: 'statictextfield'
             ,fieldLabel: _('bookit.time')
             ,name: 'time'
             ,width: 300
         },{
-            focus: true
-            ,xtype: 'statictextfield'
+            xtype: 'statictextfield'
             ,fieldLabel: _('bookit.item')
             ,name: 'item'
+            ,width: 300
+        },{
+            html: '<hr />'
+        },{
+            xtype: 'statictextfield'
+            ,fieldLabel: _('bookit.credit')
+            ,name: 'credit'
             ,width: 300
         }]
         ,buttons: [{
