@@ -120,7 +120,7 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 		    	}else{
 		    		if(!paid){
 		    			menu.add({
-		    				text: 'zaplatit'
+		    				text: _('bookit.pay')
 		    			});
 		    			menu.add('-');
 		    		}
@@ -147,6 +147,13 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 		    		    			        });	
 			    			            this.detailsWindow.setValues(r.object);
 		    		    			    this.detailsWindow.show(e.target);
+		    		    			    if(r.object.credit.split(" ")[0] != 0 && !paid){
+		    		    			    	Ext.getCmp('bookit-window-details-credit-pay').show();
+		    		    			    }
+		    		    			    if(paid){
+		    		    			    	Ext.getCmp('bookit-window-details-credit-pay').hide();
+		    		    			    	Ext.getCmp('bookit-window-details-pay').hide();
+		    		    			    }
 			    			            },scope:this}
 			    			        }
 			    		        });
@@ -228,6 +235,16 @@ Bookit.window.Details = function(config) {
             ,name: 'credit'
         }]
         ,buttons: [{
+            text:  _('bookit.pay')
+            ,id: 'bookit-window-details-pay'
+            ,scope: this
+            ,hidden: false
+        },{
+            text:  _('bookit.pay_credit')
+            ,id: 'bookit-window-details-credit-pay'
+            ,scope: this
+            ,hidden: true
+        },{
             text:  _('bookit.cancelBook')
             ,scope: this
             ,handler: Ext.getCmp('bookit-grid-board').cancelBook.createDelegate(this, [{id:'X'}], false)
