@@ -141,11 +141,11 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    			            	
 			    			            	this.detailsWindow = MODx.load({
 		    		    			            xtype: 'bookit-window-details'
-		    		    			            ,record: r.object
 		    		    			            ,listeners: {
 		    		    			                'success': {fn:this.refresh,scope:this}
 		    		    			            }
-		    		    			        });		    		    			    
+		    		    			        });	
+			    			            this.detailsWindow.setValues(r.object);
 		    		    			    this.detailsWindow.show(e.target);
 			    			            },scope:this}
 			    			        }
@@ -174,45 +174,58 @@ Bookit.window.Details = function(config) {
         ,title: _('bookit.bookDetail')
         ,url: Bookit.config.connectorUrl
         ,closeAction: 'close'
-        ,fields: [{
+    	,fields:[{
             xtype: 'hidden'
             ,name: 'id'
         },{
-            focus: true
-            ,xtype: 'statictextfield'
-            ,fieldLabel: _('bookit.fullname')
-            ,name: 'fullname'
-            ,width: 300
+            layout:'column'
+            ,border: false
+            ,anchor: '100%'
+            ,defaults: {
+                labelSeparator: ''
+                ,labelAlign: 'top'
+                ,border: false
+                ,layout: 'form'
+                ,msgTarget: 'under'
+            }
+            ,items:[{
+                columnWidth: .6
+                ,items: [{
+                    xtype: 'statictextfield'
+                	,fieldLabel: _('bookit.fullname')
+                    ,name: 'fullname'
+                },{
+                    xtype: 'statictextfield'
+                	,fieldLabel: _('bookit.phone')
+                    ,name: 'phone'
+                },{
+                	xtype: 'statictextfield'
+                    ,fieldLabel: _('email')
+                    ,name: 'email'
+                }]
+            },{
+                columnWidth: .4
+                ,items: [{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.date')
+                    ,name: 'date'
+                },{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.time')
+                    ,name: 'time'
+                },{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.item')
+                    ,name: 'item'
+                }]
+
+            }]
         },{
-            focus: true
-            ,xtype: 'statictextfield'
-            ,fieldLabel: _('bookit.phone')
-            ,name: 'phone'
-            ,width: 300
+            html: '<hr />'
         },{
-            focus: true
-            ,xtype: 'statictextfield'
-            ,fieldLabel: _('email')
-            ,name: 'email'
-            ,width: 300
-        },{
-            focus: true
-            ,xtype: 'statictextfield'
-            ,fieldLabel: _('bookit.date')
-            ,name: 'date'
-            ,width: 300
-        },{
-            focus: true
-            ,xtype: 'statictextfield'
-            ,fieldLabel: _('bookit.time')
-            ,name: 'time'
-            ,width: 300
-        },{
-            focus: true
-            ,xtype: 'statictextfield'
-            ,fieldLabel: _('bookit.item')
-            ,name: 'item'
-            ,width: 300
+            xtype: 'statictextfield'
+            ,fieldLabel: _('bookit.credit')
+            ,name: 'credit'
         }]
         ,buttons: [{
             text:  _('bookit.cancelBook')
