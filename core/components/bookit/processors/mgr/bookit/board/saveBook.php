@@ -10,7 +10,7 @@ $date = (!empty($scriptProperties["date"]))? strtotime($scriptProperties["date"]
 $time = explode(":", $scriptProperties["time"]);
 $time = $time[0];
 
-$range = range($time-1, $time-1+$scriptProperties["count"]);
+$range = range($time, $time-1+$scriptProperties["count"]);
 
 $oldBooks = $modx->newQuery('Books');
 $oldBooks->where(array(
