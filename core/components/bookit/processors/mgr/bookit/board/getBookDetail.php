@@ -15,6 +15,9 @@ $user = $modx->getObject("modUser", $book->get("idUser"))->getOne("Profile");
 
 $item = $modx->getObject("BookItems", $itemid);
 
+$credit = $user->get("extended");
+$credit = (intval($credit["credit"]))." Kč";
+
 $ret = array(
 			"id" => $book->get('id'),
 			"fullname" => $user->get("fullname"), 
@@ -22,7 +25,8 @@ $ret = array(
 		  	"email" => $user->get("email"),
 			"date" => date("d.m.Y", $date),
 			"time" => $scriptProperties["time"],
-			"item" => $item->get('name')
+			"item" => $item->get('name'),
+			"credit" => $credit
 		);
 
 
