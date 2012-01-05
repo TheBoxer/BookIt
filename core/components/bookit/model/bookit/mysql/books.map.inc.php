@@ -8,7 +8,6 @@ $xpdo_meta_map['Books']= array (
     'idItem' => 0,
     'bookDate' => 0,
     'bookFrom' => 0,
-    'paid' => 0,
   ),
   'fieldMeta' => 
   array (
@@ -41,15 +40,6 @@ $xpdo_meta_map['Books']= array (
       'dbtype' => 'int',
       'precision' => '20',
       'phptype' => 'integer',
-      'null' => false,
-      'default' => 0,
-    ),
-    'paid' => 
-    array (
-      'dbtype' => 'tinyint',
-      'precision' => '1',
-      'attributes' => 'unsigned',
-      'phptype' => 'boolean',
       'null' => false,
       'default' => 0,
     ),

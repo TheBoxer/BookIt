@@ -38,7 +38,6 @@ $_lang['bookit.item'] = 'Kurt';
 $_lang['bookit.date'] = 'Datum';
 $_lang['bookit.today'] = 'Dnes';
 $_lang['bookit.hour'] = 'Hodina';
-$_lang['bookit.credit'] = 'Kredit';
 
 $_lang['bookit.fullname'] = 'Jméno';
 $_lang['bookit.phone'] = 'Telefon';

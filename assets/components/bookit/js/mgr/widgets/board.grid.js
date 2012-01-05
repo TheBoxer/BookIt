@@ -81,17 +81,6 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			var colName = grid.colModel.config[cellIndex].dataIndex;
 			var val = row.data[colName];
 			var time = row.data['time'];
-			var paid;
-			
-			if(val.search("\"red\"") == -1){
-				paid = true;
-			}else{
-				paid = false;
-			}
-			
-			val = val.replace('<span class=\"red\">', '');
-			val = val.replace('<span class=\"green\">', '');
-			val = val.replace('</span>', '');
 			
 			var currentHour = time.split(":")[0];
 			var lastHour = grid.store.data.items[grid.store.data.items.length-1].data["time"].split(":")[0]
@@ -102,9 +91,9 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 	 	 
 	    	if(cellIndex > 0){
 	    		cellIndex -= 1;
-	    		menu = new Ext.menu.Menu();
 		    	if(val == ""){
-		    		menu.add({
+		    		menu = new Ext.menu.Menu({
+			    		items:[{
 			    			text: _('bookit.newBook')
 			    			,handler: function(btn, e){
 			    				this.newReseravtionWindow = MODx.load({
@@ -116,15 +105,11 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    				this.newReseravtionWindow.fp.getForm().items.items[6].maxValue = maxStep;
 			    				this.newReseravtionWindow.show(e.target);
 			    			}
-			    		});
+			    		}]
+			    	});
 		    	}else{
-		    		if(!paid){
-		    			menu.add({
-		    				text: 'zaplatit'
-		    			});
-		    			menu.add('-');
-		    		}
-		    		menu.add({
+		    		menu = new Ext.menu.Menu({
+			    		items:[{
 			    			text: _('bookit.viewDetail')
 			    			,handler: function(){
 			    				MODx.Ajax.request({
@@ -141,11 +126,11 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    			            	
 			    			            	this.detailsWindow = MODx.load({
 		    		    			            xtype: 'bookit-window-details'
+		    		    			            ,record: r.object
 		    		    			            ,listeners: {
 		    		    			                'success': {fn:this.refresh,scope:this}
 		    		    			            }
-		    		    			        });	
-			    			            this.detailsWindow.setValues(r.object);
+		    		    			        });		    		    			    
 		    		    			    this.detailsWindow.show(e.target);
 			    			            },scope:this}
 			    			        }
@@ -155,7 +140,8 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    		},'-',{
 			    			text: _('bookit.cancelBook')
 			    			,handler: this.cancelBook.createDelegate(this, [{time:time, colName:colName, date:Ext.getCmp('dateFilter').value}], false)
-			    		});
+			    		}]
+			    	});
 		    	}
 		    	menu.showAt(e.getXY());
 		    	
@@ -174,58 +160,45 @@ Bookit.window.Details = function(config) {
         ,title: _('bookit.bookDetail')
         ,url: Bookit.config.connectorUrl
         ,closeAction: 'close'
-    	,fields:[{
+        ,fields: [{
             xtype: 'hidden'
             ,name: 'id'
         },{
-            layout:'column'
-            ,border: false
-            ,anchor: '100%'
-            ,defaults: {
-                labelSeparator: ''
-                ,labelAlign: 'top'
-                ,border: false
-                ,layout: 'form'
-                ,msgTarget: 'under'
-            }
-            ,items:[{
-                columnWidth: .6
-                ,items: [{
-                    xtype: 'statictextfield'
-                	,fieldLabel: _('bookit.fullname')
-                    ,name: 'fullname'
-                },{
-                    xtype: 'statictextfield'
-                	,fieldLabel: _('bookit.phone')
-                    ,name: 'phone'
-                },{
-                	xtype: 'statictextfield'
-                    ,fieldLabel: _('email')
-                    ,name: 'email'
-                }]
-            },{
-                columnWidth: .4
-                ,items: [{
-                    xtype: 'statictextfield'
-                    ,fieldLabel: _('bookit.date')
-                    ,name: 'date'
-                },{
-                    xtype: 'statictextfield'
-                    ,fieldLabel: _('bookit.time')
-                    ,name: 'time'
-                },{
-                    xtype: 'statictextfield'
-                    ,fieldLabel: _('bookit.item')
-                    ,name: 'item'
-                }]
-
-            }]
+            focus: true
+            ,xtype: 'statictextfield'
+            ,fieldLabel: _('bookit.fullname')
+            ,name: 'fullname'
+            ,width: 300
         },{
-            html: '<hr />'
+            focus: true
+            ,xtype: 'statictextfield'
+            ,fieldLabel: _('bookit.phone')
+            ,name: 'phone'
+            ,width: 300
         },{
-            xtype: 'statictextfield'
-            ,fieldLabel: _('bookit.credit')
-            ,name: 'credit'
+            focus: true
+            ,xtype: 'statictextfield'
+            ,fieldLabel: _('email')
+            ,name: 'email'
+            ,width: 300
+        },{
+            focus: true
+            ,xtype: 'statictextfield'
+            ,fieldLabel: _('bookit.date')
+            ,name: 'date'
+            ,width: 300
+        },{
+            focus: true
+            ,xtype: 'statictextfield'
+            ,fieldLabel: _('bookit.time')
+            ,name: 'time'
+            ,width: 300
+        },{
+            focus: true
+            ,xtype: 'statictextfield'
+            ,fieldLabel: _('bookit.item')
+            ,name: 'item'
+            ,width: 300
         }]
         ,buttons: [{
             text:  _('bookit.cancelBook')
