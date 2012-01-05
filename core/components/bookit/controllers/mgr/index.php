@@ -16,8 +16,6 @@ foreach ($items as $item) {
 $fields = substr($fields, 0, -2);
 $columns = substr($columns, 0, -1);
 
-
-
 $modx->regClientStartupScript("<script type=\"text/javascript\">
 
 var boarderFields = ['id', 'time', ".$fields."]

@@ -81,6 +81,17 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			var colName = grid.colModel.config[cellIndex].dataIndex;
 			var val = row.data[colName];
 			var time = row.data['time'];
+			var paid;
+			
+			if(val.search("\"red\"") == -1){
+				paid = true;
+			}else{
+				paid = false;
+			}
+			
+			val = val.replace('<span class=\"red\">', '');
+			val = val.replace('<span class=\"green\">', '');
+			val = val.replace('</span>', '');
 			
 			var currentHour = time.split(":")[0];
 			var lastHour = grid.store.data.items[grid.store.data.items.length-1].data["time"].split(":")[0]
@@ -91,9 +102,9 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 	 	 
 	    	if(cellIndex > 0){
 	    		cellIndex -= 1;
+	    		menu = new Ext.menu.Menu();
 		    	if(val == ""){
-		    		menu = new Ext.menu.Menu({
-			    		items:[{
+		    		menu.add({
 			    			text: _('bookit.newBook')
 			    			,handler: function(btn, e){
 			    				this.newReseravtionWindow = MODx.load({
@@ -105,11 +116,15 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    				this.newReseravtionWindow.fp.getForm().items.items[6].maxValue = maxStep;
 			    				this.newReseravtionWindow.show(e.target);
 			    			}
-			    		}]
-			    	});
+			    		});
 		    	}else{
-		    		menu = new Ext.menu.Menu({
-			    		items:[{
+		    		if(!paid){
+		    			menu.add({
+		    				text: 'zaplatit'
+		    			});
+		    			menu.add('-');
+		    		}
+		    		menu.add({
 			    			text: _('bookit.viewDetail')
 			    			,handler: function(){
 			    				MODx.Ajax.request({
@@ -140,8 +155,7 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    		},'-',{
 			    			text: _('bookit.cancelBook')
 			    			,handler: this.cancelBook.createDelegate(this, [{time:time, colName:colName, date:Ext.getCmp('dateFilter').value}], false)
-			    		}]
-			    	});
+			    		});
 		    	}
 		    	menu.showAt(e.getXY());
 		    	
