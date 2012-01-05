@@ -1,5 +1,4 @@
 <?php
-
 $c = $modx->newQuery('OpenScheduleListItem');
 $c->select('MIN(openFrom) AS openFromMin');
 $c->select('MAX(openTo) AS openToMax');
@@ -30,7 +29,8 @@ $items = $modx->getIterator('Books', $c);
 foreach ($items as $item) {
     $itemArray = $item->toArray(); 
     $user = $modx->getObject('modUser', $itemArray["idUser"]);
-    $board[$itemArray["bookFrom"]] = array_merge($board[$itemArray["bookFrom"]], array("item-".$itemArray["idItem"] => $user->getOne("Profile")->get("fullname")));
+    $color = ($itemArray["paid"] == false)? "red" : "green";
+    $board[$itemArray["bookFrom"]] = array_merge($board[$itemArray["bookFrom"]], array("item-".$itemArray["idItem"] => "<span class=\"$color\">".$user->getOne("Profile")->get("fullname")."</span>"));
 }
 
 $retBoard = array();

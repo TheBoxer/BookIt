@@ -52,6 +52,7 @@
 		<field key="idItem" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
 		<field key="bookDate" dbtype="int" precision="20" phptype="timestamp" null="false" default="0"/>
 		<field key="bookFrom" dbtype="int" precision="20" phptype="integer" null="false" default=""/>
+		<field key="paid" dbtype="tinyint" precision="1" attributes="unsigned" phptype="boolean" null="false" default="0" />
 		
 		<aggregate alias="User" class="modUser" local="idUser" foreign="id" cardinality="one" owner="local" />
 		<aggregate alias="BookedItem" class="BookItems" local="idBookCustomer" foreign="id" cardinality="one" owner="local" />
