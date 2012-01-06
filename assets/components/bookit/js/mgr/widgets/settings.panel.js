@@ -4,7 +4,7 @@
         border: false
         ,baseCls: 'modx-formpanel'
         ,items: [{
-            html: '<h2>'+_('bookit')+'</h2>'
+            html: '<h2>'+_('bookit.settings')+'</h2>'
             ,border: false
             ,cls: 'modx-page-header'
         },{
@@ -13,15 +13,25 @@
             ,defaults: { border: false ,autoHeight: true }
             ,border: true
             ,items: [{
-                title: _('bookit')
+                title: _('bookit.item_managment')
                 ,defaults: { autoHeight: true }
                 ,items: [{
-                    html: '<p>'+_('bookit.management_desc')+'</p><br />'
+                    html: '<p>'+_('bookit.item_management_desc')+'</p><br />'
                     ,border: false
                 },{
- 				   xtype: 'bookit-grid-board'
- 				   ,preventRender: true
- 				}]
+				   xtype: 'bookit-grid-items'
+				   ,preventRender: true
+				}]
+            },{
+                title: _('bookit.openschedule_managment')
+                ,defaults: { autoHeight: true }
+                ,items: [{
+                    html: '<p>'+_('bookit.openschedule_management_desc')+'</p><br />'
+                    ,border: false
+                },{
+				   xtype: 'bookit-grid-openschedule'
+				   ,preventRender: true
+				}]
             }]
         }]
     });

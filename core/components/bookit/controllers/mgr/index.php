@@ -1,7 +1,4 @@
 <?php
-include 'D:/Web/www/modx/bookit/ChromePhp.php';
-ChromePhp::useFile('D:/Web/www/modx/chromelog', 'http://modx.localhost/chromelog');
-
 $c = $modx->newQuery('BookItems');
 $c->where(array('active'=>1));
 $items = $modx->getIterator('BookItems', $c);
@@ -24,12 +21,9 @@ var columns = [{header: _('bookit.time'),dataIndex: 'time'},".$columns."]
 
 </script>", 1);
 
-$modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/widgets/openSchedule/openSchedule.grid.js');
-
 $modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/extra/combo.extra.js');
 
 $modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/widgets/board.grid.js');
-$modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/widgets/items.grid.js');
 $modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/widgets/home.panel.js');
 $modx->regClientStartupScript($bookit->config['jsUrl'].'mgr/sections/index.js');
 

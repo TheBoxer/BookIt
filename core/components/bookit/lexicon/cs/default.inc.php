@@ -1,6 +1,6 @@
 <?php
 $_lang['bookit'] = 'BookIt';
-$_lang['bookit.desc'] = 'Manage your bookit here.';
+$_lang['bookit.desc'] = 'Správa rezervací';
 $_lang['bookit.addOpenschedule'] = 'Nová otevírací doba';
 $_lang['bookit.day'] = 'Den';
 $_lang['bookit.openFrom'] = 'Otevřeno od';
@@ -48,6 +48,9 @@ $_lang['bookit.not_paid_credit_desc'] = 'Nejspíše není dostatek kreditu.';
 
 $_lang['bookit.fullname'] = 'Jméno';
 $_lang['bookit.phone'] = 'Telefon';
+
+$_lang['bookit.settings'] = 'BookIt nastavení';
+$_lang['bookit.settings.desc'] = 'Nastavení';
 
 $_lang['bookit.management_desc'] = 'Zde je možné spravovat rezervace klientů.';
 
