@@ -24,4 +24,21 @@ $xpdo_meta_map['BookItSettigns']= array (
       'null' => true,
     ),
   ),
+  'indexes' => 
+  array (
+    'PRIMARY' => 
+    array (
+      'alias' => 'PRIMARY',
+      'primary' => true,
+      'unique' => true,
+      'columns' => 
+      array (
+        'key' => 
+        array (
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
+  ),
 );

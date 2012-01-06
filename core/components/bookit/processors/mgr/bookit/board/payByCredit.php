@@ -22,6 +22,15 @@ $pricing = $modx->getObject("PricingListItem",array(
 
 $price = $pricing->get('price');
 
+$discount = $modx->getObject("BookItSettigns", array("key" => "credit_discount"))->get('value');
+
+
+if(preg_match("/%/", $discount) == 1){
+	$price = (100-$discount)/100*$price;
+}else{
+	$price -= $discount;
+}
+
 if($credit < $price){
 	return $modx->error->failure();
 }

@@ -61,6 +61,10 @@
     <object class="BookItSettigns" table="bookit_settings" extends="xPDOSimpleObject">
 		<field key="key" dbtype="varchar" precision="32" phptype="string" null="false" />
 		<field key="value" dbtype="varchar" precision="32" phptype="string" null="true" />
+		
+		<index alias="PRIMARY" name="PRIMARY" primary="true" unique="true">
+	        <column key="key" collation="A" null="false" />
+	    </index>
     </object>
 	
 </model>
