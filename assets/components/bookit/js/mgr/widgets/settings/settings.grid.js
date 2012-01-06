@@ -21,7 +21,6 @@ Bookit.grid.settings = function(config) {
             ,width: 100
             ,dataIndex: 'key'
             ,sortable: false
-            ,editor: { xtype: 'textfield', renderer: true}
         },{
             header: _('bookit.settings_value')
             ,dataIndex: 'value'
