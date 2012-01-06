@@ -1,7 +1,7 @@
 <?php
 $xpdo_meta_map['OpenScheduleList']= array (
   'package' => 'bookit',
-  'table' => 'book_openschedule_list',
+  'table' => 'bookit_book_openschedule_list',
   'fields' => 
   array (
     'name' => NULL,

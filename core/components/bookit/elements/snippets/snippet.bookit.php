@@ -11,6 +11,7 @@ $output = '';
 
 
 $m = $modx->getManager();
+$m->createObjectContainer('BookItSettigns');
 $m->createObjectContainer('OpenScheduleList');
 $m->createObjectContainer('OpenScheduleListItem');
 $m->createObjectContainer('PricingList');

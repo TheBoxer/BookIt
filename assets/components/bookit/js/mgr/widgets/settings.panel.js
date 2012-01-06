@@ -13,6 +13,13 @@
             ,defaults: { border: false ,autoHeight: true }
             ,border: true
             ,items: [{
+                title: _('bookit.settings')
+                ,defaults: { autoHeight: true }
+                ,items: [{
+				   xtype: 'bookit-grid-settings'
+				   ,preventRender: true
+				}]
+            },{
                 title: _('bookit.item_managment')
                 ,defaults: { autoHeight: true }
                 ,items: [{

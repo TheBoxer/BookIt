@@ -1,7 +1,7 @@
 <?php
 $xpdo_meta_map['Books']= array (
   'package' => 'bookit',
-  'table' => 'books',
+  'table' => 'bookit_books',
   'fields' => 
   array (
     'idUser' => 0,

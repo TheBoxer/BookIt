@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model package="bookit" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM">
-    <object class="BookItems" table="book_items" extends="xPDOSimpleObject">
+    <object class="BookItems" table="bookit_book_items" extends="xPDOSimpleObject">
         <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/> 
         <field key="active" dbtype="tinyint" precision="1" attributes="unsigned" phptype="boolean" null="false" default="0" />
 		<field key="openschedule" dbtype="int" precision="20" phptype="integer" null="true" />
@@ -11,7 +11,7 @@
 		<composite alias="ItemsPricing" class="PricingList" local="pricing" foreign="id" cardinality="one" owner="local" />
     </object>
     
-    <object class="OpenScheduleList" table="book_openschedule_list" extends="xPDOSimpleObject">
+    <object class="OpenScheduleList" table="bookit_book_openschedule_list" extends="xPDOSimpleObject">
     	<field key="name" dbtype="varchar" precision="128" phptype="string" null="false" />
     	<field key="description" dbtype="varchar" precision="255" phptype="string" null="true" />
     	
@@ -19,7 +19,7 @@
     	<composite alias="OpenSchedulePricingItem" class="PricingList" local="id" foreign="openschedule_list" cardinality="many" owner="local" />
     </object>
     
-    <object class="OpenScheduleListItem" table="book_openschedule_list_items" extends="xPDOSimpleObject">
+    <object class="OpenScheduleListItem" table="bookit_book_openschedule_list_items" extends="xPDOSimpleObject">
     	<field key="openschedule_list" dbtype="int" precision="20" phptype="integer" null="false" />
     	<field key="openDay" dbtype="int" precision="10" phptype="integer" null="false" />
         <field key="openFrom" dbtype="time" phptype="string" null="false" />
@@ -28,7 +28,7 @@
         <aggregate alias="OpenSchedule" class="OpenScheduleList" local="openschedule_list" foreign="id" cardinality="one" owner="local" />
     </object>
 	
-	<object class="PricingList" table="book_pricing_list" extends="xPDOSimpleObject">
+	<object class="PricingList" table="bookit_book_pricing_list" extends="xPDOSimpleObject">
     	<field key="name" dbtype="varchar" precision="128" phptype="string" null="false" />
     	<field key="description" dbtype="varchar" precision="255" phptype="string" null="true" />
     	<field key="openschedule_list" dbtype="int" precision="20" phptype="integer" null="false" />
@@ -37,7 +37,7 @@
     	<aggregate alias="OpenSchedulePrice" class="OpenScheduleList" local="openschedule_list" foreign="id" cardinality="one" owner="local" />
     </object>
     
-    <object class="PricingListItem" table="book_pricing_list_items" extends="xPDOSimpleObject">
+    <object class="PricingListItem" table="bookit_book_pricing_list_items" extends="xPDOSimpleObject">
     	<field key="pricing_list" dbtype="int" precision="20" phptype="integer" null="false" />
     	<field key="priceDay" dbtype="int" precision="10" phptype="integer" null="false" />
         <field key="priceFrom" dbtype="time" phptype="string" null="false" />
@@ -47,7 +47,7 @@
         <aggregate alias="Pricing" class="PricingList" local="pricing_list" foreign="id" cardinality="one" owner="local" />
     </object>
 	
-	<object class="Books" table="books" extends="xPDOSimpleObject">
+	<object class="Books" table="bookit_books" extends="xPDOSimpleObject">
 		<field key="idUser" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
 		<field key="idItem" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
 		<field key="bookDate" dbtype="int" precision="20" phptype="timestamp" null="false" default="0"/>
@@ -57,6 +57,10 @@
 		<aggregate alias="User" class="modUser" local="idUser" foreign="id" cardinality="one" owner="local" />
 		<aggregate alias="BookedItem" class="BookItems" local="idBookCustomer" foreign="id" cardinality="one" owner="local" />
     </object>
-	
+    
+    <object class="BookItSettigns" table="bookit_settings" extends="xPDOSimpleObject">
+		<field key="key" dbtype="varchar" precision="32" phptype="string" null="false" />
+		<field key="value" dbtype="varchar" precision="32" phptype="string" null="true" />
+    </object>
 	
 </model>

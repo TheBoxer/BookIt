@@ -49,8 +49,14 @@ $_lang['bookit.not_paid_credit_desc'] = 'Nejspíše není dostatek kreditu.';
 $_lang['bookit.fullname'] = 'Jméno';
 $_lang['bookit.phone'] = 'Telefon';
 
+$_lang['bookit.settings_key'] = 'Klíč';
+$_lang['bookit.settings_value'] = 'Hodnota';
+$_lang['bookit.addNewSetting'] = 'Nová hodnota';
+
 $_lang['bookit.settings'] = 'BookIt nastavení';
 $_lang['bookit.settings.desc'] = 'Nastavení';
+$_lang['bookit.setting_delete'] = 'Odsranit položku';
+$_lang['bookit.setting_delete_confirm'] = 'Opravdu chcete odstranit tuto položku?';
 
 $_lang['bookit.management_desc'] = 'Zde je možné spravovat rezervace klientů.';
 
@@ -108,3 +114,5 @@ $_lang['bookit.error_no_item'] = 'Tato položka neexistuje';
 
 $_lang['bookit.error_save'] = 'Při ukládání došlo k chybě.';
 $_lang['bookit.error_remove'] = 'Při odstraňování došlo k chybě.';
+
+$_lang['bookit.error_no_key'] = 'Musíte vyplnit klíč';
