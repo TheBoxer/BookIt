@@ -137,10 +137,10 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    		                ,date: Ext.getCmp('dateFilter').value
 			    		            }
 			    			        ,listeners: {
-			    			            'success': {fn:function(r) {		    			        
-			    			            	
+			    			            'success': {fn:function(r) {		    			                  	
 			    			            	this.detailsWindow = MODx.load({
 		    		    			            xtype: 'bookit-window-details'
+		    		    			            ,record: r.object
 		    		    			            ,listeners: {
 		    		    			                'success': {fn:this.refresh,scope:this}
 		    		    			            }
@@ -244,6 +244,7 @@ Bookit.window.Details = function(config) {
             ,id: 'bookit-window-details-credit-pay'
             ,scope: this
             ,hidden: true
+            ,handler: this.payByCredit
         },{
             text:  _('bookit.cancelBook')
             ,scope: this
@@ -256,7 +257,27 @@ Bookit.window.Details = function(config) {
     });
     Bookit.window.Details.superclass.constructor.call(this,config);
 };
-Ext.extend(Bookit.window.Details,MODx.Window);
+Ext.extend(Bookit.window.Details,MODx.Window,{
+	payByCredit: function(){
+		MODx.Ajax.request({
+            url: Bookit.config.connectorUrl
+            ,params: {
+                action: 'mgr/bookit/board/payByCredit'
+            	,id: this.record.id
+            }
+	        ,listeners: {
+	            'success': {fn:function(r) {		    			                  	
+	            	this.close();
+	            	MODx.msg.alert(_('bookit.paid'),_('bookit.paid_desc'),null,MODx);
+	            	Ext.getCmp('bookit-grid-board').refresh();
+	            },scope:this}
+	        	,'failure': {fn:function(r) {		    			                  	
+	            	MODx.msg.alert(_('bookit.not_paid'),_('bookit.not_paid_credit_desc'),null,MODx);
+	        	},scope:this}
+	        }
+        });
+	}
+});
 Ext.reg('bookit-window-details',Bookit.window.Details);
 
 Bookit.window.NewBook = function(config) {

@@ -40,7 +40,11 @@ $_lang['bookit.today'] = 'Dnes';
 $_lang['bookit.hour'] = 'Hodina';
 $_lang['bookit.credit'] = 'Kredit';
 $_lang['bookit.pay'] = 'Zaplatit';
+$_lang['bookit.paid'] = 'Zaplaceno';
+$_lang['bookit.paid_desc'] = 'Rezervace byla úspěšně uhrazena.';
 $_lang['bookit.pay_credit'] = 'Zaplatit kreditem';
+$_lang['bookit.not_paid'] = 'Platba nebyla přijata!';
+$_lang['bookit.not_paid_credit_desc'] = 'Nejspíše není dostatek kreditu.';
 
 $_lang['bookit.fullname'] = 'Jméno';
 $_lang['bookit.phone'] = 'Telefon';
