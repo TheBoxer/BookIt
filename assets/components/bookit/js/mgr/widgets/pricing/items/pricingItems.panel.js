@@ -6,7 +6,7 @@ Bookit.panel.PricingItems = function(config) {
         ,url: Bookit.config.connectorUrl
         ,baseParams: {}
         ,items: [{
-            html: '<h2><a href=\'index.php?a='+MODx.action['controllers/index']+'\'>'+_('bookit')+'</a> :: '+ _('bookit.pricingItems') +'</h2>'
+            html: '<h2><a href=\'index.php?a='+MODx.request.a+'\'>'+_('bookit')+'</a> :: '+ _('bookit.pricingItems') +'</h2>'
             ,border: false
             ,cls: 'modx-page-header'
         },{

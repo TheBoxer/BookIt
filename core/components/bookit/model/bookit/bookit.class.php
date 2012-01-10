@@ -13,26 +13,13 @@ class BookIt {
             'modelPath' => $basePath.'model/',
             'processorsPath' => $basePath.'processors/',
             'chunksPath' => $basePath.'elements/chunks/',
+        	'templatesPath' => $basePath.'templates/',
             'jsUrl' => $assetsUrl.'js/',
             'cssUrl' => $assetsUrl.'css/',
             'assetsUrl' => $assetsUrl,
             'connectorUrl' => $assetsUrl.'connector.php',
         ),$config);
         $this->modx->addPackage('bookit',$this->config['modelPath']);
-    }
-    
-     public function initialize($ctx = 'web') {
-       switch ($ctx) {
-            case 'mgr':
-                $this->modx->lexicon->load('bookit:default');
-                if (!$this->modx->loadClass('bookitControllerRequest',$this->config['modelPath'].'bookit/request/',true,true)) {
-                   return 'Could not load controller request handler.';
-                }
-                $this->request = new bookitControllerRequest($this);             
-                return $this->request->handleRequest();
-            break;
-        }
-        return true;
     }
     
     public function getChunk($name,$properties = array()) {

@@ -40,7 +40,7 @@ $extendedFields["credit"] -= $price;
 $userProfile->set('extended', $extendedFields);
 $userProfile->save();
 
-$book->set("paid", 1);
+$book->set("paid", 2);
 $book->save();
 
 return $modx->error->success('');

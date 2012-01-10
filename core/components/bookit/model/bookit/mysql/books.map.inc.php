@@ -49,7 +49,7 @@ $xpdo_meta_map['Books']= array (
       'dbtype' => 'tinyint',
       'precision' => '1',
       'attributes' => 'unsigned',
-      'phptype' => 'boolean',
+      'phptype' => 'integer',
       'null' => false,
       'default' => 0,
     ),

@@ -40,13 +40,13 @@ Bookit.grid.PricingItems = function(config) {
             ,dataIndex: 'priceFrom'
             ,sortable: false
             ,width: 90
-            ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, renderer: true,increment: 60 }
+            ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, increment: 60 }
         },{
             header: _('bookit.priceTo')
             ,dataIndex: 'priceTo'
             ,sortable: false
             ,width: 90
-            ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, renderer: true,increment: 60 }
+            ,editor: { xtype: 'timefield', format: MODx.config.manager_time_format, increment: 60 }
         },{
             header: _('bookit.price')
             ,dataIndex: 'price'

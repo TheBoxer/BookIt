@@ -58,7 +58,7 @@ Ext.extend(Bookit.grid.pricing,MODx.grid.Grid, {
         });
     }
     ,priceItems: function(){
-    	location.href = 'index.php?a='+MODx.action['controllers/index']+'&action=pricingItems'+'&id='+this.menu.record.id;
+    	location.href = 'index.php?a='+MODx.request.a+'&action=pricingItems'+'&id='+this.menu.record.id;
     }
 });
 Ext.reg('bookit-grid-pricing',Bookit.grid.pricing);

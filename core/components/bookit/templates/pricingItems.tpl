@@ -1,0 +1,1 @@
+<div id="bookit-panel-pricing-items-div"></div>
