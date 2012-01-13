@@ -13,8 +13,7 @@ class PayByCreditProcessor extends modObjectProcessor {
 		$extendedFields = $userProfile->get("extended");
 		$credit = $extendedFields["credit"];
 		
-		$day = date("N", $book->get("bookDate"));
-		
+		$day = date("N", strtotime($book->get("bookDate")))-1;
 		$item = $this->modx->getObject("BookItems", $book->get("idItem"));
 		
 		$pricing = $this->modx->getObject("PricingListItem",array(
@@ -27,7 +26,6 @@ class PayByCreditProcessor extends modObjectProcessor {
 		$price = $pricing->get('price');
 		
 		$discount = $this->modx->getObject("BookItSettigns", array("key" => "credit_discount"))->get('value');
-		
 		
 		if(preg_match("/%/", $discount) == 1){
 			$price = (100-$discount)/100*$price;
