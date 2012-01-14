@@ -45,6 +45,8 @@ $_lang['bookit.paid_desc'] = 'Rezervace byla úspěšně uhrazena.';
 $_lang['bookit.pay_credit'] = 'Zaplatit kreditem';
 $_lang['bookit.not_paid'] = 'Platba nebyla přijata!';
 $_lang['bookit.not_paid_credit_desc'] = 'Nejspíše není dostatek kreditu.';
+$_lang['bookit.warnings'] = 'Varování';
+$_lang['bookit.debt'] = 'Dluh';
 
 $_lang['bookit.fullname'] = 'Jméno';
 $_lang['bookit.phone'] = 'Telefon';

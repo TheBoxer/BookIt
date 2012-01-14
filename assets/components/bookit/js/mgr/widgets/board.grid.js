@@ -107,14 +107,17 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 		    		menu.add({
 			    			text: _('bookit.newBook')
 			    			,handler: function(btn, e){
-			    				this.newReseravtionWindow = MODx.load({
+			    				this.newReservationWindow = MODx.load({
 		    			            xtype: 'bookit-window-newbook'
 		    			            ,record: {item: iditem, time: time}
 		    			        });		    		    			    
+			    				this.newReservationWindow.fp.getForm().items.items[5].maxValue = maxStep;
+			    				this.newReservationWindow.fp.getForm().items.items[6].maxValue = maxStep;
 			    				
-			    				this.newReseravtionWindow.fp.getForm().items.items[5].maxValue = maxStep;
-			    				this.newReseravtionWindow.fp.getForm().items.items[6].maxValue = maxStep;
-			    				this.newReseravtionWindow.show(e.target);
+			    				//this.newReseravtionWindow.fp.getForm().items.items[3].value = iditem;
+			    				//this.newReseravtionWindow.fp.getForm().items.items[4].value = time;
+			    				this.newReservationWindow.setValues({items: iditem, time:time});
+			    				this.newReservationWindow.show(e.target);
 			    			}
 			    		});
 		    	}else{
@@ -145,15 +148,18 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 		    		    			                'success': {fn:this.refresh,scope:this}
 		    		    			            }
 		    		    			        });	
-			    			            this.detailsWindow.setValues(r.object);
-		    		    			    this.detailsWindow.show(e.target);
-		    		    			    if(r.object.credit.split(" ")[0] != 0 && !paid){
-		    		    			    	Ext.getCmp('bookit-window-details-credit-pay').show();
-		    		    			    }
-		    		    			    if(paid){
-		    		    			    	Ext.getCmp('bookit-window-details-credit-pay').hide();
-		    		    			    	Ext.getCmp('bookit-window-details-pay').hide();
-		    		    			    }
+			    			            	
+				    			            this.detailsWindow.setValues(r.object);
+			    		    			    this.detailsWindow.show(e.target);
+			    		    			    
+			    		    			    if(r.object.credit.split(" ")[0] != 0 && !paid){
+			    		    			    	Ext.getCmp('bookit-window-details-credit-pay').show();
+			    		    			    }
+			    		    			    
+			    		    			    if(paid){
+			    		    			    	Ext.getCmp('bookit-window-details-credit-pay').hide();
+			    		    			    	Ext.getCmp('bookit-window-details-pay').hide();
+			    		    			    }
 			    			            },scope:this}
 			    			        }
 			    		        });
@@ -230,9 +236,41 @@ Bookit.window.Details = function(config) {
         },{
             html: '<hr />'
         },{
-            xtype: 'statictextfield'
-            ,fieldLabel: _('bookit.credit')
-            ,name: 'credit'
+        	layout:'column'
+            ,border: false
+            ,anchor: '100%'
+            ,defaults: {
+                labelSeparator: ''
+                ,labelAlign: 'top'
+                ,border: false
+                ,layout: 'form'
+                ,msgTarget: 'under'
+            }
+            ,items:[{
+                columnWidth: .3
+                ,items: [{
+                	xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.credit')
+                    ,name: 'credit'
+                }]
+            },{
+                columnWidth: .3
+                ,items: [{
+                	xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.warnings')
+                    ,name: 'warnings'
+                }]
+
+            },{
+                columnWidth: .4
+                ,items: [{
+                	xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.debt')
+                    ,name: 'debt'
+                }]
+
+            }]
+            
         }]
         ,buttons: [{
             text:  _('bookit.pay')
@@ -291,67 +329,97 @@ Bookit.window.NewBook = function(config) {
         	action: 'mgr/bookit/board/saveBook'
         }
         ,fields: [{
-            xtype: 'bookit-extra-userlist-live'
-            ,fieldLabel: _('bookit.fullname')
-            ,name: 'fullname'
-            ,width: 300
-            ,listeners: {
-                'select': {fn:this.findUser,scope:this}
+        	layout:'column'
+            ,border: false
+            ,anchor: '100%'
+            ,defaults: {
+                labelSeparator: ''
+                ,labelAlign: 'top'
+                ,border: false
+                ,layout: 'form'
+                ,msgTarget: 'under'
             }
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('bookit.phone')
-            ,name: 'phone'
-            ,width: 300
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('email')
-            ,name: 'email'
-            ,width: 300
-        },{
-            xtype: 'bookit-extra-combo-items'
-            ,fieldLabel: _('bookit.item')
-            ,name: 'item'
-            ,width: 300
-        },{
-            xtype: 'timefield'
-            ,fieldLabel: _('bookit.time')
-            ,format: MODx.config.manager_time_format
-            ,increment: 60
-            ,minValue: '7:00'
-            ,maxValue: '21:00'
-            ,name: 'time'
-            ,width: 300
-        },{
-            xtype: 'numberfield'
-            ,fieldLabel: _('bookit.hourCount')
-            ,id: 'count'
-            ,name: 'count'
-            ,minValue: 1
-            ,enableKeyEvents:true
-            ,maxValue: 15
-            ,width: 300
-            ,listeners:{
-            	keyup:function(field, e){
-                	Ext.getCmp('sliderCount').setValue(parseInt(field.getRawValue()));
-                }
-            }
-        },{
-            xtype: 'sliderfield'
-            ,name: 'sliderCount'
-            ,id: 'sliderCount'
-            ,useTips: false
-            ,minValue: 1
-            ,maxValue: 15
-            ,increment: 1
-            ,width: 300
-            ,scope: this
-            
-        },{
-            xtype: 'hidden'
-            ,name: 'date'
-            ,id: 'date'
-            ,value: Ext.getCmp('dateFilter').value
+            ,items:[{
+                columnWidth: .7
+                ,items: [{
+		            xtype: 'bookit-extra-userlist-live'
+		            ,fieldLabel: _('bookit.fullname')
+		            ,name: 'fullname'
+		            ,width: 300
+		            ,listeners: {
+		                'select': {fn:this.findUser,scope:this}
+		            }
+		        },{
+		            xtype: 'textfield'
+		            ,fieldLabel: _('bookit.phone')
+		            ,name: 'phone'
+		            ,width: 300
+		        },{
+		            xtype: 'textfield'
+		            ,fieldLabel: _('email')
+		            ,name: 'email'
+		            ,width: 300
+		        },{
+		            xtype: 'bookit-extra-combo-items'
+		            ,fieldLabel: _('bookit.item')
+		            ,name: 'item'
+		            ,width: 300
+		        },{
+		            xtype: 'timefield'
+		            ,fieldLabel: _('bookit.time')
+		            ,format: MODx.config.manager_time_format
+		            ,increment: 60
+		            ,minValue: '7:00'
+		            ,maxValue: '21:00'
+		            ,name: 'time'
+		            ,width: 300
+		        },{
+		            xtype: 'numberfield'
+		            ,fieldLabel: _('bookit.hourCount')
+		            ,id: 'count'
+		            ,name: 'count'
+		            ,minValue: 1
+		            ,enableKeyEvents:true
+		            ,maxValue: 15
+		            ,width: 300
+		            ,listeners:{
+		            	keyup:function(field, e){
+		                	Ext.getCmp('sliderCount').setValue(parseInt(field.getRawValue()));
+		                }
+		            }
+		        },{
+		            xtype: 'sliderfield'
+		            ,name: 'sliderCount'
+		            ,id: 'sliderCount'
+		            ,useTips: false
+		            ,minValue: 1
+		            ,maxValue: 15
+		            ,increment: 1
+		            ,width: 300
+		            ,scope: this
+		            
+		        },{
+		            xtype: 'hidden'
+		            ,name: 'date'
+		            ,id: 'date'
+		            ,value: Ext.getCmp('dateFilter').value
+		        }]
+            },{
+                columnWidth: .3
+                ,items: [{
+                	xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.credit')
+                    ,name: 'credit'
+		        },{
+                	xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.warnings')
+                    ,name: 'warnings'
+		        },{
+                	xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.debt')
+                    ,name: 'debt'
+		        }]
+            }]
         }]
         ,buttons: [{
             text: config.cancelBtnText || _('cancel')

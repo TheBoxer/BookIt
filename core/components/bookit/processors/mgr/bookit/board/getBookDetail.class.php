@@ -25,8 +25,13 @@ class GetBookDetailsProcessor extends modObjectProcessor {
 		
 		$item = $this->modx->getObject("BookItems", $itemid);
 		
-		$credit = $user->get("extended");
-		$credit = (intval($credit["credit"]))." Kč";
+		$extended = $user->get("extended");
+		
+		$credit = (intval($extended["credit"]))." Kč";
+		
+		$warnings = (intval($extended["warnings"]));
+
+		$debt = (intval($extended["debt"]))." Kč";
 		
 		$time = $this->getProperty('time');
 		
@@ -38,7 +43,9 @@ class GetBookDetailsProcessor extends modObjectProcessor {
 				"date" => date("d.m.Y", $date),
 				"time" => $time,
 				"item" => $item->get('name'),
-				"credit" => $credit
+				"credit" => $credit,
+				"warnings" => $warnings,
+				"debt" => $debt
 		);
 
 		return $this->cleanup();
