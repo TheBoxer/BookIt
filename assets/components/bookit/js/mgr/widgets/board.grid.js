@@ -114,8 +114,6 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    				this.newReservationWindow.fp.getForm().items.items[5].maxValue = maxStep;
 			    				this.newReservationWindow.fp.getForm().items.items[6].maxValue = maxStep;
 			    				
-			    				//this.newReseravtionWindow.fp.getForm().items.items[3].value = iditem;
-			    				//this.newReseravtionWindow.fp.getForm().items.items[4].value = time;
 			    				this.newReservationWindow.setValues({items: iditem, time:time});
 			    				this.newReservationWindow.show(e.target);
 			    			}
@@ -324,6 +322,7 @@ Bookit.window.NewBook = function(config) {
         id: 'bookit-window-newbook'
         ,title: _('bookit.newBook')
         ,closeAction: 'close'
+        ,width: 500
         ,url: Bookit.config.connectorUrl
         ,baseParams: { 
         	action: 'mgr/bookit/board/saveBook'

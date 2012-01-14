@@ -119,3 +119,5 @@ $_lang['bookit.error_remove'] = 'Při odstraňování došlo k chybě.';
 
 $_lang['bookit.error_no_key'] = 'Musíte vyplnit klíč';
 $_lang['bookit.error_key_exists'] = 'Tento klíč již existuje';
+
+$_lang['bookit.error_max_warnings_reached'] = 'Rezervaci nelze potvrdit. Byl dosažen maximální počet varování.';

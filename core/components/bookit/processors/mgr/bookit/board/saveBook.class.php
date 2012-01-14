@@ -69,6 +69,14 @@ class SaveBookCreditProcessor extends modObjectProcessor {
 			}else{
 				return $this->failure();
 			}
+		}else{
+			$profile = $this->modx->getObject('modUser', $user)->getOne('Profile');
+			$extended = $profile->get('extended');
+			$maxWarnings = $this->modx->getObject("BookItSettigns", array("key" => "max_warnings"))->get('value');
+			
+			if($extended['warnings'] >= $maxWarnings){
+				return $this->failure($this->modx->lexicon('bookit.error_max_warnings_reached'));
+			}
 		}
 		
 		$max = $time+$count;
@@ -82,7 +90,6 @@ class SaveBookCreditProcessor extends modObjectProcessor {
 			$this->newBook->set("bookFrom", $i);
 			$this->newBook->save();
 		}
-
 
 		return $this->cleanup();
 	}
