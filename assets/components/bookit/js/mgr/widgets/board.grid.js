@@ -347,6 +347,11 @@ Bookit.window.NewBook = function(config) {
 		            ,width: 300
 		            ,listeners: {
 		                'select': {fn:this.findUser,scope:this}
+                		,'change': function(){
+                			if(typeof(this.value) == "string"){
+                					Ext.getCmp('bookit-window-newbook').setValues({phone: '', email: '', credit: '', warnings: '', debt: ''});
+                				}
+                			}
 		            }
 		        },{
 		            xtype: 'textfield'
@@ -454,8 +459,14 @@ Ext.extend(Bookit.window.NewBook,MODx.Window, {
                 ,id: userid
             }
 	        ,listeners: {
-	            'success': {fn:function(r) {		    			        
+	            'success': {fn:function(r) {
 	            	newBookWindow.setValues(r.object);
+	            	if(r.object.warnings > 0){
+	            		newBookWindow.fp.getForm().getEl().dom[11].style.setProperty('color', 'red');
+	            	}else{
+	            		newBookWindow.fp.getForm().getEl().dom[11].style.removeProperty('color');
+	            	}
+	            	
 	            },scope:this}
 	        }
         });

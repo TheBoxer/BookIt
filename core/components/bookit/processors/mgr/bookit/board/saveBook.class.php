@@ -44,11 +44,11 @@ class SaveBookCreditProcessor extends modObjectProcessor {
 		if(intval($user) == 0){
 			$username = str_replace(" ", ".", trim(strtolower($this->modx->translit->translate($user, "noaccents"))));
 			
-			$user = $this->modx->getObject("modUser", array("username" => $username));
+			$userObject = $this->modx->getObject("modUser", array("username" => $username));
 		
-			while(!empty($user)){
+			while(!empty($userObject)){
 				$username = $username . rand(111,999);
-				$user = $this->modx->getObject("modUser", array("username" => $username));
+				$userObject = $this->modx->getObject("modUser", array("username" => $username));
 			}
 			
 			$email = (empty($email)) ? "anonym@tenistop.cz" : $email;
