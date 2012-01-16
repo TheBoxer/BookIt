@@ -1,5 +1,5 @@
 <?php
-class PricingListCreateItemProcessor extends modObjectCreateProcessor {
+class BookItPricingListCreateItemProcessor extends modObjectCreateProcessor {
 	public $classKey = 'PricingList';
 	public $languageTopics = array('bookit:default');
 	public $objectType = 'bookit';
@@ -15,4 +15,4 @@ class PricingListCreateItemProcessor extends modObjectCreateProcessor {
 		return parent::beforeSave();
 	}
 }
-return 'PricingListCreateItemProcessor';
+return 'BookItPricingListCreateItemProcessor';

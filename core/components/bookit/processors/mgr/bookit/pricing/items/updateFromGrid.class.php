@@ -1,5 +1,5 @@
 <?php
-class PricingListItemUpdateItemFromGridProcessor extends modObjectUpdateProcessor  {
+class BookItPricingListItemUpdateItemFromGridProcessor extends modObjectUpdateProcessor  {
 	public $classKey = 'PricingListItem';
 	public $languageTopics = array('bookit:default');
 	public $objectType = 'bookit';
@@ -101,4 +101,4 @@ class PricingListItemUpdateItemFromGridProcessor extends modObjectUpdateProcesso
 		return parent::beforeSet();
 	}
 }
-return 'PricingListItemUpdateItemFromGridProcessor';
+return 'BookItPricingListItemUpdateItemFromGridProcessor';

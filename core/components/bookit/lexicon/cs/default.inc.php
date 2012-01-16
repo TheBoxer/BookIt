@@ -47,6 +47,8 @@ $_lang['bookit.not_paid'] = 'Platba nebyla přijata!';
 $_lang['bookit.not_paid_credit_desc'] = 'Nejspíše není dostatek kreditu.';
 $_lang['bookit.warnings'] = 'Varování';
 $_lang['bookit.debt'] = 'Dluh';
+$_lang['bookit.users'] = 'Zákazníci';
+$_lang['bookit.users_desc'] = 'V této sekci je možné spravovat zákazníky.';
 
 $_lang['bookit.fullname'] = 'Jméno';
 $_lang['bookit.phone'] = 'Telefon';
@@ -70,6 +72,7 @@ $_lang['bookit.newBook'] = "Nová rezervace";
 $_lang['bookit.fillName'] = "Zadejte jméno";
 $_lang['bookit.searching'] = "Hledám...";
 $_lang['bookit.hourCount'] = "Počet hodin";
+$_lang['bookit.search'] = "Hledat";
 
 $_lang['bookit.pricingList'] = 'Nastavení skupin cen';
 $_lang['bookit.pricingList_management_desc'] = 'V této sekci je možné spravovat skupiny cen pro vybranou otevírací dobu.';

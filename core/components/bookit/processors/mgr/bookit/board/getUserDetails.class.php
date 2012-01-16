@@ -1,5 +1,5 @@
 <?php
-class GetUserDetailsProcessor extends modObjectProcessor {
+class BookItGetUserDetailsProcessor extends modObjectProcessor {
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
 	private $output;
@@ -28,4 +28,4 @@ class GetUserDetailsProcessor extends modObjectProcessor {
 		return $this->success('', $this->output);
 	}
 }
-return 'GetUserDetailsProcessor';
+return 'BookItGetUserDetailsProcessor';

@@ -1,5 +1,5 @@
 <?php
-class SettingsUpdateItemFromGridProcessor extends modObjectUpdateProcessor  {
+class BookItSettingsUpdateItemFromGridProcessor extends modObjectUpdateProcessor  {
 	public $classKey = 'BookItSettigns';
 	public $languageTopics = array('bookit:default');
 	public $objectType = 'bookit';
@@ -26,4 +26,4 @@ class SettingsUpdateItemFromGridProcessor extends modObjectUpdateProcessor  {
 		return parent::beforeSave();
 	}
 }
-return 'SettingsUpdateItemFromGridProcessor';
+return 'BookItSettingsUpdateItemFromGridProcessor';

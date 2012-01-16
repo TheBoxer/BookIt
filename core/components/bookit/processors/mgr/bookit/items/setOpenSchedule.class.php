@@ -1,5 +1,5 @@
 <?php
-class SetOpenScheduleProcessor extends modObjectProcessor {
+class BookItSetOpenScheduleProcessor extends modObjectProcessor {
 	public $classKey = 'BookItems';
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
@@ -31,4 +31,4 @@ class SetOpenScheduleProcessor extends modObjectProcessor {
 		return $this->success('',$this->item);
 	}
 }
-return 'SetOpenScheduleProcessor';
+return 'BookItSetOpenScheduleProcessor';

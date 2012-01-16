@@ -1,5 +1,5 @@
 <?php
-class OpenScheduleCreateItemProcessor extends modObjectCreateProcessor {
+class BookItOpenScheduleCreateItemProcessor extends modObjectCreateProcessor {
 	public $classKey = 'OpenScheduleList';
 	public $languageTopics = array('bookit:default');
 	public $objectType = 'bookit';
@@ -15,4 +15,4 @@ class OpenScheduleCreateItemProcessor extends modObjectCreateProcessor {
 		return parent::beforeSave();
 	}
 }
-return 'OpenScheduleCreateItemProcessor';
+return 'BookItOpenScheduleCreateItemProcessor';

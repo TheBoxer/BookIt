@@ -1,5 +1,5 @@
 <?php           
-class PricingExtraGetListProcessor extends modObjectGetListProcessor {
+class BookItPricingExtraGetListProcessor extends modObjectGetListProcessor {
 	public $classKey = 'PricingList';
 	public $languageTopics = array('bookit:default');
 	public $defaultSortField = 'name';
@@ -17,4 +17,4 @@ class PricingExtraGetListProcessor extends modObjectGetListProcessor {
 	}
 }
 
-return 'PricingExtraGetListProcessor';
+return 'BookItPricingExtraGetListProcessor';

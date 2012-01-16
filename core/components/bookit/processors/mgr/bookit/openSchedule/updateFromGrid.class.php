@@ -1,5 +1,5 @@
 <?php
-class OpenScheduleListUpdateItemFromGridProcessor extends modObjectUpdateProcessor  {
+class BookItOpenScheduleListUpdateItemFromGridProcessor extends modObjectUpdateProcessor  {
 	public $classKey = 'OpenScheduleList';
 	public $languageTopics = array('bookit:default');
 	public $objectType = 'bookit';
@@ -26,4 +26,4 @@ class OpenScheduleListUpdateItemFromGridProcessor extends modObjectUpdateProcess
 		return parent::beforeSave();
 	}
 }
-return 'OpenScheduleListUpdateItemFromGridProcessor';
+return 'BookItOpenScheduleListUpdateItemFromGridProcessor';

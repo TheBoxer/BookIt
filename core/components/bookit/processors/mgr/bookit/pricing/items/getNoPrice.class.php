@@ -1,5 +1,5 @@
 <?php
-class GetNoPriceProcessor extends modObjectProcessor {
+class BookItGetNoPriceProcessor extends modObjectProcessor {
 	public $classKey = 'OpenScheduleListItem';
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
@@ -55,4 +55,4 @@ class GetNoPriceProcessor extends modObjectProcessor {
 		return $this->success('',array('noPrice' => $this->output));
 	}
 }
-return 'GetNoPriceProcessor';
+return 'BookItGetNoPriceProcessor';

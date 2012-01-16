@@ -1,7 +1,7 @@
 <?php
-class SettingsRemoveItemProcessor extends modObjectRemoveProcessor {
+class BookItSettingsRemoveItemProcessor extends modObjectRemoveProcessor {
 	public $classKey = 'BookItSettigns';
 	public $languageTopics = array('bookit:default');
 	public $objectType = 'bookit';
 }
-return 'SettingsRemoveItemProcessor';
+return 'BookItSettingsRemoveItemProcessor';

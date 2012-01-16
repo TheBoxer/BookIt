@@ -22,6 +22,16 @@
  				   xtype: 'bookit-grid-board'
  				   ,preventRender: true
  				}]
+            },{
+                title: _('bookit.users')
+                ,defaults: { autoHeight: true }
+                ,items: [{
+                    html: '<p>'+_('bookit.users_desc')+'</p><br />'
+                    ,border: false
+                },{
+ 				   xtype: 'bookit-grid-users'
+ 				   ,preventRender: true
+ 				}]
             }]
         }]
     });

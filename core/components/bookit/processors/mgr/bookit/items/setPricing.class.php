@@ -1,5 +1,5 @@
 <?php
-class SetPricingProcessor extends modObjectProcessor {
+class BookItSetPricingProcessor extends modObjectProcessor {
 	public $classKey = 'BookItems';
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
@@ -29,4 +29,4 @@ class SetPricingProcessor extends modObjectProcessor {
 		return $this->success('',$this->item);
 	}
 }
-return 'SetPricingProcessor';
+return 'BookItSetPricingProcessor';

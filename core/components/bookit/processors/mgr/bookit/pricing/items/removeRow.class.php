@@ -1,8 +1,8 @@
 <?php
-class PricingListItemRemoveItemProcessor extends modObjectRemoveProcessor {
+class BookItPricingListItemRemoveItemProcessor extends modObjectRemoveProcessor {
 	public $classKey = 'PricingListItem';
 	public $languageTopics = array('bookit:default');
 	public $objectType = 'bookit';
 }
 
-return 'PricingListItemRemoveItemProcessor';
+return 'BookItPricingListItemRemoveItemProcessor';

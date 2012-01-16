@@ -1,5 +1,5 @@
 <?php
-class GetBookDetailsProcessor extends modObjectProcessor {
+class BookItGetBookDetailsProcessor extends modObjectProcessor {
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
 	private $output;
@@ -11,28 +11,18 @@ class GetBookDetailsProcessor extends modObjectProcessor {
 		
 		$itemid = explode("-", $colName);
 		$itemid = $itemid[1];
-		
 		$time = explode(":", $time);
 		$time = $time[0];
-		
-		$date = (!empty($date))? strtotime($date) : mktime(0,0,0,date("n"),date("j"),date("Y"));
-		
+	
+		$date = (!empty($date))? strtotime($date) : mktime(0,0,0,date("n"),date("j"),date("Y"));	
 		$where = array("idItem" => $itemid, "bookFrom" => $time, "bookDate" => $date);
-		
 		$book = $this->modx->getObject("Books", $where);
-		
 		$user = $this->modx->getObject("modUser", $book->get("idUser"))->getOne("Profile");
-		
 		$item = $this->modx->getObject("BookItems", $itemid);
-		
 		$extended = $user->get("extended");
-		
 		$credit = (intval($extended["credit"]))." Kč";
-		
 		$warnings = (intval($extended["warnings"]));
-
 		$debt = (intval($extended["debt"]))." Kč";
-		
 		$time = $this->getProperty('time');
 		
 		$this->output = array(
@@ -55,4 +45,4 @@ class GetBookDetailsProcessor extends modObjectProcessor {
 		return $this->success('', $this->output);
 	}
 }
-return 'GetBookDetailsProcessor';
+return 'BookItGetBookDetailsProcessor';

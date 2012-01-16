@@ -1,5 +1,5 @@
 <?php
-class OpenScheduleListGetListProcessor extends modObjectGetListProcessor {
+class BookItOpenScheduleListGetListProcessor extends modObjectGetListProcessor {
 	public $classKey = 'OpenScheduleList';
 	public $languageTopics = array('bookit:default');
 	public $defaultSortField = 'name';
@@ -8,4 +8,4 @@ class OpenScheduleListGetListProcessor extends modObjectGetListProcessor {
 
 }
 
-return 'OpenScheduleListGetListProcessor';
+return 'BookItOpenScheduleListGetListProcessor';

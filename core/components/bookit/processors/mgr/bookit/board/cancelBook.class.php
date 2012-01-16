@@ -1,5 +1,5 @@
 <?php
-class CancelBookProcessor extends modObjectProcessor {
+class BookItCancelBookProcessor extends modObjectProcessor {
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
 	private $item;
@@ -86,6 +86,16 @@ class CancelBookProcessor extends modObjectProcessor {
 				}
 			}
 			
+			if($paid == 3){
+				$discount = $this->modx->getObject("BookItSettigns", array("key" => "permanent_discount"))->get('value');
+			
+				if(preg_match("/%/", $discount) == 1){
+					$price = (100-$discount)/100*$price;
+				}else{
+					$price -= $discount;
+				}
+			}
+			
 			$extended['credit'] += $price;
 			
 			$profile->set('extended', $extended);
@@ -111,4 +121,4 @@ class CancelBookProcessor extends modObjectProcessor {
 		return $this->success('', $this->item);
 	}
 }
-return 'CancelBookProcessor';
+return 'BookItCancelBookProcessor';

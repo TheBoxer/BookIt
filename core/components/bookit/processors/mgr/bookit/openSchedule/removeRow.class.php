@@ -1,7 +1,7 @@
 <?php
-class OpenScheduleListRemoveItemProcessor extends modObjectRemoveProcessor {
+class BookItOpenScheduleListRemoveItemProcessor extends modObjectRemoveProcessor {
 	public $classKey = 'OpenScheduleList';
 	public $languageTopics = array('bookit:default');
 	public $objectType = 'bookit';
 }
-return 'OpenScheduleListRemoveItemProcessor';
+return 'BookItOpenScheduleListRemoveItemProcessor';
