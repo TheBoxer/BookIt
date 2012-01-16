@@ -1,5 +1,5 @@
 <?php
-class PayByCreditProcessor extends modObjectProcessor {
+class BookItPayByCreditProcessor extends modObjectProcessor {
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
 	private $output;
@@ -52,4 +52,4 @@ class PayByCreditProcessor extends modObjectProcessor {
 		return $this->success();
 	}
 }
-return 'PayByCreditProcessor';
+return 'BookItPayByCreditProcessor';

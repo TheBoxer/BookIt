@@ -1,5 +1,5 @@
 <?php
-class SaveBookCreditProcessor extends modObjectProcessor {
+class BookItSaveBookCreditProcessor extends modObjectProcessor {
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
 	private $newBook;
@@ -62,10 +62,14 @@ class SaveBookCreditProcessor extends modObjectProcessor {
 			$newUserProfile->set('fullname',$user);
 			$newUserProfile->set('email',$email);
 			$newUserProfile->set('mobilephone', $phone);
+			$extended = array('credit' => '0', 'warnings' => '0', 'debt' => '0');
+			$newUserProfile->set('extended', $extended);
 			
 			$success = $newUser->addOne($newUserProfile);
 			if($success){
 				$newUser->save();
+				$newUser->joinGroup('Customers');
+
 			}else{
 				return $this->failure();
 			}
@@ -98,4 +102,4 @@ class SaveBookCreditProcessor extends modObjectProcessor {
 		return $this->success('', $this->newBook);
 	}
 }
-return 'SaveBookCreditProcessor';
+return 'BookItSaveBookCreditProcessor';
