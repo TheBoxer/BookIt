@@ -3,13 +3,16 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
 	private $item;
-	private $id, $time, $colName, $date;
+	private $id, $time, $colName, $date, $notPaid;
+	private $user;
+	private $price;
 	
 	public function initialize(){
 		$this->id = $this->getProperty('id');
 		$this->time = $this->getProperty('time');
 		$this->colName = $this->getProperty('colName');
 		$this->date = $this->getProperty('date');
+		$this->notPaid = $this->getProperty('notPaid');
 		
 		if ((empty($this->id)) && ((empty($this->time)) || (empty($this->colName)))){
 				return $this->failure($this->modx->lexicon('bookit.error_no_item'));
@@ -20,12 +23,18 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 
 	public function process() {
 		$this->setItem();
-
+		$this->setUser();
+		$this->setPrice();
+		
 		$this->payFee();
 		
-		
-		if ($this->item->remove() == false) {
-			return $this->modx->error->failure($this->modx->lexicon('bookit.error_remove'));
+		if($this->notPaid == true){
+			$this->item->set('paid', 9);
+			$this->item->save();
+		}else{
+			if ($this->item->remove() == false) {
+				return $this->modx->error->failure($this->modx->lexicon('bookit.error_remove'));
+			}
 		}
 
 		return $this->cleanup();
@@ -51,18 +60,11 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 		if (empty($this->item)) return $this->failure($this->modx->lexicon('bookit.error_no_item'));
 	}
 	
-	private function payFee(){
-		$cancelBookLimit = $this->modx->getObject("BookItSettigns", array("key" => "cancel_book"))->get('value');
-		$maxWarnings = $this->modx->getObject("BookItSettigns", array("key" => "max_warnings"))->get('value');
-		
-		$timestamp = strtotime($this->item->get('bookDate')) + ($this->item->get('bookFrom')*3600);
-		$now = time() + $cancelBookLimit * 3600;
-		
-		$paid = $this->item->get('paid');
-		$user = $this->modx->getObject('modUser', $this->item->get('idUser'));
-		$profile = $user->getOne('Profile');
-		$extended = $profile->get('extended');
-		
+	private function setUser(){
+		$this->user = $this->modx->getObject('modUser', $this->item->get('idUser'));
+	}
+	
+	private function setPrice(){
 		$bookItem = $this->modx->getObject("BookItems", $this->item->get("idItem"));
 		$day = date("N", strtotime($this->item->get("bookDate")))-1;
 			
@@ -73,30 +75,45 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 				"priceTo:>" => $this->item->get("bookFrom").":00:00"
 		));
 		
-		$price = $pricing->get('price');
+		$this->price = $pricing->get('price');
+	}
+	
+	private function payFee(){
+		$cancelBookLimit = $this->modx->getObject("BookItSettigns", array("key" => "cancel_book"))->get('value');
+		$maxWarnings = $this->modx->getObject("BookItSettigns", array("key" => "max_warnings"))->get('value');
+		
+		$timestamp = strtotime($this->item->get('bookDate')) + ($this->item->get('bookFrom')*3600);
+		$now = time() + $cancelBookLimit * 3600;
+		
+		$paid = $this->item->get('paid');
+		
+		$profile = $this->user->getOne('Profile');
+		$extended = $profile->get('extended');
+		
+		
 		
 		if($now <= $timestamp){			
-			if($paid == 2){
-				$discount = $this->modx->getObject("BookItSettigns", array("key" => "credit_discount"))->get('value');
+// 			if($paid == 2){
+// 				$discount = $this->modx->getObject("BookItSettigns", array("key" => "credit_discount"))->get('value');
 				
-				if(preg_match("/%/", $discount) == 1){
-					$price = (100-$discount)/100*$price;
-				}else{
-					$price -= $discount;
-				}
-			}
+// 				if(preg_match("/%/", $discount) == 1){
+// 					$price = (100-$discount)/100*$price;
+// 				}else{
+// 					$price -= $discount;
+// 				}
+// 			}
 			
-			if($paid == 3){
-				$discount = $this->modx->getObject("BookItSettigns", array("key" => "permanent_discount"))->get('value');
+// 			if($paid == 3){
+// 				$discount = $this->modx->getObject("BookItSettigns", array("key" => "permanent_discount"))->get('value');
 			
-				if(preg_match("/%/", $discount) == 1){
-					$price = (100-$discount)/100*$price;
-				}else{
-					$price -= $discount;
-				}
-			}
+// 				if(preg_match("/%/", $discount) == 1){
+// 					$price = (100-$discount)/100*$price;
+// 				}else{
+// 					$price -= $discount;
+// 				}
+// 			}
 			
-			$extended['credit'] += $price;
+			$extended['credit'] += $this->price;
 			
 			$profile->set('extended', $extended);
 			$profile->save();
@@ -107,7 +124,7 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 			$extended['warnings'] = (empty($extended['warnings']))? 1 : $extended['warnings']+1;
 			
 			if($extended['warnings'] >= $maxWarnings){
-				$extended['debt'] = (empty($extended['debt']))? $price : $extended['debt']+$price;
+				$extended['debt'] = (empty($extended['debt']))? $this->price : $extended['debt']+$this->price;
 			}
 			
 			$profile->set('extended', $extended);

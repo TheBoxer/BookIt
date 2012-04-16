@@ -25,7 +25,16 @@ class BookItGetReservationProcessor extends modObjectGetListProcessor  {
 		foreach ($items as $item) {
 			$itemArray = $item->toArray();
 			$user = $this->modx->getObject('modUser', $itemArray["idUser"]);
-			$color = ($itemArray["paid"] == 0)? "red" : "green";
+			switch($itemArray["paid"]){
+				case 0: $color = 'red'; break;
+				case 1: $color = 'green'; break;
+				case 2: $color = 'green'; break;
+				case 3: $color = 'green'; break;
+				case 9: $color = 'black'; break;
+				default: $color = 'red';
+				
+			}
+
 			$board[$itemArray["bookFrom"]] = array_merge($board[$itemArray["bookFrom"]], array("item-".$itemArray["idItem"] => "<span class=\"$color\">".$user->getOne("Profile")->get("fullname")."</span>"));
 		}
 		

@@ -50,10 +50,16 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
     }
 	,cancelBook: function(par) {
 		var fromWindow = false;
+		var notPaid = false;
 		if(par['id'] == 'X'){
 			par['id'] = Ext.getCmp('bookit-window-details').record.id;
 			fromWindow = true;
 		}
+		
+		if(par['notPaid'] == true){
+			notPaid = true;
+		}
+		
 	    MODx.msg.confirm({ 
 	        title: _('bookit.cancelBook')
 	        ,text: _('bookit.cancelBook_confirm') 
@@ -76,21 +82,56 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 	        } 
 	    });
 	}
+	,clientDidntCome: function(par) {
+		var notPaid = false;
+		
+		if(par['notPaid'] == true){
+			notPaid = true;
+		}
+		
+	    MODx.msg.confirm({ 
+	        title: _('bookit.notPaid')
+	        ,text: _('bookit.notPaid_confirm') 
+	        ,url: Bookit.config.connectorUrl 
+	        ,params: { 
+	            action: 'mgr/bookit/board/cancelBook'   
+	            ,id: par['id']
+	    		,time: par['time']
+	    		,date: par['date']
+	    		,colName: par['colName']
+	    		,notPaid: notPaid
+	        } 
+	        ,listeners: { 
+	            'success': {fn:function(){
+	            	Ext.getCmp('bookit-grid-board').refresh();
+	            },scope:Ext.getCmp('bookit-grid-board')} 
+	            
+	        } 
+	    });
+	}
     ,cellContextMenu: function(grid, rowIndex, cellIndex, e) {     		
 	    	var row = grid.store.data.items[rowIndex];
 			var colName = grid.colModel.config[cellIndex].dataIndex;
 			var val = row.data[colName];
 			var time = row.data['time'];
 			var paid;
+			var notPaid;
 			
-			if(val.search("\"red\"") == -1){
-				paid = true;
-			}else{
+			if(val.search("\"green\"") == -1){
 				paid = false;
+			}else{
+				paid = true;
+			}
+			
+			if(val.search("\"black\"") == -1){
+				notPaid = false;
+			}else{
+				notPaid = true;
 			}
 			
 			val = val.replace('<span class=\"red\">', '');
 			val = val.replace('<span class=\"green\">', '');
+			val = val.replace('<span class=\"black\">', '');
 			val = val.replace('</span>', '');
 			
 			var currentHour = time.split(":")[0];
@@ -119,7 +160,7 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    			}
 			    		});
 		    	}else{
-		    		if(!paid){
+		    		if(!paid && !notPaid){
 		    			menu.add({
 		    				text: _('bookit.pay')
 		    			});
@@ -163,10 +204,37 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 			    		        });
 			    				
 			    			}
-			    		},'-',{
+			    		});
+		    		
+		    		var today = new Date();
+		    		var bookDate = new Date();
+		    		var dateFromFilter = Ext.getCmp('dateFilter').value;
+		    		
+		    		bookDate.setHours(currentHour);
+		    		bookDate.setMinutes(0);
+		    		bookDate.setSeconds(0);
+		    		bookDate.setMilliseconds(0);
+		    		
+		    		if(dateFromFilter != null){
+		    			dateFromFilter = dateFromFilter.split('.');
+		    			bookDate.setDate(dateFromFilter[0]);
+		    			bookDate.setMonth(dateFromFilter[1]-1);
+		    			bookDate.setYear(dateFromFilter[2]);
+		    		}
+		    		
+		    		if(today < bookDate){
+			    		menu.add('-',{
 			    			text: _('bookit.cancelBook')
 			    			,handler: this.cancelBook.createDelegate(this, [{time:time, colName:colName, date:Ext.getCmp('dateFilter').value}], false)
 			    		});
+		    		}else{
+		    			if(!paid && !notPaid){
+			    			menu.add('-',{
+				    			text: _('bookit.notPaid')
+				    			,handler: this.clientDidntCome.createDelegate(this, [{time:time, colName:colName, date:Ext.getCmp('dateFilter').value, notPaid:true}], false)
+			    			});
+		    			}
+		    		}
 		    	}
 		    	menu.showAt(e.getXY());
 		    	

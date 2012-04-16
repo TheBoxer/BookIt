@@ -42,6 +42,7 @@ $_lang['bookit.credit'] = 'Kredit';
 $_lang['bookit.pay'] = 'Zaplatit';
 $_lang['bookit.paid'] = 'Zaplaceno';
 $_lang['bookit.paid_desc'] = 'Rezervace byla úspěšně uhrazena.';
+$_lang['bookit.paid_debt_desc'] = 'Dluh byl uhrazen.';
 $_lang['bookit.pay_credit'] = 'Zaplatit kreditem';
 $_lang['bookit.not_paid'] = 'Platba nebyla přijata!';
 $_lang['bookit.not_paid_credit_desc'] = 'Nejspíše není dostatek kreditu.';
@@ -63,6 +64,11 @@ $_lang['bookit.setting_delete'] = 'Odsranit položku';
 $_lang['bookit.setting_delete_confirm'] = 'Opravdu chcete odstranit tuto položku?';
 
 $_lang['bookit.management_desc'] = 'Zde je možné spravovat rezervace klientů.';
+$_lang['bookit.add_credit'] = 'Nabít kredit';
+$_lang['bookit.pay_debt'] = 'Zaplatit dluh';
+$_lang['bookit.credit_count'] = 'Kredit';
+$_lang['bookit.notPaid'] = 'Klient nepřišel';
+$_lang['bookit.notPaid_confirm'] = 'Chcete potvrdit neuhrazení hodiny?';
 
 $_lang['bookit.bookDetail'] = "Detail rezervace";
 $_lang['bookit.viewDetail'] = "Zobrazit detail";
