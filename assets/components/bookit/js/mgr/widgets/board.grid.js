@@ -88,7 +88,7 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 		if(par['notPaid'] == true){
 			notPaid = true;
 		}
-		
+
 	    MODx.msg.confirm({ 
 	        title: _('bookit.notPaid')
 	        ,text: _('bookit.notPaid_confirm') 
@@ -163,6 +163,32 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 		    		if(!paid && !notPaid){
 		    			menu.add({
 		    				text: _('bookit.pay')
+		    				,handler: function(){
+		    					MODx.Ajax.request({
+			    		            url: Bookit.config.connectorUrl
+			    		            ,params: {
+			    		                action: 'mgr/bookit/board/getBookPrice'
+		    		                	,time: time
+			    		                ,colName: colName
+			    		                ,val: val
+			    		                ,date: Ext.getCmp('dateFilter').value
+			    		            }
+			    			        ,listeners: {
+			    			            'success': {fn:function(r) {
+			    			            	this.priceDetailsWindow = MODx.load({
+		    		    			            xtype: 'bookit-window-price-details'
+		    		    			            ,record: r.object
+//		    		    			            ,listeners: {
+//		    		    			                'success': {fn:Ext.getCmp('bookit-grid-board').refresh(),scope:this}
+//		    		    			            }
+		    		    			        });
+
+				    			            this.priceDetailsWindow.setValues(r.object);
+			    		    			    this.priceDetailsWindow.show(e.target);
+			    			            },scope:this}
+			    			        }
+			    		        });
+		    				}
 		    			});
 		    			menu.add('-');
 		    		}
@@ -240,8 +266,7 @@ Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
 		    	
 	    	}
     	
-    }
-    	
+    }  	
     
 });
 Ext.reg('bookit-grid-board',Bookit.grid.Board);
@@ -313,14 +338,21 @@ Bookit.window.Details = function(config) {
                 ,msgTarget: 'under'
             }
             ,items:[{
-                columnWidth: .3
+                columnWidth: .2
+                ,items: [{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.price')
+                    ,name: 'price'
+                }]
+            },{
+                columnWidth: .2
                 ,items: [{
                 	xtype: 'statictextfield'
                     ,fieldLabel: _('bookit.credit')
                     ,name: 'credit'
                 }]
             },{
-                columnWidth: .3
+                columnWidth: .2
                 ,items: [{
                 	xtype: 'statictextfield'
                     ,fieldLabel: _('bookit.warnings')
@@ -363,6 +395,7 @@ Bookit.window.Details = function(config) {
 };
 Ext.extend(Bookit.window.Details,MODx.Window,{
 	payByCredit: function(){
+		console.warn(this.record.id);
 		MODx.Ajax.request({
             url: Bookit.config.connectorUrl
             ,params: {
@@ -381,6 +414,7 @@ Ext.extend(Bookit.window.Details,MODx.Window,{
 	        }
         });
 	}
+	
 });
 Ext.reg('bookit-window-details',Bookit.window.Details);
 
@@ -542,5 +576,70 @@ Ext.extend(Bookit.window.NewBook,MODx.Window, {
 	
 });
 Ext.reg('bookit-window-newbook',Bookit.window.NewBook);
+
+Bookit.window.PriceDetail = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        title: _('bookit.pay')
+        ,url: Bookit.config.connectorUrl
+        ,id: 'bookit-window-price-details'
+        ,baseParams: {
+            action: 'mgr/bookit/board/pay'
+        }
+        ,fields: [{
+            xtype: 'hidden'
+            ,name: 'id'
+        },{
+            layout:'column'
+            ,border: false
+            ,anchor: '100%'
+            ,defaults: {
+                labelSeparator: ''
+                ,labelAlign: 'top'
+                ,border: false
+                ,layout: 'form'
+                ,msgTarget: 'under'
+            }
+            ,items:[{
+                columnWidth: .3
+                ,items: [{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.price')
+                    ,name: 'price'
+                    ,width: 300
+                }]
+            },{
+                columnWidth: .3
+                ,items: [{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.time')
+                    ,name: 'time'
+                    ,width: 300
+                }]
+            },{
+                columnWidth: .3
+                ,items: [{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.item')
+                    ,name: 'item'
+                    ,width: 300
+                }]
+            }]
+        }]
+        ,buttons: [{
+            text: config.cancelBtnText || _('cancel')
+            ,scope: this
+            ,handler: function() { this.close(); }
+        },{
+            text: _('bookit.pay')
+            ,scope: this
+            ,handler: this.submit
+        }]
+    });
+    Bookit.window.PriceDetail.superclass.constructor.call(this,config);
+    this.on('success', function(){Ext.getCmp('bookit-grid-board').refresh();});
+};
+Ext.extend(Bookit.window.PriceDetail,MODx.Window);
+Ext.reg('bookit-window-price-details',Bookit.window.PriceDetail);
 	
 	

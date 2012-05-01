@@ -29,7 +29,16 @@
     	            });
     	        },scope:this}
     	    }
-    	}]
+    	},{
+            text: _('bookit.newPermanentPass')
+            ,handler: function(btn, e){
+                this.newPermanentPass = MODx.load({
+                    xtype: 'bookit-window-new-permanent-pass'
+                });
+
+                this.newPermanentPass.show(e.target);
+            }
+        }]
         ,getMenu: function() {
 			var m = [{
 				text: _('bookit.add_credit')
@@ -42,8 +51,7 @@
 					,handler: this.payDebt
 				});
 			}
-			
-			
+
 			this.addContextMenuItem(m);
 			return true;
 		}
@@ -141,3 +149,141 @@ Bookit.window.AddCredit = function(config) {
 };
 Ext.extend(Bookit.window.AddCredit,MODx.Window);
 Ext.reg('bookit-users-addcredit',Bookit.window.AddCredit);
+
+
+
+Bookit.window.NewPermanentPass = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        id: 'bookit-window-new-permanent-pass'
+        ,title: _('bookit.newPermanentPass')
+        ,closeAction: 'close'
+        ,width: 500
+        ,url: Bookit.config.connectorUrl
+        ,baseParams: {
+            action: 'mgr/bookit/users/newPermanentPass'
+        }
+        ,fields: [{
+            layout:'column'
+            ,border: false
+            ,anchor: '100%'
+            ,defaults: {
+                labelSeparator: ''
+                ,labelAlign: 'top'
+                ,border: false
+                ,layout: 'form'
+                ,msgTarget: 'under'
+            }
+            ,items:[{
+                columnWidth: .7
+                ,items: [{
+                    xtype: 'bookit-extra-userlist-live'
+                    ,fieldLabel: _('bookit.fullname')
+                    ,name: 'fullname'
+                    ,width: 300
+                    ,listeners: {
+                        'select': {fn:this.findUser,scope:this}
+                        ,'change': function(){
+                            if(typeof(this.value) == "string"){
+                                Ext.getCmp('bookit-window-newbook').setValues({phone: '', email: '', credit: '', warnings: '', debt: ''});
+                            }
+                        }
+                    }
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('bookit.phone')
+                    ,name: 'phone'
+                    ,width: 300
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('email')
+                    ,name: 'email'
+                    ,width: 300
+                },{
+                    xtype: 'bookit-extra-combo-items'
+                    ,fieldLabel: _('bookit.item')
+                    ,name: 'item'
+                    ,width: 300
+                },{
+                    xtype: 'timefield'
+                    ,fieldLabel: _('bookit.time')
+                    ,format: MODx.config.manager_time_format
+                    ,increment: 60
+                    ,minValue: '7:00'
+                    ,maxValue: '21:00'
+                    ,name: 'time'
+                    ,width: 300
+                },{
+                    xtype: 'datefield'
+                    ,fieldLabel: _('bookit.date')
+                    ,format: MODx.config.manager_date_format
+                    ,name: 'date'
+                    ,id: 'date'
+                    ,width: 300
+                }]
+            },{
+                columnWidth: .3
+                ,items: [{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.credit')
+                    ,name: 'credit'
+                },{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.warnings')
+                    ,name: 'warnings'
+                },{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('bookit.debt')
+                    ,name: 'debt'
+                }]
+            }]
+        }]
+        ,buttons: [{
+            text: config.cancelBtnText || _('cancel')
+            ,scope: this
+            ,handler: function() { this.close(); }
+        },{
+            text: config.saveBtnText || _('save')
+            ,scope: this
+            ,handler: this.submit
+        }]
+    });
+    Bookit.window.NewPermanentPass.superclass.constructor.call(this,config);
+
+    this.on('show', function(){
+        var task = new Ext.util.DelayedTask(function(){
+            this.fp.getForm().el.dom[1].select();
+        }, this);
+        task.delay(200);
+    });
+
+    this.on('success', function(){Ext.getCmp('bookit-window-new-permanent-pass').close();});
+
+};
+
+Ext.extend(Bookit.window.NewPermanentPass,MODx.Window, {
+    findUser: function() {
+        var userid = Ext.getCmp('bookit-extra-userlist-live').value
+        var newBookWindow = this;
+        MODx.Ajax.request({
+            url: Bookit.config.connectorUrl
+            ,params: {
+                action: 'mgr/bookit/board/getUserDetails'
+                ,id: userid
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    newBookWindow.setValues(r.object);
+                    if(r.object.warnings > 0){
+                        newBookWindow.fp.getForm().getEl().dom[9].style.setProperty('color', 'red', '');
+                    }else{
+                        newBookWindow.fp.getForm().getEl().dom[9].style.removeProperty('color');
+                    }
+
+                },scope:this}
+            }
+        });
+    }
+
+});
+Ext.reg('bookit-window-new-permanent-pass',Bookit.window.NewPermanentPass);

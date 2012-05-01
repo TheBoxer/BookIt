@@ -23,6 +23,11 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 
 	public function process() {
 		$this->setItem();
+
+        if($this->item->get('paid') == 1){
+            return $this->failure($this->modx->lexicon('bookit.cant_cancel_cash_paid_book'));
+        }
+
 		$this->setUser();
 		$this->setPrice();
 		

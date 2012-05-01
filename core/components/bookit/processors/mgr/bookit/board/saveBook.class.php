@@ -40,7 +40,11 @@ class BookItSaveBookCreditProcessor extends modObjectProcessor {
 			$this->addFieldError('count', $this->modx->lexicon('bookit.error_date_time_occupied'));
 			$this->addFieldError('sliderCount', $this->modx->lexicon('bookit.error_date_time_occupied'));
 		}
-		
+
+        if ($this->hasErrors()) {
+            return $this->failure();
+        }
+
 		if(intval($user) == 0){
 			$username = str_replace(" ", ".", trim(strtolower($this->modx->translit->translate($user, "noaccents"))));
 			
@@ -87,11 +91,38 @@ class BookItSaveBookCreditProcessor extends modObjectProcessor {
 		$uid = (intval($user) == 0) ? $newUser->get('id') : intval($user);
 		
 		for($i = $time; $i < $max; $i++){
+						
+			$userProfile = $this->modx->getObject("modUser", $uid)->getOne("Profile");
+			
+			$extendedFields = $userProfile->get("extended");
+			$credit = $extendedFields["credit"];
+			
+			$day = date("N", $date)-1;
+			$itemb = $this->modx->getObject("BookItems", $item);
+			
+			$pricing = $this->modx->getObject("PricingListItem",array(
+					"pricing_list" => $itemb->get("pricing"),
+					"priceDay" => $day,
+					"priceFrom:<=" => $i.":00:00",
+					"priceTo:>" => $i.":00:00"
+			));
+			
+			$price = $pricing->get('price');
+			
 			$this->newBook = $this->modx->newObject('Books');
 			$this->newBook->set("idUser", $uid);
 			$this->newBook->set("bookDate", $date);
 			$this->newBook->set("idItem", $item);
 			$this->newBook->set("bookFrom", $i);
+			
+			if($credit >= $price){
+				$extendedFields["credit"] -= $price;
+				$userProfile->set('extended', $extendedFields);
+				$userProfile->save();
+					
+				$this->newBook->set("paid", 2);
+			}
+			
 			$this->newBook->save();
 		}
 

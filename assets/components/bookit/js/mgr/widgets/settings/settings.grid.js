@@ -57,7 +57,7 @@ Ext.extend(Bookit.grid.settings,MODx.grid.Grid, {
 });
 Ext.reg('bookit-grid-settings',Bookit.grid.settings);
 
-Bookit.window.NewSetting = function(config) {
+Bookit.window.PriceDetail = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         title: _('bookit.addNewSetting')
@@ -78,8 +78,8 @@ Bookit.window.NewSetting = function(config) {
             ,width: 300
         }]
     });
-    Bookit.window.NewSetting.superclass.constructor.call(this,config);
+    Bookit.window.PriceDetail.superclass.constructor.call(this,config);
 };
-Ext.extend(Bookit.window.NewSetting,MODx.Window);
-Ext.reg('bookit-window-settings-new',Bookit.window.NewSetting);
+Ext.extend(Bookit.window.PriceDetail,MODx.Window);
+Ext.reg('bookit-window-settings-new',Bookit.window.PriceDetail);
 

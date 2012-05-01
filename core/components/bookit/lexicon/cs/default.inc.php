@@ -69,6 +69,7 @@ $_lang['bookit.pay_debt'] = 'Zaplatit dluh';
 $_lang['bookit.credit_count'] = 'Kredit';
 $_lang['bookit.notPaid'] = 'Klient nepřišel';
 $_lang['bookit.notPaid_confirm'] = 'Chcete potvrdit neuhrazení hodiny?';
+$_lang['bookit.cant_cancel_cash_paid_book'] = 'Nelze zrušit tuto rezervaci. Byla uhrazena v hotovosti.';
 
 $_lang['bookit.bookDetail'] = "Detail rezervace";
 $_lang['bookit.viewDetail'] = "Zobrazit detail";
@@ -79,6 +80,7 @@ $_lang['bookit.fillName'] = "Zadejte jméno";
 $_lang['bookit.searching'] = "Hledám...";
 $_lang['bookit.hourCount'] = "Počet hodin";
 $_lang['bookit.search'] = "Hledat";
+$_lang['bookit.newPermanentPass'] = 'Nová permanentka';
 
 $_lang['bookit.pricingList'] = 'Nastavení skupin cen';
 $_lang['bookit.pricingList_management_desc'] = 'V této sekci je možné spravovat skupiny cen pro vybranou otevírací dobu.';
@@ -128,5 +130,8 @@ $_lang['bookit.error_remove'] = 'Při odstraňování došlo k chybě.';
 
 $_lang['bookit.error_no_key'] = 'Musíte vyplnit klíč';
 $_lang['bookit.error_key_exists'] = 'Tento klíč již existuje';
+
+$_lang['bookit.error_no_item_selected'] = 'Musíte vybrat kurt';
+$_lang['bookit.error_no_time'] = 'Musíte vybrat čas';
 
 $_lang['bookit.error_max_warnings_reached'] = 'Rezervaci nelze potvrdit. Byl dosažen maximální počet varování.';

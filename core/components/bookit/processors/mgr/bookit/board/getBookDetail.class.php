@@ -24,6 +24,16 @@ class BookItGetBookDetailsProcessor extends modObjectProcessor {
 		$warnings = (intval($extended["warnings"]));
 		$debt = (intval($extended["debt"]))." Kč";
 		$time = $this->getProperty('time');
+
+        $day = date("N", strtotime($book->get("bookDate")))-1;
+        $pricing = $this->modx->getObject("PricingListItem",array(
+            "pricing_list" => $item->get("pricing"),
+            "priceDay" => $day,
+            "priceFrom:<=" => $book->get("bookFrom").":00:00",
+            "priceTo:>" => $book->get("bookFrom").":00:00"
+        ));
+
+        $price = $pricing->get('price') . " Kč";
 		
 		$this->output = array(
 				"id" => $book->get('id'),
@@ -35,7 +45,8 @@ class BookItGetBookDetailsProcessor extends modObjectProcessor {
 				"item" => $item->get('name'),
 				"credit" => $credit,
 				"warnings" => $warnings,
-				"debt" => $debt
+				"debt" => $debt,
+                "price" => $price
 		);
 
 		return $this->cleanup();
