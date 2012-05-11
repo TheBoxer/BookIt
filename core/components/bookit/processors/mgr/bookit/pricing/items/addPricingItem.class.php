@@ -7,7 +7,7 @@ class BookItPricingListItemCreateProcessor extends modObjectCreateProcessor {
 	public function beforeSave() {
 		$pricingList = $this->getProperty('pricing_list');
 		if(empty($pricingList)) {
-			return $modx->error->failure();
+			return $this->failure();
 		}
 		
 		$priceDay = $this->getProperty('openDay');
@@ -44,15 +44,16 @@ class BookItPricingListItemCreateProcessor extends modObjectCreateProcessor {
 				,'openFrom:<=' => $priceFrom
 				,'openTo:>=' => $priceTo
 		));
-		
+
 		$scheduleCount = $this->modx->getCount('OpenScheduleListItem',$schedule);
-		
-		if($scheduleCount == 0){
-			$this->addFieldError('openDay',$this->modx->lexicon('bookit.error_schedule_unexists'));
-			$this->addFieldError('priceFrom',$this->modx->lexicon('bookit.error_schedule_unexists'));
-			$this->addFieldError('priceTo',$this->modx->lexicon('bookit.error_schedule_unexists'));
-		}
-		
+
+//		if($scheduleCount == 0){
+//			$this->addFieldError('openDay',$this->modx->lexicon('bookit.error_schedule_unexists'));
+//			$this->addFieldError('priceFrom',$this->modx->lexicon('bookit.error_schedule_unexists'));
+//			$this->addFieldError('priceTo',$this->modx->lexicon('bookit.error_schedule_unexists'));
+//
+//		}
+
 		$timeFromArray = explode(":", $priceFrom);
 		$timeToArray = explode(":", $priceTo);
 		$timeFrom = mktime($timeFromArray[0], $timeFromArray[1], 0, 0, 0, 0);
@@ -91,11 +92,11 @@ class BookItPricingListItemCreateProcessor extends modObjectCreateProcessor {
 		$count = $this->modx->getCount('PricingListItem',$e);
 		
 		
-		if($count != 0){
-			$this->addFieldError('openDay',$this->modx->lexicon('bookit.error_price_exists'));
-			$this->addFieldError('priceFrom',$this->modx->lexicon('bookit.error_price_exists'));
-			$this->addFieldError('priceTo',$this->modx->lexicon('bookit.error_price_exists'));
-		}
+//		if($count != 0){
+//			$this->addFieldError('openDay',$this->modx->lexicon('bookit.error_price_exists'));
+//			$this->addFieldError('priceFrom',$this->modx->lexicon('bookit.error_price_exists'));
+//			$this->addFieldError('priceTo',$this->modx->lexicon('bookit.error_price_exists'));
+//		}
 
 		return parent::beforeSave();
 	}

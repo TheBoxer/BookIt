@@ -19,6 +19,10 @@ class BookItPayDebtProcessor extends modObjectProcessor {
 		$userProfile->set('extended', $extendedFields);
 		$userProfile->save();
 
+        /** @var BookItLog $log */
+        $log = $this->modx->newObject('BookItLog');
+        $log->logPayDebt($id, $this->modx->user->get('id'), $debt);
+
 		return $this->cleanup();
 	}
 

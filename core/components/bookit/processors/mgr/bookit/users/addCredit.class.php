@@ -21,16 +21,23 @@ class BookItAddCreditProcessor extends modObjectProcessor {
 		
 		$extendedFields = $userProfile->get("extended");
 		$debt = $extendedFields["debt"];
-		
+
+        /** @var BookItLog $log */
+        $log = $this->modx->newObject('BookItLog');
+
 		if($credit >= $debt){
 			$credit -= $debt;
+            $log->logAddCredit($id, $this->modx->user->get('id'), $credit);
+
 			$extendedFields["credit"] += $credit;
 			if($extendedFields["debt"] > 0){
+                $log->logPayDebt($id, $this->modx->user->get('id'), $debt);
 				$extendedFields["debt"] -= $debt;
 				$extendedFields["warnings"] = ($extendedFields["warnings"] == 1)? 0 : 1;
 			}
 		}else{
 			$extendedFields["debt"] -= $credit;
+            $log->logPayDebt($id, $this->modx->user->get('id'), $credit);
 		}
 		
 			

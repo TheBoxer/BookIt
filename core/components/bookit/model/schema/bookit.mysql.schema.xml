@@ -45,8 +45,6 @@
         <field key="price" dbtype="int" precision="20" phptype="integer" null="false" />
         
         <aggregate alias="Pricing" class="PricingList" local="pricing_list" foreign="id" cardinality="one" owner="local" />
-    </object>
-	
 	<object class="Books" table="bookit_books" extends="xPDOSimpleObject">
 		<field key="idUser" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
 		<field key="idItem" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
@@ -66,5 +64,19 @@
 	        <column key="key" collation="A" null="false" />
 	    </index>
     </object>
-	
-</model>
+
+    <object class="BookItLog" table="bookit_log" extends="xPDOSimpleObject">
+        <field key="type" dbtype="varchar" precision="32" phptype="string" null="false" />
+        <field key="customer" dbtype="int" precision="32" phptype="integer" null="false" />
+        <field key="operator" dbtype="int" precision="32" phptype="integer" null="false" />
+        <field key="day" dbtype="int" precision="32" phptype="timestamp" null="true" />
+        <field key="hour" dbtype="int" precision="32" phptype="integer" null="true" />
+        <field key="item" dbtype="int" precision="32" phptype="integer" null="true" />
+        <field key="price" dbtype="int" precision="32" phptype="integer" null="false" />
+        <field key="timeOfAction" dbtype="int" precision="32" phptype="timestamp" null="false" />
+
+        <aggregate alias="UserCustomer" class="modUser" local="customer" foreign="id" cardinality="one" owner="local" />
+        <aggregate alias="UserOperator" class="modUser" local="operator" foreign="id" cardinality="one" owner="local" />
+        <aggregate alias="Item" class="BookItems" local="item" foreign="id" cardinality="one" owner="local" />
+    </object>
+

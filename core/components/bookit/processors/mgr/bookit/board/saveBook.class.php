@@ -89,7 +89,10 @@ class BookItSaveBookCreditProcessor extends modObjectProcessor {
 		
 		$max = $time+$count;
 		$uid = (intval($user) == 0) ? $newUser->get('id') : intval($user);
-		
+
+        /** @var BookItLog $log */
+        $log = $this->modx->newObject('BookItLog');
+
 		for($i = $time; $i < $max; $i++){
 						
 			$userProfile = $this->modx->getObject("modUser", $uid)->getOne("Profile");
@@ -124,7 +127,11 @@ class BookItSaveBookCreditProcessor extends modObjectProcessor {
 			}
 			
 			$this->newBook->save();
+            $log->logNewBook($uid, $this->modx->user->get('id'), $price, $date, $i, $item);
 		}
+
+
+
 
 		return $this->cleanup();
 	}

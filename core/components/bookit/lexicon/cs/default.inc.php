@@ -1,5 +1,26 @@
 <?php
 $_lang['bookit'] = 'BookIt';
+$_lang['bookit.log'] = 'Historie událostí';
+$_lang['bookit.log_desc'] = 'Historie událostí';
+$_lang['bookit.operator'] = 'Operátor';
+$_lang['bookit.time_of_action'] = 'Čas akce';
+$_lang['bookit.customer'] = 'Zákazník';
+$_lang['bookit.type'] = 'Typ akce';
+$_lang['bookit.select_customer'] = 'Zákazník';
+$_lang['bookit.select_employee'] = 'Zaměstnanec';
+$_lang['bookit.select_log_type'] = 'Typ akce';
+$_lang['bookit.cancel_filter'] = 'Zrušit filtry';
+
+$_lang['bookit.log_new_book'] = 'Nová rezervace';
+$_lang['bookit.log_pay_debt'] = 'Zaplacení dluhu';
+$_lang['bookit.log_add_credit'] = 'Nabití kreditu';
+$_lang['bookit.log_add_debt'] = 'Nový dluh';
+$_lang['bookit.log_cancel_book'] = 'Zrušení rezervace';
+$_lang['bookit.log_pay'] = 'Zaplacení rezervace';
+$_lang['bookit.log_pay_by_credit'] = 'Zaplacení rezervace kreditem';
+$_lang['bookit.log_client_didnt_come'] = 'Klient nepřišel';
+$_lang['bookit.log_new_permanent_pass'] = 'Nová permanentka';
+
 $_lang['bookit.desc'] = 'Správa rezervací';
 $_lang['bookit.addOpenschedule'] = 'Nová otevírací doba';
 $_lang['bookit.day'] = 'Den';

@@ -1,0 +1,1 @@
+<div id="bookit-panel-log-div"></div>

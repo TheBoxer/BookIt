@@ -11,13 +11,14 @@ $output = '';
 
 
 $m = $modx->getManager();
-$m->createObjectContainer('BookItSettigns');
-$m->createObjectContainer('OpenScheduleList');
-$m->createObjectContainer('OpenScheduleListItem');
-$m->createObjectContainer('PricingList');
-$m->createObjectContainer('PricingListItem');
-$m->createObjectContainer('BookItems');
-$m->createObjectContainer('Books');
+$m->createObjectContainer('BookItLog');
+//$m->createObjectContainer('BookItSettigns');
+//$m->createObjectContainer('OpenScheduleList');
+//$m->createObjectContainer('OpenScheduleListItem');
+//$m->createObjectContainer('PricingList');
+//$m->createObjectContainer('PricingListItem');
+//$m->createObjectContainer('BookItems');
+//$m->createObjectContainer('Books');
 return 'Table created.';
 
  

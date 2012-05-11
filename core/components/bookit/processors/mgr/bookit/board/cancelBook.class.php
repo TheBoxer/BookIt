@@ -6,6 +6,9 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 	private $id, $time, $colName, $date, $notPaid;
 	private $user;
 	private $price;
+    /** @var BookItLog $log */
+    private $log;
+    private $ltime, $lday;
 	
 	public function initialize(){
 		$this->id = $this->getProperty('id');
@@ -17,7 +20,10 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 		if ((empty($this->id)) && ((empty($this->time)) || (empty($this->colName)))){
 				return $this->failure($this->modx->lexicon('bookit.error_no_item'));
 		}
-		
+
+
+        $this->log = $this->modx->newObject('BookItLog');
+
 		return parent::initialize();
 	}
 
@@ -42,6 +48,8 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 			}
 		}
 
+
+
 		return $this->cleanup();
 	}
 	
@@ -56,7 +64,9 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 			$time = $time[0];
 		
 			$date = (!empty($this->date))? strtotime($this->date) : mktime(0,0,0,date("n"),date("j"),date("Y"));
-		
+
+
+
 			$where = array("idItem" => $itemid, "bookFrom" => $time, "bookDate" => $date);
 		
 			$this->item = $this->modx->getObject("Books", $where);
@@ -72,8 +82,8 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 	private function setPrice(){
 		$bookItem = $this->modx->getObject("BookItems", $this->item->get("idItem"));
 		$day = date("N", strtotime($this->item->get("bookDate")))-1;
-			
-		$pricing = $this->modx->getObject("PricingListItem",array(
+
+        $pricing = $this->modx->getObject("PricingListItem",array(
 				"pricing_list" => $bookItem->get("pricing"),
 				"priceDay" => $day,
 				"priceFrom:<=" => $this->item->get("bookFrom").":00:00",
@@ -81,6 +91,7 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 		));
 		
 		$this->price = $pricing->get('price');
+        $this->log->logCancelBook($this->user->get('id'), $this->modx->user->get('id'), $this->price, $day, $this->item->get("bookFrom"), $this->item->get("idItem"));
 	}
 	
 	private function payFee(){
@@ -130,6 +141,7 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 			
 			if($extended['warnings'] >= $maxWarnings){
 				$extended['debt'] = (empty($extended['debt']))? $this->price : $extended['debt']+$this->price;
+                $this->log->logAddDebt($this->user->get('id'), $this->modx->user->get('íd'), $this->price, $this->item->get("bookDate"), $this->item->get("bookFrom"), $this->item->get('idItem'));
 			}
 			
 			$profile->set('extended', $extended);

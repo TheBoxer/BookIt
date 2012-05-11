@@ -2,7 +2,6 @@
 class BookItPayByCreditProcessor extends modObjectProcessor {
 	public $objectType = 'bookit';
 	public $languageTopics = array('bookit:default');
-	private $output;
 
 	public function process() {
 		$id = $this->getProperty('id');
@@ -36,6 +35,10 @@ class BookItPayByCreditProcessor extends modObjectProcessor {
 		
 		$book->set("paid", 2);
 		$book->save();
+
+        /** @var BookItLog $log */
+        $log = $this->modx->newObject('BookItLog');
+        $log->logPayByCredit($book->get("idUser")->get('id'), $this->modx->user->get('id'), $price, $book->get("bookDate"), $book->get("bookFrom"), $book->get("idItem"));
 
 		return $this->cleanup();
 	}

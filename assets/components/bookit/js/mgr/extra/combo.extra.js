@@ -119,4 +119,62 @@ Bookit.combo.UserList = function(config) {
 };
 Ext.extend(Bookit.combo.UserList,MODx.combo.ComboBox);
 Ext.reg('bookit-extra-userlist-live',Bookit.combo.UserList);
+
+Bookit.combo.Employee = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        id: 'bookit-extra-employees-live',
+        name: 'user',
+        hiddenName: 'user',
+        url: Bookit.config.connectorUrl,
+        baseParams: { action: 'mgr/bookit/extra/getEmployees' },
+        minChars: 1,
+        fields: ['id','fullname'],
+        displayField:'fullname',
+        valueField: 'id',
+        forceSelection: false,
+        typeAhead: true,
+        selectOnFocus:true,
+        loadingText: _('bookit.searching'),
+        mode: 'remote',
+        editable: true,
+        triggerAction: 'all',
+        emptyText: _('bookit.fillName')
+    });
+    Bookit.combo.Employee.superclass.constructor.call(this,config);
+};
+Ext.extend(Bookit.combo.Employee,MODx.combo.ComboBox);
+Ext.reg('bookit-extra-employees-live',Bookit.combo.Employee);
+
+Bookit.combo.LogType = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        id: 'bookit-extra-combo-log-type'
+        ,name: 'logType'
+        ,hiddenName: 'logType'
+        ,store: new Ext.data.SimpleStore({
+            fields: ['type','typeName']
+            ,data: [['log_new_permanent_pass',_('bookit.log_new_permanent_pass')]
+                ,['log_new_book',_('bookit.log_new_book')]
+                ,['log_pay_debt',_('bookit.log_pay_debt')]
+                ,['log_add_credit',_('bookit.log_add_credit')]
+                ,['log_add_debt',_('bookit.log_add_debt')]
+                ,['log_cancel_book',_('bookit.log_cancel_book')]
+                ,['log_pay',_('bookit.log_pay')]
+                ,['log_pay_by_credit',_('bookit.log_pay_by_credit')]
+                ,['log_client_didnt_come',_('bookit.log_client_didnt_come')]]
+        })
+        ,displayField: 'typeName'
+        ,valueField: 'type'
+        ,mode: 'local'
+        ,triggerAction: 'all'
+        ,editable: false
+        ,selectOnFocus: true
+        ,forceSelection: true
+        ,enableKeyEvents: true
+    });
+    Bookit.combo.LogType.superclass.constructor.call(this,config);
+};
+Ext.extend(Bookit.combo.LogType,MODx.combo.ComboBox);
+Ext.reg('bookit-extra-combo-log-type',Bookit.combo.LogType);
 	

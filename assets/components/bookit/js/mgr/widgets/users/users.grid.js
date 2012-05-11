@@ -204,6 +204,10 @@ Bookit.window.NewPermanentPass = function(config) {
                     ,fieldLabel: _('bookit.item')
                     ,name: 'item'
                     ,width: 300
+                    ,listeners: {
+                        'select': {fn:this.setPermanentPassPrice,scope:this}
+                        ,'change': {fn:this.setPermanentPassPrice,scope:this}
+                    }
                 },{
                     xtype: 'timefield'
                     ,fieldLabel: _('bookit.time')
@@ -213,6 +217,10 @@ Bookit.window.NewPermanentPass = function(config) {
                     ,maxValue: '21:00'
                     ,name: 'time'
                     ,width: 300
+                    ,listeners: {
+                        'select': {fn:this.setPermanentPassPrice,scope:this}
+                        ,'change': {fn:this.setPermanentPassPrice,scope:this}
+                    }
                 },{
                     xtype: 'datefield'
                     ,fieldLabel: _('bookit.date')
@@ -220,6 +228,10 @@ Bookit.window.NewPermanentPass = function(config) {
                     ,name: 'date'
                     ,id: 'date'
                     ,width: 300
+                    ,listeners: {
+                        'select': {fn:this.setPermanentPassPrice,scope:this}
+                        ,'change': {fn:this.setPermanentPassPrice,scope:this}
+                    }
                 }]
             },{
                 columnWidth: .3
@@ -235,6 +247,10 @@ Bookit.window.NewPermanentPass = function(config) {
                     xtype: 'statictextfield'
                     ,fieldLabel: _('bookit.debt')
                     ,name: 'debt'
+                },{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: 'Cena permanentky'
+                    ,name: 'permanentPassPrice'
                 }]
             }]
         }]
@@ -264,7 +280,7 @@ Bookit.window.NewPermanentPass = function(config) {
 Ext.extend(Bookit.window.NewPermanentPass,MODx.Window, {
     findUser: function() {
         var userid = Ext.getCmp('bookit-extra-userlist-live').value
-        var newBookWindow = this;
+        var newPermanentPass = this;
         MODx.Ajax.request({
             url: Bookit.config.connectorUrl
             ,params: {
@@ -273,13 +289,33 @@ Ext.extend(Bookit.window.NewPermanentPass,MODx.Window, {
             }
             ,listeners: {
                 'success': {fn:function(r) {
-                    newBookWindow.setValues(r.object);
+                    newPermanentPass.setValues(r.object);
                     if(r.object.warnings > 0){
-                        newBookWindow.fp.getForm().getEl().dom[9].style.setProperty('color', 'red', '');
+                        newPermanentPass.fp.getForm().getEl().dom[9].style.setProperty('color', 'red', '');
                     }else{
-                        newBookWindow.fp.getForm().getEl().dom[9].style.removeProperty('color');
+                        newPermanentPass.fp.getForm().getEl().dom[9].style.removeProperty('color');
                     }
 
+                },scope:this}
+            }
+        });
+    }
+    ,setPermanentPassPrice: function() {
+        var item = Ext.getCmp('bookit-window-new-permanent-pass').fp.getForm().getFieldValues().items;
+        var time = Ext.getCmp('bookit-window-new-permanent-pass').fp.getForm().getFieldValues().time;
+        var date = Ext.getCmp('bookit-window-new-permanent-pass').fp.getForm().getFieldValues().date;
+        var newPermanentPass = this;
+        MODx.Ajax.request({
+            url: Bookit.config.connectorUrl
+            ,params: {
+                action: 'mgr/bookit/users/getPermanentPassPrice'
+                ,item: item
+                ,time: time
+                ,date: date
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    newPermanentPass.setValues(r.object);
                 },scope:this}
             }
         });

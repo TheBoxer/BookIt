@@ -113,6 +113,30 @@ class BookItNewPermanentPassProcessor extends modObjectProcessor {
             $newBook->save();
         }
 
+        $day = date("N", $date)-1;
+        $bookItem = $this->modx->getObject("BookItems", $item);
+        $pricing = $this->modx->getObject("PricingListItem",array(
+            "pricing_list" => $bookItem->get("pricing"),
+            "priceDay" => $day,
+            "priceFrom:<=" => $time.":00:00",
+            "priceTo:>" => $time.":00:00"
+        ));
+        $price = $pricing->get('price');
+
+        $permanent_discount = $this->modx->getObject("BookItSettigns", array("key" => "permanent_discount"))->get('value');
+        if(preg_match("/%/", $permanent_discount) == 1){
+            $price = (100-$permanent_discount)/100*$price;
+        }else{
+            $price -= $permanent_discount;
+        }
+
+        $price = $price * count($rangeDate);
+
+        /** @var BookItLog $log */
+        $log = $this->modx->newObject('BookItLog');
+
+        $log->logNewPermanentPass($uid, $this->modx->user->get('id'), $price, $rangeDate[0], $time, $item);
+
         return $this->cleanup();
 	}
 
