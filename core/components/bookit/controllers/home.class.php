@@ -32,7 +32,8 @@ class BookItHomeManagerController extends BookItManagerController {
 
 		$this->addJavascript($this->bookit->config['jsUrl'].'mgr/extra/combo.extra.js');
 		$this->addJavascript($this->bookit->config['jsUrl'].'mgr/widgets/users/users.grid.js');
-		$this->addJavascript($this->bookit->config['jsUrl'].'mgr/widgets/board.grid.js');
+        $this->addJavascript($this->bookit->config['jsUrl'].'mgr/widgets/users/users.windows.js');
+        $this->addJavascript($this->bookit->config['jsUrl'].'mgr/widgets/board.grid.js');
 		$this->addJavascript($this->bookit->config['jsUrl'].'mgr/widgets/home.panel.js');
 		$this->addLastJavascript($this->bookit->config['jsUrl'].'mgr/sections/index.js');
     }

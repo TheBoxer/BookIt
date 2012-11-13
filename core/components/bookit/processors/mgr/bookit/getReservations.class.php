@@ -10,8 +10,7 @@ class BookItGetReservationProcessor extends modObjectGetListProcessor  {
 		}else{
 			$this->filterDay = strtotime($this->filterDay);
 		}
-		
-		return true;
+        return true;
 	}
 	
 	public function process(){
@@ -19,9 +18,9 @@ class BookItGetReservationProcessor extends modObjectGetListProcessor  {
 		
 		$c = $this->modx->newQuery('Books');
 		$c->where(array("bookDate" => $this->filterDay));
-		
-		$items = $this->modx->getIterator('Books', $c);
-		
+
+        $items = $this->modx->getIterator('Books', $c);
+
 		foreach ($items as $item) {
 			$itemArray = $item->toArray();
 			$user = $this->modx->getObject('modUser', $itemArray["idUser"]);

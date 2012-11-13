@@ -10,9 +10,6 @@ $modx->bookit = new BookIt($modx);
 
 $modx->getService('translit', 'modTransliterate', $modx->getOption('core_path').'components/translit/model/modx/translit/');
 
-//include 'D:/Web/www/modx/bookit/ChromePhp.php';
-//ChromePhp::useFile('D:/Web/www/modx/chromelog', 'http://modx.localhost/chromelog');
-
 $modx->lexicon->load('bookit:default');
 
 /* handle request */

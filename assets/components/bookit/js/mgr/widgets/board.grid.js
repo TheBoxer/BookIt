@@ -394,7 +394,6 @@ Bookit.window.Details = function(config) {
             ,scope: this
             ,hidden: false
             ,handler: function(){
-//                console.warn(this.record.id);
                 MODx.Ajax.request({
                     url: Bookit.config.connectorUrl
                     ,params: {
