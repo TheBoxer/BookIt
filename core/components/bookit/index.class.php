@@ -21,5 +21,6 @@ abstract class BookItManagerController extends modManagerController {
     public function getLanguageTopics() {
         return array('bookit:default');
     }
-    public function checkPermissions() { return true;}
+
+     public function checkPermissions() { return true;}
 }

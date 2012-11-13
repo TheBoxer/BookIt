@@ -6,8 +6,6 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 	private $id, $time, $colName, $date, $notPaid;
 	private $user;
 	private $price;
-    /** @var BookItLog $log */
-    private $log;
     private $ltime, $lday;
 	
 	public function initialize(){
@@ -22,9 +20,7 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 		}
 
 
-        $this->log = $this->modx->newObject('BookItLog');
-
-		return parent::initialize();
+       return parent::initialize();
 	}
 
 	public function process() {
@@ -91,7 +87,9 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 		));
 		
 		$this->price = $pricing->get('price');
-        $this->log->logCancelBook($this->user->get('id'), $this->modx->user->get('id'), $this->price, $day, $this->item->get("bookFrom"), $this->item->get("idItem"));
+        /** @var BookItLog $log */
+        $log = $this->modx->newObject('BookItLog');
+        $log->logCancelBook($this->user->get('id'), $this->modx->user->get('id'), $this->price, strtotime($this->item->get("bookDate")), $this->item->get("bookFrom"), $this->item->get("idItem"));
 	}
 	
 	private function payFee(){
@@ -108,7 +106,7 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 		
 		
 		
-		if($now <= $timestamp){			
+		if($now <= $timestamp){
 // 			if($paid == 2){
 // 				$discount = $this->modx->getObject("BookItSettigns", array("key" => "credit_discount"))->get('value');
 				
@@ -128,11 +126,13 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 // 					$price -= $discount;
 // 				}
 // 			}
-			
-			$extended['credit'] += $this->price;
-			
-			$profile->set('extended', $extended);
-			$profile->save();
+
+            if($paid != 0){
+                $extended['credit'] += $this->price;
+
+                $profile->set('extended', $extended);
+                $profile->save();
+            }
 			return;
 		}
 		
@@ -141,7 +141,9 @@ class BookItCancelBookProcessor extends modObjectProcessor {
 			
 			if($extended['warnings'] >= $maxWarnings){
 				$extended['debt'] = (empty($extended['debt']))? $this->price : $extended['debt']+$this->price;
-                $this->log->logAddDebt($this->user->get('id'), $this->modx->user->get('íd'), $this->price, $this->item->get("bookDate"), $this->item->get("bookFrom"), $this->item->get('idItem'));
+                /** @var BookItLog $log */
+                $log = $this->modx->newObject('BookItLog');
+                $log->logAddDebt($this->user->get('id'), $this->modx->user->get('íd'), $this->price, $this->item->get("bookDate"), $this->item->get("bookFrom"), $this->item->get('idItem'));
 			}
 			
 			$profile->set('extended', $extended);

@@ -29,10 +29,18 @@
 			,id: 'dateFilter'
 			,format: 'd.m.Y'
 			,emptyText: _('bookit.today')
+            ,startDay: 1
 			,listeners: {
                 'select': {fn:this.filterDay,scope:this}
             }
-		}]
+		},{
+            xtype: 'statictextfield'
+            ,id: 'currentDayName'
+            ,style: 'color: black; font-size: 14px;'
+            ,listeners: {
+                'afterrender': {fn:this.getCurrentNameOfDate,scope:this}
+            }
+        }]
 		,itemOpen: function() {
 			location.href = 'index.php?a='+MODx.action['controllers/index']+'&action=openSchedule'+'&id='+this.menu.record.id;
 		}
@@ -43,7 +51,17 @@
 	
 };
 Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
-	filterDay: function(cb,nv,ov) {
+    getCurrentNameOfDate: function(){
+        var d_names = new Array("Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota");
+        var cdn = Ext.getCmp('currentDayName');
+        var df = Ext.getCmp('dateFilter').getValue();
+        if(df == ""){
+            df = new Date();
+        }
+        cdn.setValue('je ' + d_names[df.getDay()]);
+    }
+	,filterDay: function(cb,nv,ov) {
+        this.getCurrentNameOfDate();
         this.getStore().setBaseParam('filterDay',cb.getValue());
         this.getBottomToolbar().changePage(1);
         this.refresh();

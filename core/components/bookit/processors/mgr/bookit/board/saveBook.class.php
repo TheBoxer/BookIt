@@ -60,7 +60,7 @@ class BookItSaveBookCreditProcessor extends modObjectProcessor {
 			$newUser = $this->modx->newObject('modUser');
 			$newUser->set("username", $username);
 			$newUser->set("password", $username.rand(11111,99999).$username);
-			$newUser->set("active", 0);
+			$newUser->set("active", 1);
 			
 			$newUserProfile = $this->modx->newObject('modUserProfile');
 			$newUserProfile->set('fullname',$user);
@@ -90,8 +90,6 @@ class BookItSaveBookCreditProcessor extends modObjectProcessor {
 		$max = $time+$count;
 		$uid = (intval($user) == 0) ? $newUser->get('id') : intval($user);
 
-        /** @var BookItLog $log */
-        $log = $this->modx->newObject('BookItLog');
 
 		for($i = $time; $i < $max; $i++){
 						
@@ -122,11 +120,18 @@ class BookItSaveBookCreditProcessor extends modObjectProcessor {
 				$extendedFields["credit"] -= $price;
 				$userProfile->set('extended', $extendedFields);
 				$userProfile->save();
-					
-				$this->newBook->set("paid", 2);
+
+                /** @var BookItLog $log */
+                $log = $this->modx->newObject('BookItLog');
+                $log->logPayByCredit($uid, $this->modx->user->get('id'), $price, $date, $i, $item);
+
+
+                $this->newBook->set("paid", 2);
 			}
 			
 			$this->newBook->save();
+            /** @var BookItLog $log */
+            $log = $this->modx->newObject('BookItLog');
             $log->logNewBook($uid, $this->modx->user->get('id'), $price, $date, $i, $item);
 		}
 

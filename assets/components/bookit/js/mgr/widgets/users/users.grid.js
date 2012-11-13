@@ -227,6 +227,7 @@ Bookit.window.NewPermanentPass = function(config) {
                     ,format: MODx.config.manager_date_format
                     ,name: 'date'
                     ,id: 'date'
+                    ,startDay: 1
                     ,width: 300
                     ,listeners: {
                         'select': {fn:this.setPermanentPassPrice,scope:this}

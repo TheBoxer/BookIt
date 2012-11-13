@@ -10,6 +10,8 @@ $_lang['bookit.select_customer'] = 'Zákazník';
 $_lang['bookit.select_employee'] = 'Zaměstnanec';
 $_lang['bookit.select_log_type'] = 'Typ akce';
 $_lang['bookit.cancel_filter'] = 'Zrušit filtry';
+$_lang['bookit.print'] = 'Tisk plachty';
+$_lang['bookit.print_desc'] = 'Předloha pro tisk týdenní plachty';
 
 $_lang['bookit.log_new_book'] = 'Nová rezervace';
 $_lang['bookit.log_pay_debt'] = 'Zaplacení dluhu';

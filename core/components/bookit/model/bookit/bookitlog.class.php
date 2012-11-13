@@ -22,7 +22,6 @@ class BookItLog extends xPDOSimpleObject {
     public function logPayDebt($customer, $operator, $price){
         $this->log(self::PAY_DEBT, $customer, $operator, $price);
     }
-
     public function logNewBook($customer, $operator, $price, $day, $hour, $item){
         $this->log(self::NEW_BOOK, $customer, $operator, $price, $day, $hour, $item);
     }
