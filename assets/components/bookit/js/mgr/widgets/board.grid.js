@@ -52,7 +52,7 @@
 };
 Ext.extend(Bookit.grid.Board,MODx.grid.Grid, {
     getCurrentNameOfDate: function(){
-        var d_names = new Array("Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota");
+        var d_names = new Array(_('bookit.sunday'), _('bookit.monday'), _('bookit.tuesday'), _('bookit.wednesday'), _('bookit.thursday'), _('bookit.friday'), _('bookit.saturday'));
         var cdn = Ext.getCmp('currentDayName');
         var df = Ext.getCmp('dateFilter').getValue();
         if(df == ""){
@@ -393,6 +393,33 @@ Bookit.window.Details = function(config) {
             ,id: 'bookit-window-details-pay'
             ,scope: this
             ,hidden: false
+            ,handler: function(){
+//                console.warn(this.record.id);
+                MODx.Ajax.request({
+                    url: Bookit.config.connectorUrl
+                    ,params: {
+                        action: 'mgr/bookit/board/getBookPrice'
+                        ,id: this.record.id
+                    }
+                    ,listeners: {
+                        'success': {fn:function(r) {
+                            this.priceDetailsWindow = MODx.load({
+                                xtype: 'bookit-window-price-details'
+                                ,record: r.object
+                                ,listeners: {
+                                    'success': {fn:function(){
+                                        Ext.getCmp('bookit-window-details-pay').hide();
+                                        Ext.getCmp('bookit-window-details-credit-pay').hide();
+                                    },scope:this}
+                                }
+                            });
+
+                            this.priceDetailsWindow.setValues(r.object);
+                            this.priceDetailsWindow.show();
+                        },scope:this}
+                    }
+                });
+            }
         },{
             text:  _('bookit.pay_credit')
             ,id: 'bookit-window-details-credit-pay'
@@ -413,7 +440,6 @@ Bookit.window.Details = function(config) {
 };
 Ext.extend(Bookit.window.Details,MODx.Window,{
 	payByCredit: function(){
-		console.warn(this.record.id);
 		MODx.Ajax.request({
             url: Bookit.config.connectorUrl
             ,params: {

@@ -8,18 +8,25 @@ class BookItGetPriceProcessor extends modObjectProcessor {
 		$colName = $this->getProperty('colName');
 		$time = $this->getProperty('time');
 		$date = $this->getProperty('date');
+        $id = $this->getProperty('id');
 
-		$itemid = explode("-", $colName);
-		$itemid = $itemid[1];
-		$time = explode(":", $time);
-		$time = $time[0];
+        if(!isset($id)){
+            $itemid = explode("-", $colName);
+            $itemid = $itemid[1];
+            $time = explode(":", $time);
+            $time = $time[0];
 
-		$date = (!empty($date))? strtotime($date) : mktime(0,0,0,date("n"),date("j"),date("Y"));
-		$where = array("idItem" => $itemid, "bookFrom" => $time, "bookDate" => $date);
+            $date = (!empty($date))? strtotime($date) : mktime(0,0,0,date("n"),date("j"),date("Y"));
+            $where = array("idItem" => $itemid, "bookFrom" => $time, "bookDate" => $date);
+        }else{
+            $where = $id;
+        }
+
 		$book = $this->modx->getObject("Books", $where);
 
 		$day = date("N", strtotime($book->get("bookDate")))-1;
 		$item = $this->modx->getObject("BookItems", $book->get("idItem"));
+        $time = $book->get('bookFrom');
 
 		$pricing = $this->modx->getObject("PricingListItem",array(
 				"pricing_list" => $item->get("pricing"),
